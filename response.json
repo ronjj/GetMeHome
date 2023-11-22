@@ -1,0 +1,169 @@
+{
+    "trips": [
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 35.99,
+            "arrival": [
+                "23:35",
+                "New York"
+            ],
+            "departure": [
+                "19:15",
+                "Ithaca"
+            ],
+            "bus_service": "flixbus",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 39.99,
+            "arrival": [
+                "19:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "14:30:00",
+                "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 39.99,
+            "arrival": [
+                "19:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "14:35:00",
+                "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 39.99,
+            "arrival": [
+                "19:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "14:50:00",
+                "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 44.99,
+            "arrival": [
+                "16:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "11:30:00",
+                "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 44.99,
+            "arrival": [
+                "16:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "11:35:00",
+                "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 44.99,
+            "arrival": [
+                "16:30:00",
+                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+            ],
+            "departure": [
+                "11:50:00",
+                "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 52.99,
+            "arrival": [
+                "17:50",
+                "New York"
+            ],
+            "departure": [
+                "13:00",
+                "Ithaca"
+            ],
+            "bus_service": "flixbus",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 52.99,
+            "arrival": [
+                "20:55",
+                "New York"
+            ],
+            "departure": [
+                "16:00",
+                "Ithaca"
+            ],
+            "bus_service": "flixbus",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 76.7,
+            "arrival": [
+                "16:00:00",
+                "Port Authority Bus Terminal (PABT)"
+            ],
+            "departure": [
+                "11:25:00",
+                "Adirondack Trailways / New York Trailways Bus Stop at Ithaca - 131 East Green Street"
+            ],
+            "bus_service": "Mega",
+            "non_stop": "N/A"
+        },
+        {
+            "py/object": "bus_routes.Trip",
+            "date": "2023-11-23",
+            "price": 108.99,
+            "arrival": [
+                "13:05",
+                "New York"
+            ],
+            "departure": [
+                "08:30",
+                "Ithaca"
+            ],
+            "bus_service": "flixbus",
+            "non_stop": "N/A"
+        }
+    ]
+}

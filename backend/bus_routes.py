@@ -49,14 +49,10 @@ def format_date(date, bus_service):
     if bus_service == "our":
         return f"{month}/{day}/{year}"
 
-trips = []
+trips = {'trips': []} 
 
 # OurBus
-# Date Format: 12/15/2023
 def get_our_bus(date,dep_loc,arr_loc):
-    month = date[:2]
-    day = date[3:5]
-    year = date[6:]
     proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
@@ -86,7 +82,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             non_stop = journey['non_stop']
 
             newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-            trips.append(newTrip)
+            trips['trips'].append(newTrip)
         except:
             continue
     
@@ -95,7 +91,6 @@ def get_our_bus(date,dep_loc,arr_loc):
 
 
 # MegaBus
-# Date Format: 2023-12-18
 def get_mega_bus(date, dep_loc, arr_loc):
     mega_location_id = {
         "511":"Ithaca",
@@ -125,20 +120,22 @@ def get_mega_bus(date, dep_loc, arr_loc):
         newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
-        trips.append(newTrip)
+        trips['trips'].append(newTrip)
+
         
     # for trip in trips:
     #     print(trip)
 
 
 # FlixBus
-# Date Format: day.month.year
 def get_flix_bus(date, dep_loc, arr_loc):
     flix_location_id = {
+        "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
+        "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
+
         "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
         "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
-        "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
-        "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9"
+        "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)"
     }
    
     proper_date = format_date(date=date, bus_service="flix")
@@ -166,7 +163,8 @@ def get_flix_bus(date, dep_loc, arr_loc):
             newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
-            trips.append(newTrip)
+            trips['trips'].append(newTrip)
+
         
     # for trip in trips["trips"]:
     #     print(trip)
@@ -178,6 +176,6 @@ def get_all(date, dep_loc, arr_loc):
     get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
     # get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
-    trips.sort(key=lambda x: x.price)
+    trips['trips'].sort(key=lambda x: x.price)
 
     return jsonpickle.encode(trips)
