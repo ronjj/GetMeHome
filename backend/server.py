@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
 import bus_routes
 import json
@@ -18,7 +18,7 @@ def create_app():
 @app.route('/all/<date>/<origin>/<destination>', methods=["GET"])
 def get_trips(date, origin, destination):
     trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
-    return trips
+    return render_template("/frontend/index.html")
 
 # OurBus
 @app.route('/our/<date>/<origin>/<destination>', methods=["GET"])

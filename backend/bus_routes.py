@@ -23,6 +23,7 @@ Output:
 Returns a list of Trip objects in ascending order of price
 """
 
+trips = {'trips': []} 
 
 class Trip:
     def __init__(self, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
@@ -42,14 +43,15 @@ def format_date(date, bus_service):
     day = date[3:5]
     year = date[6:]
 
+    if len(date) != 10:
+        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+    
     if bus_service == "flix":
         return f"{day}.{month}.{year}"
     if bus_service == "mega":
         return f"{year}-{month}-{day}"
     if bus_service == "our":
         return f"{month}/{day}/{year}"
-
-trips = {'trips': []} 
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc):
@@ -88,7 +90,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             our_trips['trips'].sort(key=lambda x: x.price)
         except:
             continue
-
+            
     return jsonpickle.encode(our_trips)
     
     
@@ -131,7 +133,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         mega_trips['trips'].append(newTrip)
         
     mega_trips['trips'].sort(key=lambda x: x.price)
-    return jsonpickle.encode(mega_trips)
+    # return jsonpickle.encode(mega_trips)
 
         
     # for trip in trips:
