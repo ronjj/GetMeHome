@@ -2,6 +2,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import urllib
+import jsonpickle 
 
 """
 Bus Routes:
@@ -35,7 +36,7 @@ class Trip:
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure}, arr:{self.arrival}, bus: {self.bus_service}, non-stop:{self.non_stop}"
 
-trips = {"trips": []}
+trips = []
 
 # OurBus
 # Date Format: 12/15/2023
@@ -72,7 +73,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             non_stop = journey['non_stop']
 
             newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-            trips['trips'].append(newTrip)
+            trips.append(newTrip)
         except:
             continue
     
@@ -113,7 +114,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
-        trips['trips'].append(newTrip)
+        trips.append(newTrip)
         
     # for trip in trips["trips"]:
     #     print(trip)
@@ -157,7 +158,7 @@ def get_flix_bus(date, dep_loc, arr_loc):
             newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
-            trips['trips'].append(newTrip)
+            trips.append(newTrip)
         
     # for trip in trips["trips"]:
     #     print(trip)
@@ -167,14 +168,8 @@ def get_all(date, dep_loc, arr_loc):
     # Call each service
     get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
     get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
-    get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+    # get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
-    # loop through each trip first time
-    to_return = []
-    for trip in trips['trips']:
-        to_return.append(trip)
+    trips.sort(key=lambda x: x.price)
 
-    # sort trips based on first loop through and print sorted list
-    to_return.sort(key=lambda x: x.price)
-    for trip_2 in to_return:
-        print(trip_2)
+    return jsonpickle.encode(trips)

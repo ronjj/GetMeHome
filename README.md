@@ -7,7 +7,11 @@ GetMeHome aggregates trip information across MegaBus, FlixBus, and OurBus. I was
 - Technologies: Python, Postman
 - Modules and Packages: Requests, BeautifulSoup, json
 
-**What I Learned & Challenges**:
+**What I Learned**:
 
 - Scraping HTML pages with BeautifulSoup
 - Processing JSON information
+
+**Challenges**:
+
+- Had to scrape HTML for OurBus information then convert it to JSON
