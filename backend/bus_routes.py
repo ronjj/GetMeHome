@@ -53,6 +53,7 @@ trips = {'trips': []}
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc):
+    our_trips = {'trips': []}
     proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
@@ -83,8 +84,13 @@ def get_our_bus(date,dep_loc,arr_loc):
 
             newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
             trips['trips'].append(newTrip)
+            our_trips['trips'].append(newTrip)
+            our_trips['trips'].sort(key=lambda x: x.price)
         except:
             continue
+
+    return jsonpickle.encode(our_trips)
+    
     
     # for trip in trips["trips"]:
     #     print(trip)
@@ -92,6 +98,7 @@ def get_our_bus(date,dep_loc,arr_loc):
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
+    mega_trips = {'trips': []}
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -121,6 +128,10 @@ def get_mega_bus(date, dep_loc, arr_loc):
 
         # Add new trip to all trips to respond with 
         trips['trips'].append(newTrip)
+        mega_trips['trips'].append(newTrip)
+        
+    mega_trips['trips'].sort(key=lambda x: x.price)
+    return jsonpickle.encode(mega_trips)
 
         
     # for trip in trips:
@@ -129,6 +140,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
 
 # FlixBus
 def get_flix_bus(date, dep_loc, arr_loc):
+    flix_trips = {'trips': []}
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -164,6 +176,10 @@ def get_flix_bus(date, dep_loc, arr_loc):
 
             # Add new trip to all trips to respond with 
             trips['trips'].append(newTrip)
+            flix_trips['trips'].append(newTrip)
+        
+    flix_trips['trips'].sort(key=lambda x: x.price)
+    return jsonpickle.encode(flix_trips)
 
         
     # for trip in trips["trips"]:
@@ -174,8 +190,11 @@ def get_all(date, dep_loc, arr_loc):
     # Call each service
     get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
     get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
-    # get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+    get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
     trips['trips'].sort(key=lambda x: x.price)
+
+    print(f"Total Options: {len(trips['trips'])}")
+    print(f"Cheapest Trip: {trips['trips'][0]}")
 
     return jsonpickle.encode(trips)

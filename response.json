@@ -1,169 +1,307 @@
 {
-    "trips": [
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 35.99,
-            "arrival": [
-                "23:35",
-                "New York"
-            ],
-            "departure": [
-                "19:15",
-                "Ithaca"
-            ],
-            "bus_service": "flixbus",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 39.99,
-            "arrival": [
-                "19:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "14:30:00",
-                "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 39.99,
-            "arrival": [
-                "19:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "14:35:00",
-                "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 39.99,
-            "arrival": [
-                "19:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "14:50:00",
-                "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 44.99,
-            "arrival": [
-                "16:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "11:30:00",
-                "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 44.99,
-            "arrival": [
-                "16:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "11:35:00",
-                "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 44.99,
-            "arrival": [
-                "16:30:00",
-                "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
-            ],
-            "departure": [
-                "11:50:00",
-                "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 52.99,
-            "arrival": [
-                "17:50",
-                "New York"
-            ],
-            "departure": [
-                "13:00",
-                "Ithaca"
-            ],
-            "bus_service": "flixbus",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 52.99,
-            "arrival": [
-                "20:55",
-                "New York"
-            ],
-            "departure": [
-                "16:00",
-                "Ithaca"
-            ],
-            "bus_service": "flixbus",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 76.7,
-            "arrival": [
-                "16:00:00",
-                "Port Authority Bus Terminal (PABT)"
-            ],
-            "departure": [
-                "11:25:00",
-                "Adirondack Trailways / New York Trailways Bus Stop at Ithaca - 131 East Green Street"
-            ],
-            "bus_service": "Mega",
-            "non_stop": "N/A"
-        },
-        {
-            "py/object": "bus_routes.Trip",
-            "date": "2023-11-23",
-            "price": 108.99,
-            "arrival": [
-                "13:05",
-                "New York"
-            ],
-            "departure": [
-                "08:30",
-                "Ithaca"
-            ],
-            "bus_service": "flixbus",
-            "non_stop": "N/A"
-        }
-    ]
-}
+    "trips":[
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":36.0,
+          "arrival":[
+             "18:45:00",
+             "George Washington Bridge Bus Station, Level 3, Slip 3 (connected to A Train 175th St Station)"
+          ],
+          "departure":[
+             "14:15:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car,use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":36.0,
+          "arrival":[
+             "20:20:00",
+             "Madison Avenue between 26th and 27th Streets. Look for Executive Coach bus stop sign."
+          ],
+          "departure":[
+             "16:00:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":true
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":39.99,
+          "arrival":[
+             "19:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "14:30:00",
+             "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":39.99,
+          "arrival":[
+             "19:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "14:35:00",
+             "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":39.99,
+          "arrival":[
+             "19:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "14:50:00",
+             "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "11:40:00",
+             "George Washington Bridge Bus Station, Level 3, Slip 2 (connected to A Train 175th St Station)"
+          ],
+          "departure":[
+             "07:35:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "13:30:00",
+             "Hampton Jitney bus stop on E. 44th St. between Lexington and 3rd Ave."
+          ],
+          "departure":[
+             "09:00:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "14:15:00",
+             "George Washington Bridge Bus Station, Level 3, Slip 2 (connected to A Train 175th St Station)"
+          ],
+          "departure":[
+             "10:30:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":true
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "18:00:00",
+             "Madison Avenue between 26th and 27th Streets. Look for Executive Coach bus stop sign."
+          ],
+          "departure":[
+             "13:30:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "20:05:00",
+             "George Washington Bridge Bus Station, Level 3, Slip 2 (connected to A Train 175th St Station)"
+          ],
+          "departure":[
+             "15:20:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.0,
+          "arrival":[
+             "21:55:00",
+             "Hudson Yards - 11th Avenue between W. 35th and W. 36th Streets, across from Javits Convention Center. Look for bus stop sign that says Coach Express MA"
+          ],
+          "departure":[
+             "17:20:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":false
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.5,
+          "arrival":[
+             "16:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "11:30:00",
+             "North Campus Bus Stop - Jessup Rd - Outside the Robert Purcell Community Center"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.5,
+          "arrival":[
+             "16:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "11:35:00",
+             "West Campus Bus Stop - 240 West Avenue - By the Bakers Flagpole"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":42.5,
+          "arrival":[
+             "16:30:00",
+             "Coach USA Ithaca/Binghamton Bus Stop - Gate 401 - Port Authority Bus Terminal"
+          ],
+          "departure":[
+             "11:50:00",
+             "East Green Street - Bus Stop at 131 East Green Street (Outside Urban Outfitters)"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":52.0,
+          "arrival":[
+             "23:25:00",
+             "Hudson Yards - 11th Avenue between W. 35th and W. 36th Streets, across from Javits Convention Center. Look for bus stop sign that says Coach Express MA"
+          ],
+          "departure":[
+             "19:00:00",
+             "Downtown Ithaca - E. Seneca Street in front of Dream Tea and Poke and the former Starbucks (Note if arriving by car, use 118 E. Seneca Street for directions)"
+          ],
+          "bus_service":"OurBus",
+          "non_stop":true
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":52.99,
+          "arrival":[
+             "13:05",
+             "New York"
+          ],
+          "departure":[
+             "08:30",
+             "Ithaca"
+          ],
+          "bus_service":"flixbus",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":52.99,
+          "arrival":[
+             "17:50",
+             "New York"
+          ],
+          "departure":[
+             "13:00",
+             "Ithaca"
+          ],
+          "bus_service":"flixbus",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":52.99,
+          "arrival":[
+             "20:55",
+             "New York"
+          ],
+          "departure":[
+             "16:00",
+             "Ithaca"
+          ],
+          "bus_service":"flixbus",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":52.99,
+          "arrival":[
+             "23:35",
+             "New York"
+          ],
+          "departure":[
+             "19:15",
+             "Ithaca"
+          ],
+          "bus_service":"flixbus",
+          "non_stop":"N/A"
+       },
+       {
+          "py/object":"bus_routes.Trip",
+          "date":"2023-11-27",
+          "price":63.9,
+          "arrival":[
+             "16:00:00",
+             "Port Authority Bus Terminal (PABT)"
+          ],
+          "departure":[
+             "11:25:00",
+             "Adirondack Trailways / New York Trailways Bus Stop at Ithaca - 131 East Green Street"
+          ],
+          "bus_service":"Mega",
+          "non_stop":"N/A"
+       }
+    ],
+    "cheapest":{
+       "py/id":2
+    }
+ }
