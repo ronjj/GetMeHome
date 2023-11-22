@@ -11,6 +11,7 @@ GetMeHome aggregates trip information across MegaBus, FlixBus, and OurBus. I was
 
 - Scraping HTML pages with BeautifulSoup
 - Processing JSON information
+- Making a REST API with Flask
 
 **Challenges**:
 
