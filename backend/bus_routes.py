@@ -36,6 +36,19 @@ class Trip:
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure}, arr:{self.arrival}, bus: {self.bus_service}, non-stop:{self.non_stop}"
 
+
+def format_date(date, bus_service):
+    month = date[:2]
+    day = date[3:5]
+    year = date[6:]
+
+    if bus_service == "flix":
+        return f"{day}.{month}.{year}"
+    if bus_service == "mega":
+        return f"{year}-{month}-{day}"
+    if bus_service == "our":
+        return f"{month}/{day}/{year}"
+
 trips = []
 
 # OurBus
@@ -44,7 +57,7 @@ def get_our_bus(date,dep_loc,arr_loc):
     month = date[:2]
     day = date[3:5]
     year = date[6:]
-    proper_date = f"{month}/{day}/{year}"
+    proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
@@ -90,10 +103,8 @@ def get_mega_bus(date, dep_loc, arr_loc):
         "123":"New York",
         "new_york": "123"
     }
-    month = date[:2]
-    day = date[3:5]
-    year = date[6:]
-    proper_date = f"{year}-{month}-{day}"
+    proper_date = format_date(date=date, bus_service="mega")
+
 
     mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
     mega_response = json.loads(mega_request.text)
@@ -116,7 +127,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         # Add new trip to all trips to respond with 
         trips.append(newTrip)
         
-    # for trip in trips["trips"]:
+    # for trip in trips:
     #     print(trip)
 
 
@@ -130,10 +141,7 @@ def get_flix_bus(date, dep_loc, arr_loc):
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9"
     }
    
-    month = date[:2]
-    day = date[3:5]
-    year = date[6:]
-    proper_date = f"{day}.{month}.{year}"
+    proper_date = format_date(date=date, bus_service="flix")
 
     flix_request = requests.get(f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1")
     flix_response = json.loads(flix_request.text)
