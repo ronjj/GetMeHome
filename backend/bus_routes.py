@@ -39,9 +39,18 @@ class Trip:
 
 
 def format_date(date, bus_service):
-    month = date[:2]
-    day = date[3:5]
-    year = date[6:]
+    # Checking for '-' between dates
+    try:
+        date_info = date.split('-')
+    except:
+        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+   
+    month = date_info[0]
+    day = date_info[1]
+    year = date_info[2]
+
+    if len(month) != 2 or len(day) != 2 or len(year) != 4:
+        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
 
     if len(date) != 10:
         raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
