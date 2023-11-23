@@ -13,7 +13,7 @@ and arrival location from each service.
 
 Inputs:
 - Dates:
-    - must be input in format: "01-01-2000"
+    - must be input in format: "MM-DD-YYYY"
     - first 2 characters are month, second two are day, and last 4 are year
 - Locations 
     - ithaca for "Ithaca"
@@ -101,11 +101,6 @@ def get_our_bus(date,dep_loc,arr_loc):
             continue
             
     return jsonpickle.encode(our_trips)
-    
-    
-    # for trip in trips["trips"]:
-    #     print(trip)
-
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
@@ -142,12 +137,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         mega_trips['trips'].append(newTrip)
         
     mega_trips['trips'].sort(key=lambda x: x.price)
-    # return jsonpickle.encode(mega_trips)
-
-        
-    # for trip in trips:
-    #     print(trip)
-
+    return jsonpickle.encode(mega_trips)
 
 # FlixBus
 def get_flix_bus(date, dep_loc, arr_loc):
@@ -191,11 +181,6 @@ def get_flix_bus(date, dep_loc, arr_loc):
         
     flix_trips['trips'].sort(key=lambda x: x.price)
     return jsonpickle.encode(flix_trips)
-
-        
-    # for trip in trips["trips"]:
-    #     print(trip)
-
 
 def get_all(date, dep_loc, arr_loc):
     # Call each service

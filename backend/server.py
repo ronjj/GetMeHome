@@ -38,7 +38,6 @@ def get_flix_trips(date, origin, destination):
     trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination)
     return trips
 
-
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
