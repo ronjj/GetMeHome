@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import urllib
 import jsonpickle 
 from datetime import datetime
-from random import randrange
 """
 Bus Routes:
 
@@ -27,8 +26,7 @@ Returns a list of Trip objects in ascending order of price
 trips = []
 
 class Trip:
-    def __init__(self, id, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
-        self.id = id
+    def __init__(self, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
         self.date = date
         self.price = price
         self.arrival_time = arr_time
@@ -88,7 +86,6 @@ def get_our_bus(date,dep_loc,arr_loc):
     for index in range(len(loaded_data)):
         try:
             journey = loaded_data[index]
-            id = randrange(100000)
             trip_date = journey['travel_date']
             price = journey['pass_amount']
             arr_time = journey['last_stop_eta']
@@ -102,7 +99,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             bus = "OurBus"
             non_stop = journey['non_stop']
 
-            newTrip = Trip(id=id,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+            newTrip = Trip(date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
             trips.append(newTrip)
             our_trips.append(newTrip)
             our_trips.sort(key=lambda x: x.price)
@@ -131,7 +128,6 @@ def get_mega_bus(date, dep_loc, arr_loc):
         journey_dep_date_time = journey['departureDateTime'].split("T")
         journey_arr_date_time = journey['arrivalDateTime'].split("T")
         
-        id = randrange(100000)
         date = journey_dep_date_time[0]
         price = journey['price']
         arr_time = journey_arr_date_time[1]
@@ -145,7 +141,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         departure_location = journey['origin']['stopName']
         bus = "MegaBus"
 
-        newTrip = Trip(id=id, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+        newTrip = Trip(date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
         trips.append(newTrip)
@@ -178,7 +174,6 @@ def get_flix_bus(date, dep_loc, arr_loc):
         if status != 'available':
             continue
         else:
-            id = randrange(100000)
             departure_string = flix_info[uid]['departure']['date'].split("T")
             departure_city = flix_location_id[flix_info[uid]['departure']['city_id']]
             departure_date = departure_string[0]
@@ -193,7 +188,7 @@ def get_flix_bus(date, dep_loc, arr_loc):
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
 
-            newTrip = Trip(id=id,date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+            newTrip = Trip(date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
             trips.append(newTrip)
