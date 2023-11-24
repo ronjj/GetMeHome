@@ -10,9 +10,9 @@ import SwiftUI
 //Add some protection that origin and arrival destination can't be the same
 var locations: [String] = ["Ithaca", "New York"]
 
-var trips: [Trip] = [.init(date: "2023-12-10", price: 35.99, arrival_time: "13:05", arrival_location: "New York", departure_time: "08:30", departure_location: "Ithaca", bus_service: "flixbus", non_stop: "N/A"),
+var trips: [Trip] = [.init(date: "2023-12-10", price: 35.99, arrival_time: "13:05", arrival_location: "New York", departure_time: "08:30", departure_location: "Ithaca", bus_service: "FlixBus", non_stop: "N/A"),
                      .init(date: "2023-12-10", price: 35.99, arrival_time: "13:05", arrival_location: "New York", departure_time: "08:30", departure_location: "Ithaca", bus_service: "OurBus", non_stop: "N/A"),
-                     .init(date: "2023-12-10", price: 35.99, arrival_time: "13:05", arrival_location: "New York", departure_time: "08:30", departure_location: "Ithaca", bus_service: "Mega", non_stop: "N/A")]
+                     .init(date: "2023-12-10", price: 35.99, arrival_time: "13:05", arrival_location: "New York", departure_time: "08:30", departure_location: "Ithaca", bus_service: "MegaBus", non_stop: "N/A")]
 
 
 struct ContentView: View {

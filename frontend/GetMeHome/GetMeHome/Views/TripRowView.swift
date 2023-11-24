@@ -40,16 +40,16 @@ struct BusLabel: View {
     
     var body: some View {
         switch busService {
-        case "flixbus":
-            Button("Flix Bus") {}
+        case "FlixBus":
+            Button("FlixBus") {}
             .buttonStyle(.bordered)
             .tint(.blue)
         case "OurBus":
-            Button("Our Bus") {}
+            Button("OurBus") {}
             .buttonStyle(.bordered)
             .tint(.green)
-        case "Mega":
-            Button("Mega Bus") {}
+        case "MegaBus":
+            Button("MegaBus") {}
                 .buttonStyle(.bordered)
                 .tint(.red)
         default:
