@@ -29,4 +29,6 @@ GetMeHome aggregates trip information across MegaBus, FlixBus, and OurBus. I was
 **Current Screenshots of App and Backend**
 <img src="/screenshots/home_screen_v1.png" alt="home screen" title="home screen" height = "694" width = "321">
 
-<img src="/screenshots/backend_response_v1.png" alt="backend response" title="backend response v1" height = "321" width = "400">
+<img src="/screenshots/detail_view_v1.png" alt="detail view" title="detail view" height = "694" width = "321">
+
+<img src="/screenshots/backend_response_v1.png" alt="backend response" title="backend response v1" height = "125" width = "400">
