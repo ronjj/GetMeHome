@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import Observation
 
-struct Trip: Hashable {
+struct Trip: Hashable, Codable {
     let date: String
     let price: Float
     let arrival_time: String
@@ -50,8 +51,6 @@ struct Trip: Hashable {
 }
 
 
-//let dateFormatter = DateFormatter()
-//let timeAsString : String = "22:30"
-//dateFormatter.dateFormat = "HH:mm"
-//
-//let timeFromString = dateFormatter.date(from: timeAsString)
+@Observable ViewModel {
+    @Published var trips: [Trip] = []
+}
