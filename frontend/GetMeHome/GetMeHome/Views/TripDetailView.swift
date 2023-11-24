@@ -18,7 +18,7 @@ struct TripDetailView: View {
                     Text("\(trip.departure_time) - \(trip.arrival_time)")
                 }
                 Section("Price") {
-                    Text("\(trip.price)")
+                    Text("$\(trip.price, specifier: "%.2f")")
                 }
                 Section("Departure") {
                     Text("\(trip.departure_location)")
@@ -28,6 +28,11 @@ struct TripDetailView: View {
                 }
                 Section("Bus Service") {
                     Text("\(trip.bus_service)")
+                }
+                
+//                MARK: Implement
+                Button("Buy \(trip.bus_service) Website"){
+                    
                 }
             }
             .listStyle(.plain)

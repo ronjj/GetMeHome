@@ -24,7 +24,7 @@ struct TripRowView: View {
                 Image(systemName: "arrow.forward")
                 Text(arrival_time)
             }
-            Text("\(price, specifier: "%.2f")")
+            Text("$\(price, specifier: "%.2f")")
             HStack{
                 Text(departure_location)
                 Image(systemName: "arrow.forward")

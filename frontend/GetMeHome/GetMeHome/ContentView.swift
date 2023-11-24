@@ -40,26 +40,37 @@ struct ContentView: View {
 
 extension ContentView {
     private var dateAndLocationPickers: some View {
-        HStack{
-            DatePicker("Trip  Date", selection: $selectedDate, displayedComponents: .date)
-                .labelsHidden()
-            Menu(selectedDeparture) {
-                Button("Ithaca") {
-                    selectedDeparture = "Ithaca"
+    
+        VStack {
+            HStack{
+                DatePicker("Trip  Date", selection: $selectedDate, displayedComponents: .date)
+                    .labelsHidden()
+                Menu(selectedDeparture) {
+                    Button("Ithaca") {
+                        selectedDeparture = "Ithaca"
+                    }
+                    Button("New York") {
+                        selectedDeparture = "New York"
+                    }
                 }
-                Button("New York") {
-                    selectedDeparture = "New York"
+                Image(systemName: "arrow.forward")
+                Menu(selectedArrival) {
+                    Button("Ithaca") {
+                        selectedArrival = "Ithaca"
+                    }
+                    Button("New York") {
+                        selectedArrival = "New York"
+                    }
                 }
+
             }
-            Image(systemName: "arrow.forward")
-            Menu(selectedArrival) {
-                Button("Ithaca") {
-                    selectedArrival = "Ithaca"
-                }
-                Button("New York") {
-                    selectedArrival = "New York"
-                }
+            .padding()
+            Button("Search") {
+//
             }
+//            MARK: Disable button if some conditions are violated
+            .buttonStyle(.bordered)
+            .tint(.indigo)
         }
     }
     
