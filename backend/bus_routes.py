@@ -195,4 +195,4 @@ def get_all(date, dep_loc, arr_loc):
     print(f"Total Options: {len(trips['trips'])}")
     print(f"Cheapest Trip: {trips['trips'][0]}")
 
-    return jsonpickle.encode(trips)
+    return jsonpickle.encode(trips, unpicklable=False)

@@ -18,7 +18,7 @@ struct ContentView: View {
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
     
-
+    var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack(path: $path) {

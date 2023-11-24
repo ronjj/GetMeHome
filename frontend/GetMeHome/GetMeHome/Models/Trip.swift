@@ -6,9 +6,17 @@
 //
 
 import SwiftUI
-import Observation
+
+
+public struct TripsCollectionResponse: Codable {
+    public struct trips: Codable {
+        
+    }
+    
+}
 
 struct Trip: Hashable, Codable {
+    
     let date: String
     let price: Float
     let arrival_time: String
@@ -51,6 +59,3 @@ struct Trip: Hashable, Codable {
 }
 
 
-@Observable ViewModel {
-    @Published var trips: [Trip] = []
-}
