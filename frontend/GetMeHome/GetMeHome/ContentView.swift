@@ -33,20 +33,6 @@ struct ContentView: View {
         }
         .padding()
         .navigationTitle("GetMeHome")
-        .task {
-            do {
-                trips = try await viewModel.getTrips(from: "new_york", to: "ithaca", on: "somedate")
-                print(trips)
-            } catch TripError.invalidURL {
-                print("invalid url")
-            } catch TripError.invalidReponse {
-                print("invalid response")
-            } catch TripError.invalidData {
-                print("invalid data")
-            } catch {
-                print("unexpected erorr")
-            }
-        }
     }
 }
 
@@ -79,8 +65,24 @@ extension ContentView {
             }
             .padding()
             Button("Search") {
-//
+                Task {
+                    do {
+                        trips = try await viewModel.getTrips(from: "new_york", to: "ithaca", on: "somedate")
+                        print(trips)
+                    } catch TripError.invalidURL {
+                        print("invalid url")
+                    } catch TripError.invalidReponse {
+                        print("invalid response")
+                    } catch TripError.invalidData {
+                        print("invalid data")
+                    } catch {
+                        print("unexpected erorr")
+                    }
+                }
             }
+            
+
+            
 //            MARK: Disable button if some conditions are violated
             .buttonStyle(.bordered)
             .tint(.indigo)
