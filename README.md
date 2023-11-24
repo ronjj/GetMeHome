@@ -1,6 +1,6 @@
 # **GetMeHome**
 
-GetMeHome aggregates trip information across MegaBus, FlixBus, and OurBus. I was motivated to create this package after booking trips to travel from Ithaca, NY to New York City. To make the process easier I developed GetMeHome.
+To make it easier to get home on school breaks, I developed GetMeHome, a fullstack iOS project that aggregates trip information across MegaBus, FlixBus, and OurBus. Users enter in a travel date, departure city, and destination city and are returned a list of trips from each service sorted in increasing order of price.
 
 - V1 was built in a few days during my Thanksgiving break. Plan to expand locations, backend routes, and add a more robust front end in the future.
 
