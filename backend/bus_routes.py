@@ -130,7 +130,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         arr_location = journey['destination']['stopName']
         departure_time = journey_dep_date_time[1]
         departure_location = journey['origin']['stopName']
-        bus = "Mega"
+        bus = "MegaBus"
 
         newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
 
@@ -172,7 +172,7 @@ def get_flix_bus(date, dep_loc, arr_loc):
             arrival_string = flix_info[uid]['arrival']['date'].split("T")
             arrival_city = flix_location_id[flix_info[uid]['arrival']['city_id']]
             arrival_time = arrival_string[1][:5]
-            bus_service = 'flixbus'
+            bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
 
             newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
