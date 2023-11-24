@@ -30,7 +30,7 @@ struct ContentView: View {
         NavigationStack(path: $path) {
             List {
                 HStack{
-                    DatePicker("Choose Trip  Date", selection: $selectedDate)
+                    DatePicker("Choose Trip  Date", selection: $selectedDate, displayedComponents: .date)
 //                    Picker for departure location
                     Image(systemName: "arrow.forward")
 //                    Picker for arrival location
