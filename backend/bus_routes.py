@@ -30,14 +30,14 @@ class Trip:
         self.date = date
         self.price = price
         self.arrival_time = arr_time
-        self.arrivaal_location = arr_location
+        self.arrival_location = arr_location
         self.departure_time = dep_time
         self.departure_location = dep_location
         self.bus_service = bus_serivce
         self.non_stop = non_stop
     
     def __str__(self) -> str:
-        return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrivaal_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
+        return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
 
 
 def format_date(date, bus_service):
