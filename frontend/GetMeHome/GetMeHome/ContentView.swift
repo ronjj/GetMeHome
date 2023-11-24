@@ -24,6 +24,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack(path: $path) {
+            Text("GetMeHome")
+                .font(.largeTitle)
+                .fontWeight(.heavy)
             dateAndLocationPickers
                 .padding(.bottom, 10)
             
@@ -68,9 +71,7 @@ extension ContentView {
         }
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
-            VStack{
-                Text("Hello world")
-            }
+            TripDetailView(trip: trip)
         }
     }
 }
