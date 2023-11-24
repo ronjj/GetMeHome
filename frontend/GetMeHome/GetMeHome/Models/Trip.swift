@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct Trip: Hashable, Codable {
+    let randomNum: Int
     let date: String
     let price: Float
     let arrivalTime: String
