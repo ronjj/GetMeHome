@@ -91,7 +91,7 @@ extension ContentView {
 //      TODO:  if trips show list else show empty view
         List(trips ?? [], id: \.busService) { trip in
             NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTimeString, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTimeString, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
+                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
             }
         }
         
