@@ -27,6 +27,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 - Had to scrape HTML for OurBus information then convert it to JSON
 
 **Current Screenshots of App and Backend**
+
 <img src="/screenshots/home_screen_v1.png" alt="home screen" title="home screen" height = "694" width = "321">
 
 <img src="/screenshots/detail_view_v1.png" alt="detail view" title="detail view" height = "694" width = "321">
