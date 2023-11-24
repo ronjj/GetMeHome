@@ -20,7 +20,7 @@ V1 was built in a few days during my Thanksgiving break. Plan to expand location
 - Scraping HTML pages with BeautifulSoup
 - Processing JSON information
 - Making a REST API with Flask
-- Connecting iOS app to an API
+- Connecting iOS app to an API and dynamically populating views from JSON response
 
 **Challenges**:
 
