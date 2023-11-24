@@ -66,7 +66,7 @@ extension ContentView {
     private var listOfTrips: some View {
         List(trips, id: \.bus_service) { trip in
             NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrival_time: trip.arrival_time, arrival_location: trip.arrival_location, departure_time: trip.departure_time, departure_location: trip.departure_location, bus_service: trip.bus_service, non_stop: trip.non_stop)
+                TripRowView(date: trip.date, price: trip.price, arrival_time: trip.arrival_time_string, arrival_location: trip.arrival_location, departure_time: trip.departure_time_string, departure_location: trip.departure_location, bus_service: trip.bus_service, non_stop: trip.non_stop)
             }
         }
         .listStyle(.plain)
