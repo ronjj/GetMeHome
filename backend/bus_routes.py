@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import urllib
 import jsonpickle 
-
+from datetime import datetime
 """
 Bus Routes:
 
@@ -89,20 +89,24 @@ def get_our_bus(date,dep_loc,arr_loc):
             trip_date = journey['travel_date']
             price = journey['pass_amount']
             arr_time = journey['last_stop_eta']
+            arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
             arr_location = journey['dest_landmark']
             departure_time = journey['start_time']
+            dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             departure_location = journey['src_landmark']
             bus = "OurBus"
             non_stop = journey['non_stop']
 
-            newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+            newTrip = Trip(date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
             trips.append(newTrip)
             our_trips.append(newTrip)
             our_trips.sort(key=lambda x: x.price)
         except:
             continue
             
-    return jsonpickle.encode(our_trips)
+    return jsonpickle.encode(our_trips, unpicklable=False)
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
@@ -127,12 +131,17 @@ def get_mega_bus(date, dep_loc, arr_loc):
         date = journey_dep_date_time[0]
         price = journey['price']
         arr_time = journey_arr_date_time[1]
+        arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+        arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+
         arr_location = journey['destination']['stopName']
         departure_time = journey_dep_date_time[1]
+        dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+        dep_time_12h = dep_time_12h.strftime("%I:%M %p")
         departure_location = journey['origin']['stopName']
         bus = "MegaBus"
 
-        newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
+        newTrip = Trip(date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
         trips.append(newTrip)
@@ -169,13 +178,17 @@ def get_flix_bus(date, dep_loc, arr_loc):
             departure_city = flix_location_id[flix_info[uid]['departure']['city_id']]
             departure_date = departure_string[0]
             departure_time = departure_string[1][:5]
+            dep_time_12h = datetime.strptime(departure_time, "%H:%M")
+            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             arrival_string = flix_info[uid]['arrival']['date'].split("T")
             arrival_city = flix_location_id[flix_info[uid]['arrival']['city_id']]
             arrival_time = arrival_string[1][:5]
+            arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
+            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
 
-            newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
+            newTrip = Trip(date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
             trips.append(newTrip)

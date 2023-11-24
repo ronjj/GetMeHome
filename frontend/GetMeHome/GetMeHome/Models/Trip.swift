@@ -8,19 +8,11 @@
 import SwiftUI
 
 
-public struct TripsCollectionResponse: Codable {
-    public struct trips: Codable {
-        
-    }
-    
-}
-
 struct Trip: Hashable, Codable {
-    
     let date: String
     let price: Float
-    let arrival_time: String
-    var arrival_time_string: String {
+    let arrivalTime: String
+    var arrivalTimeString: String {
         var toReturn = ""
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "HH:mm"
@@ -28,7 +20,7 @@ struct Trip: Hashable, Codable {
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "h:mm a"
         
-        if let date = dateFormatterGet.date(from: arrival_time) {
+        if let date = dateFormatterGet.date(from: arrivalTime) {
             toReturn = dateFormatterPrint.string(from: date)
         } else {
            toReturn = "N/A"
@@ -36,9 +28,9 @@ struct Trip: Hashable, Codable {
         return toReturn
     }
     
-    let arrival_location: String
-    let departure_time: String
-    var departure_time_string: String {
+    let arrivalLocation: String
+    let departureTime: String
+    var departureTimeString: String {
         var toReturn = ""
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "HH:mm"
@@ -46,16 +38,16 @@ struct Trip: Hashable, Codable {
         let dateFormatterPrint = DateFormatter()
         dateFormatterPrint.dateFormat = "h:mm a"
         
-        if let date = dateFormatterGet.date(from: departure_time) {
+        if let date = dateFormatterGet.date(from: departureTime) {
             toReturn = dateFormatterPrint.string(from: date)
         } else {
            toReturn = "N/A"
         }
         return toReturn
     }
-    let departure_location: String
-    let bus_service: String
-    let non_stop: String
+    let departureLocation: String
+    let busService: String
+    let nonStop: String
 }
 
 

@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var selectedDate = Date()
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
+    @State private var trips: [Trip]?
     
     var viewModel = ViewModel()
     
@@ -32,7 +33,20 @@ struct ContentView: View {
         }
         .padding()
         .navigationTitle("GetMeHome")
-
+        .task {
+            do {
+                trips = try await viewModel.getTrips(from: "new_york", to: "ithaca", on: "somedate")
+                print(trips)
+            } catch TripError.invalidURL {
+                print("invalid url")
+            } catch TripError.invalidReponse {
+                print("invalid response")
+            } catch TripError.invalidData {
+                print("invalid data")
+            } catch {
+                print("unexpected erorr")
+            }
+        }
     }
 }
 
@@ -74,9 +88,10 @@ extension ContentView {
     }
     
     private var listOfTrips: some View {
-        List(MockData.mockTrips, id: \.bus_service) { trip in
+//      TODO:  if trips show list else show empty view
+        List(trips ?? [], id: \.busService) { trip in
             NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrival_time: trip.arrival_time_string, arrival_location: trip.arrival_location, departure_time: trip.departure_time_string, departure_location: trip.departure_location, bus_service: trip.bus_service, non_stop: trip.non_stop)
+                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTimeString, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTimeString, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
             }
         }
         
@@ -85,7 +100,6 @@ extension ContentView {
             TripDetailView(trip: trip)
         }
     }
-    
 }
 
 
