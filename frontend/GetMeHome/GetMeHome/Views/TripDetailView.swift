@@ -12,10 +12,12 @@ struct TripDetailView: View {
     var trip: Trip
     
     var body: some View {
-        VStack{
             List {
+                Section("Date") {
+                    Text("\(trip.date)")
+                }
                 Section("Time") {
-                    Text("\(trip.departure_time) - \(trip.arrival_time)")
+                    Text("\(trip.departure_time_string) - \(trip.arrival_time_string)")
                 }
                 Section("Price") {
                     Text("$\(trip.price, specifier: "%.2f")")
@@ -30,13 +32,15 @@ struct TripDetailView: View {
                     Text("\(trip.bus_service)")
                 }
                 
-//                MARK: Implement
-                Button("Buy \(trip.bus_service) Website"){
-                    
-                }
             }
             .listStyle(.plain)
+            //                MARK: Implement
+            Button("Buy On \(trip.bus_service) Website"){
+                
+            }
+            .buttonStyle(.borderedProminent)
+            Spacer()
         }
     }
-}
+
 
