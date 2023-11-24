@@ -10,27 +10,27 @@ import SwiftUI
 struct TripRowView: View {
     var date: String
     var price: Float
-    var arrival_time: String
-    var arrival_location: String
-    var departure_time: String
-    var departure_location: String
-    var bus_service: String
-    var non_stop: String
+    var arrivalTime: String
+    var arrivalLocation: String
+    var departureTime: String
+    var departureLocation: String
+    var busService: String
+    var nonStop: String
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(departure_time)
+                Text(departureTime)
                 Image(systemName: "arrow.forward")
-                Text(arrival_time)
+                Text(arrivalTime)
             }
             Text("$\(price, specifier: "%.2f")")
             HStack{
-                Text(departure_location)
+                Text(departureLocation)
                 Image(systemName: "arrow.forward")
-                Text(arrival_location)
+                Text(arrivalLocation)
             }
-            BusLabel(busService: bus_service)
+            BusLabel(busService: busService)
         }
     }
 }

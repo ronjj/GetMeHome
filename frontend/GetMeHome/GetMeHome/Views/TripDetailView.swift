@@ -17,25 +17,25 @@ struct TripDetailView: View {
                     Text("\(trip.date)")
                 }
                 Section("Time") {
-                    Text("\(trip.departure_time_string) - \(trip.arrival_time_string)")
+                    Text("\(trip.departureTime) - \(trip.arrivalTime)")
                 }
                 Section("Price") {
                     Text("$\(trip.price, specifier: "%.2f")")
                 }
                 Section("Departure") {
-                    Text("\(trip.departure_location)")
+                    Text("\(trip.departureLocation)")
                 }
                 Section("Destination") {
-                    Text("\(trip.arrival_location)")
+                    Text("\(trip.arrivalLocation)")
                 }
                 Section("Bus Service") {
-                    Text("\(trip.bus_service)")
+                    Text("\(trip.busService)")
                 }
                 
             }
             .listStyle(.plain)
             //                MARK: Implement
-            Button("Buy On \(trip.bus_service) Website"){
+            Button("Buy On \(trip.busService) Website"){
                 
             }
             .buttonStyle(.borderedProminent)

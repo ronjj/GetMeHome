@@ -3,7 +3,8 @@ import json
 from bs4 import BeautifulSoup
 import urllib
 import jsonpickle 
-
+from datetime import datetime
+from random import randrange
 """
 Bus Routes:
 
@@ -23,10 +24,11 @@ Output:
 Returns a list of Trip objects in ascending order of price
 """
 
-trips = {'trips': []} 
+trips = []
 
 class Trip:
-    def __init__(self, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
+    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
+        self.random_num = random_num
         self.date = date
         self.price = price
         self.arrival_time = arr_time
@@ -38,7 +40,7 @@ class Trip:
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
-
+    
 
 def format_date(date, bus_service):
     # Checking for '-' between dates
@@ -66,7 +68,7 @@ def format_date(date, bus_service):
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc):
-    our_trips = {'trips': []}
+    our_trips = []
     proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
@@ -89,16 +91,21 @@ def get_our_bus(date,dep_loc,arr_loc):
             trip_date = journey['travel_date']
             price = journey['pass_amount']
             arr_time = journey['last_stop_eta']
+            arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
             arr_location = journey['dest_landmark']
             departure_time = journey['start_time']
+            dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             departure_location = journey['src_landmark']
             bus = "OurBus"
-            non_stop = journey['non_stop']
+            non_stop = str(journey['non_stop'])
+            random_num = randrange(10000)
 
-            newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-            trips['trips'].append(newTrip)
-            our_trips['trips'].append(newTrip)
-            our_trips['trips'].sort(key=lambda x: x.price)
+            newTrip = Trip(random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+            trips.append(newTrip)
+            our_trips.append(newTrip)
+            our_trips.sort(key=lambda x: x.price)
         except:
             continue
             
@@ -106,7 +113,7 @@ def get_our_bus(date,dep_loc,arr_loc):
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
-    mega_trips = {'trips': []}
+    mega_trips = []
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -127,23 +134,30 @@ def get_mega_bus(date, dep_loc, arr_loc):
         date = journey_dep_date_time[0]
         price = journey['price']
         arr_time = journey_arr_date_time[1]
+        arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+        arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+
         arr_location = journey['destination']['stopName']
         departure_time = journey_dep_date_time[1]
+        dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+        dep_time_12h = dep_time_12h.strftime("%I:%M %p")
         departure_location = journey['origin']['stopName']
         bus = "MegaBus"
+        random_num = randrange(10000)
 
-        newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
+
+        newTrip = Trip(random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
-        trips['trips'].append(newTrip)
-        mega_trips['trips'].append(newTrip)
+        trips.append(newTrip)
+        mega_trips.append(newTrip)
         
-    mega_trips['trips'].sort(key=lambda x: x.price)
+    mega_trips.sort(key=lambda x: x.price)
     return jsonpickle.encode(mega_trips)
 
 # FlixBus
 def get_flix_bus(date, dep_loc, arr_loc):
-    flix_trips = {'trips': []}
+    flix_trips = []
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -169,19 +183,25 @@ def get_flix_bus(date, dep_loc, arr_loc):
             departure_city = flix_location_id[flix_info[uid]['departure']['city_id']]
             departure_date = departure_string[0]
             departure_time = departure_string[1][:5]
+            dep_time_12h = datetime.strptime(departure_time, "%H:%M")
+            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             arrival_string = flix_info[uid]['arrival']['date'].split("T")
             arrival_city = flix_location_id[flix_info[uid]['arrival']['city_id']]
             arrival_time = arrival_string[1][:5]
+            arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
+            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
+            random_num = randrange(10000)
 
-            newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
+
+            newTrip = Trip(random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
-            trips['trips'].append(newTrip)
-            flix_trips['trips'].append(newTrip)
+            trips.append(newTrip)
+            flix_trips.append(newTrip)
         
-    flix_trips['trips'].sort(key=lambda x: x.price)
+    flix_trips.sort(key=lambda x: x.price)
     return jsonpickle.encode(flix_trips)
 
 def get_all(date, dep_loc, arr_loc):
@@ -190,9 +210,10 @@ def get_all(date, dep_loc, arr_loc):
     get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
     get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
-    trips['trips'].sort(key=lambda x: x.price)
+    trips.sort(key=lambda x: x.price)
 
-    print(f"Total Options: {len(trips['trips'])}")
-    print(f"Cheapest Trip: {trips['trips'][0]}")
+    print(f"Total Options: {len(trips)}")
+    print(f"Cheapest Trip: {trips[0]}")
 
     return jsonpickle.encode(trips)
+

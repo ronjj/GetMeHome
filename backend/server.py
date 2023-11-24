@@ -18,7 +18,7 @@ def create_app():
 @app.route('/all/<date>/<origin>/<destination>', methods=["GET"])
 def get_trips(date, origin, destination):
     trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
-    return render_template("/frontend/index.html")
+    return trips
 
 # OurBus
 @app.route('/our/<date>/<origin>/<destination>', methods=["GET"])
