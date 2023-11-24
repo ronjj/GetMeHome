@@ -25,3 +25,8 @@ V1 was built in a few days during my Thanksgiving break. Plan to expand location
 **Challenges**:
 
 - Had to scrape HTML for OurBus information then convert it to JSON
+
+**Current Screenshots of App and Backend**
+<<img src="/Screenshots/home_screen_v1.png" alt="home screen" title="home screen" height = "694" width = "321">>
+
+<<img src="/Screenshots/backend_response_v1.png" alt="backend response" title="backend response v1" height = "321" width = "694">>
