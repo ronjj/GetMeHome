@@ -15,7 +15,7 @@ import Observation
     
     func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String) async throws -> [Trip] {
 //        MARK: be able to use custom dep_loc, arr_loc, and date for url
-        let endpoint = "http://127.0.0.1:5000/flix/12-20-2023/new_york/ithaca"
+        let endpoint = "http://127.0.0.1:5000/mega/12-20-2023/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else { 
             throw TripError.invalidURL

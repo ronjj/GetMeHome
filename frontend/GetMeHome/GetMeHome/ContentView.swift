@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-//Add some protection that origin and arrival destination can't be the same
-var locations: [String] = ["Ithaca", "New York"]
-
-
 struct ContentView: View {
     
     @State private var path = NavigationPath()
@@ -18,6 +14,8 @@ struct ContentView: View {
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
     @State private var trips: [Trip]?
+    
+    var queryMap = ["New York":"new_york", "Ithaca": "ithaca"]
     
     var viewModel = ViewModel()
     
@@ -61,13 +59,14 @@ extension ContentView {
                         selectedArrival = "New York"
                     }
                 }
-
             }
             .padding()
             Button("Search") {
+               
+                
                 Task {
                     do {
-                        trips = try await viewModel.getTrips(from: "new_york", to: "ithaca", on: "somedate")
+                        trips = try await viewModel.getTrips(from: queryMap[selectedDeparture] ?? "new_york", to: queryMap[selectedArrival] ?? "ithaca", on: "somedate")
                         print(trips)
                     } catch TripError.invalidURL {
                         print("invalid url")
@@ -80,17 +79,12 @@ extension ContentView {
                     }
                 }
             }
-            
-
-            
-//            MARK: Disable button if some conditions are violated
             .buttonStyle(.bordered)
             .tint(.indigo)
         }
     }
     
     private var listOfTrips: some View {
-//      TODO:  if trips show list else show empty view
         List(trips ?? [], id: \.randomNum) { trip in
             NavigationLink(value: trip) {
                 TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
