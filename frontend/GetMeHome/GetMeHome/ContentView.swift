@@ -21,30 +21,46 @@ struct Trip: Hashable {
 //Add some protection that origin and arrival destination can't be the same
 var locations: [String] = ["Ithaca", "New York"]
 
+
 struct ContentView: View {
     
     @State private var path = NavigationPath()
     @State private var selectedDate = Date()
+    @State private var selectedDeparture = "Ithaca"
+    @State private var selectedArrival = "New York"
     
     var body: some View {
         NavigationStack(path: $path) {
-            List {
-                HStack{
-                    DatePicker("Choose Trip  Date", selection: $selectedDate, displayedComponents: .date)
-//                    Picker for departure location
-                    Image(systemName: "arrow.forward")
-//                    Picker for arrival location
-                }
-            }
-            
+            dateAndLocationPickers
         }
         .padding()
         .navigationTitle("GetMeHome")
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+
+extension ContentView {
+    private var dateAndLocationPickers: some View {
+        HStack{
+            DatePicker("Trip  Date", selection: $selectedDate, displayedComponents: .date)
+                .labelsHidden()
+            Menu(selectedDeparture) {
+                Button("Ithaca") {
+                    selectedDeparture = "Ithaca"
+                }
+                Button("New York") {
+                    selectedDeparture = "New York"
+                }
+            }
+            Image(systemName: "arrow.forward")
+            Menu(selectedArrival) {
+                Button("Ithaca") {
+                    selectedArrival = "Ithaca"
+                }
+                Button("New York") {
+                    selectedArrival = "New York"
+                }
+            }
+        }
     }
 }
