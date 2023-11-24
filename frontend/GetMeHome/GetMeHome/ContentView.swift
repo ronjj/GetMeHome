@@ -62,8 +62,6 @@ extension ContentView {
             }
             .padding()
             Button("Search") {
-               
-                
                 Task {
                     do {
                         trips = try await viewModel.getTrips(from: queryMap[selectedDeparture] ?? "new_york", to: queryMap[selectedArrival] ?? "ithaca", on: "somedate")
@@ -81,6 +79,7 @@ extension ContentView {
             }
             .buttonStyle(.bordered)
             .tint(.indigo)
+            .disabled(selectedDeparture == selectedArrival)
         }
     }
     
