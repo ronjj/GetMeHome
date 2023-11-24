@@ -23,7 +23,7 @@ Output:
 Returns a list of Trip objects in ascending order of price
 """
 
-trips = {'trips': []} 
+trips = []
 
 class Trip:
     def __init__(self, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
@@ -38,7 +38,7 @@ class Trip:
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
-
+    
 
 def format_date(date, bus_service):
     # Checking for '-' between dates
@@ -66,7 +66,7 @@ def format_date(date, bus_service):
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc):
-    our_trips = {'trips': []}
+    our_trips = []
     proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
@@ -96,9 +96,9 @@ def get_our_bus(date,dep_loc,arr_loc):
             non_stop = journey['non_stop']
 
             newTrip = Trip(date=trip_date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-            trips['trips'].append(newTrip)
-            our_trips['trips'].append(newTrip)
-            our_trips['trips'].sort(key=lambda x: x.price)
+            trips.append(newTrip)
+            our_trips.append(newTrip)
+            our_trips.sort(key=lambda x: x.price)
         except:
             continue
             
@@ -106,7 +106,7 @@ def get_our_bus(date,dep_loc,arr_loc):
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
-    mega_trips = {'trips': []}
+    mega_trips = []
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -135,15 +135,15 @@ def get_mega_bus(date, dep_loc, arr_loc):
         newTrip = Trip(date=date, price=price, arr_time=arr_time, arr_location=arr_location, dep_time=departure_time, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
-        trips['trips'].append(newTrip)
-        mega_trips['trips'].append(newTrip)
+        trips.append(newTrip)
+        mega_trips.append(newTrip)
         
-    mega_trips['trips'].sort(key=lambda x: x.price)
+    mega_trips.sort(key=lambda x: x.price)
     return jsonpickle.encode(mega_trips)
 
 # FlixBus
 def get_flix_bus(date, dep_loc, arr_loc):
-    flix_trips = {'trips': []}
+    flix_trips = []
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -178,10 +178,10 @@ def get_flix_bus(date, dep_loc, arr_loc):
             newTrip = Trip(date=departure_date, price=price, arr_time=arrival_time, arr_location=arrival_city, dep_time=departure_time, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
-            trips['trips'].append(newTrip)
-            flix_trips['trips'].append(newTrip)
+            trips.append(newTrip)
+            flix_trips.append(newTrip)
         
-    flix_trips['trips'].sort(key=lambda x: x.price)
+    flix_trips.sort(key=lambda x: x.price)
     return jsonpickle.encode(flix_trips)
 
 def get_all(date, dep_loc, arr_loc):
@@ -190,9 +190,10 @@ def get_all(date, dep_loc, arr_loc):
     get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
     get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
-    trips['trips'].sort(key=lambda x: x.price)
+    trips.sort(key=lambda x: x.price)
 
-    print(f"Total Options: {len(trips['trips'])}")
-    print(f"Cheapest Trip: {trips['trips'][0]}")
+    print(f"Total Options: {len(trips)}")
+    print(f"Cheapest Trip: {trips[0]}")
 
     return jsonpickle.encode(trips, unpicklable=False)
+
