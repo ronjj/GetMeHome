@@ -62,10 +62,18 @@ extension ContentView {
             }
             .padding()
             Button("Search") {
+
+//               Converting Date From:  2023-11-24 21:51:35 +0000
+    //           To: 11-24-2023
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM-dd-yyyy"
+                let newDateString = formatter.string(from: selectedDate)
+
                 Task {
                     do {
-                        trips = try await viewModel.getTrips(from: queryMap[selectedDeparture] ?? "new_york", to: queryMap[selectedArrival] ?? "ithaca", on: "somedate")
-                        print(trips)
+                        trips = try await viewModel.getTrips(from: queryMap[selectedDeparture] ?? "new_york", to: queryMap[selectedArrival] ?? "ithaca", on: newDateString)
+                        print(selectedDate)
+                        
                     } catch TripError.invalidURL {
                         print("invalid url")
                     } catch TripError.invalidReponse {
