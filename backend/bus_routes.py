@@ -99,7 +99,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             departure_location = journey['src_landmark']
             bus = "OurBus"
-            non_stop = journey['non_stop']
+            non_stop = str(journey['non_stop'])
             random_num = randrange(10000)
 
             newTrip = Trip(random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
@@ -109,7 +109,7 @@ def get_our_bus(date,dep_loc,arr_loc):
         except:
             continue
             
-    return jsonpickle.encode(our_trips, unpicklable=False)
+    return jsonpickle.encode(our_trips)
 
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc):
@@ -215,5 +215,5 @@ def get_all(date, dep_loc, arr_loc):
     print(f"Total Options: {len(trips)}")
     print(f"Cheapest Trip: {trips[0]}")
 
-    return jsonpickle.encode(trips, unpicklable=False)
+    return jsonpickle.encode(trips)
 

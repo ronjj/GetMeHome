@@ -24,6 +24,7 @@ struct ContentView: View {
             Text("GetMeHome")
                 .font(.largeTitle)
                 .fontWeight(.heavy)
+            
             dateAndLocationPickers
                 .padding(.bottom, 10)
             
