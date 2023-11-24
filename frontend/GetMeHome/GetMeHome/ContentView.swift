@@ -7,17 +7,6 @@
 
 import SwiftUI
 
-struct Trip: Hashable {
-    let date: String
-    let price: Float
-    let arrival_time: String
-    let arrival_location: String
-    let departure_time: String
-    let departure_location: String
-    let bus_service: String
-    let non_stop: String
-}
-
 //Add some protection that origin and arrival destination can't be the same
 var locations: [String] = ["Ithaca", "New York"]
 
@@ -38,13 +27,7 @@ struct ContentView: View {
             dateAndLocationPickers
                 .padding(.bottom, 10)
             
-                List(trips, id: \.bus_service) { trip in
-                    NavigationLink(value: trip) {
-                        TripRowView(date: trip.date, price: trip.price, arrival_time: trip.arrival_time, arrival_location: trip.arrival_location, departure_time: trip.departure_time, departure_location: trip.departure_location, bus_service: trip.bus_service, non_stop: trip.non_stop)
-                    }
-                }
-                .listStyle(.plain)
-//                MARK: Make navigation destination for trip
+            listOfTrips
         }
         .padding()
         .navigationTitle("GetMeHome")
@@ -78,59 +61,20 @@ extension ContentView {
     }
     
     private var listOfTrips: some View {
-        Text("Hello World")
-    }
-}
-
-struct TripRowView: View {
-    
-    var date: String
-    var price: Float
-    var arrival_time: String
-    var arrival_location: String
-    var departure_time: String
-    var departure_location: String
-    var bus_service: String
-    var non_stop: String
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(departure_time)
-                Image(systemName: "arrow.forward")
-                Text(arrival_time)
+        List(trips, id: \.bus_service) { trip in
+            NavigationLink(value: trip) {
+                TripRowView(date: trip.date, price: trip.price, arrival_time: trip.arrival_time, arrival_location: trip.arrival_location, departure_time: trip.departure_time, departure_location: trip.departure_location, bus_service: trip.bus_service, non_stop: trip.non_stop)
             }
-            Text("\(price)")
-            HStack{
-                Text(departure_location)
-                Image(systemName: "arrow.forward")
-                Text(arrival_location)
+        }
+        .listStyle(.plain)
+        .navigationDestination(for: Trip.self) { trip in
+            VStack{
+                Text("Hello world")
             }
-            BusLabel(busService: bus_service)
         }
     }
 }
 
-struct BusLabel: View {
-    
-    var busService: String
-    
-    var body: some View {
-        switch busService {
-        case "flixbus":
-            Button("Flix Bus") {}
-            .buttonStyle(.bordered)
-            .tint(.blue)
-        case "OurBus":
-            Button("Our Bus") {}
-            .buttonStyle(.bordered)
-            .tint(.green)
-        case "Mega":
-            Button("Mega Bus") {}
-                .buttonStyle(.bordered)
-                .tint(.red)
-        default:
-            Text("No Bus Service")
-        }
-    }
-}
+
+
+
