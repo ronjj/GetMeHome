@@ -18,6 +18,7 @@ struct Trip: Hashable, Codable {
     let departureLocation: String
     let busService: String
     let nonStop: String
+    let ticketLink: String
 }
 
 

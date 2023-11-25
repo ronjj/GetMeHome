@@ -12,7 +12,7 @@ import SwiftUI
 @Observable class ViewModel {
     var trips: [Trip] = []
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
-    let locationQueryMap = ["New York":"new_york", "Ithaca": "ithaca"]
+    let locationQueryMap = ["New York":"new_york", "Ithaca": "ithaca"]  
     
     func calculateDateRange() -> Date {
         let currentDate = Date()

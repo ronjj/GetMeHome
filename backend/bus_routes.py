@@ -27,7 +27,7 @@ Returns a list of Trip objects in ascending order of price
 trips = []
 
 class Trip:
-    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, non_stop="N/A"):
+    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", ):
         self.random_num = random_num
         self.date = date
         self.price = price
@@ -37,6 +37,7 @@ class Trip:
         self.departure_location = dep_location
         self.bus_service = bus_serivce
         self.non_stop = non_stop
+        self.ticket_link = ticket_link
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
@@ -76,7 +77,8 @@ def get_our_bus(date,dep_loc,arr_loc):
         "new_york":"New%20York,%20NY",
     }
 
-    web = urllib.request.urlopen(f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1")
+    link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
+    web = urllib.request.urlopen(link)
     soup = BeautifulSoup(web.read(), 'lxml')
 
     # Get the 35th script tag as a string, split by new line, get var default search line which is line 44, 
@@ -102,7 +104,7 @@ def get_our_bus(date,dep_loc,arr_loc):
             non_stop = str(journey['non_stop'])
             random_num = randrange(10000)
 
-            newTrip = Trip(random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+            newTrip = Trip(ticket_link=link,random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
             trips.append(newTrip)
             our_trips.append(newTrip)
             our_trips.sort(key=lambda x: x.price)
@@ -122,8 +124,8 @@ def get_mega_bus(date, dep_loc, arr_loc):
     }
     proper_date = format_date(date=date, bus_service="mega")
 
-
-    mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
+    link = f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1"
+    mega_request = requests.get(link)
     mega_response = json.loads(mega_request.text)
     mega_info = mega_response['journeys']
 
@@ -146,7 +148,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
         random_num = randrange(10000)
 
 
-        newTrip = Trip(random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+        newTrip = Trip(ticket_link=link,random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
         trips.append(newTrip)
@@ -172,7 +174,8 @@ def get_flix_bus(date, dep_loc, arr_loc):
    
     proper_date = format_date(date=date, bus_service="flix")
 
-    flix_request = requests.get(f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1")
+    link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
+    flix_request = requests.get(link)
     flix_response = json.loads(flix_request.text)
     flix_info = flix_response['trips'][0]['results']
 
@@ -199,7 +202,7 @@ def get_flix_bus(date, dep_loc, arr_loc):
             random_num = randrange(10000)
 
 
-            newTrip = Trip(random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+            newTrip = Trip(ticket_link=link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             # Add new trip to all trips to respond with 
             trips.append(newTrip)
