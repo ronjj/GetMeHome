@@ -42,6 +42,9 @@ struct ContentView: View {
         }
         .padding()
         .navigationTitle("GetMeHome")
+        .toolbar {
+            
+        }
     }
 }
 
@@ -72,14 +75,19 @@ extension ContentView {
                         print(selectedDate)
                         isLoading = false
                         clickedSearch = true
+                        
                     } catch TripError.invalidURL {
                         print("invalid url")
+                        isLoading = false
                     } catch TripError.invalidReponse {
                         print("invalid response")
+                        isLoading = false
                     } catch TripError.invalidData {
                         print("invalid data")
+                        isLoading = false
                     } catch {
                         print("unexpected erorr")
+                        isLoading = false
                     }
                 }
             }
