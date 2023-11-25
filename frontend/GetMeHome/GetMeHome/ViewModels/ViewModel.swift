@@ -13,6 +13,7 @@ import SwiftUI
     var trips: [Trip] = []
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["New York":"new_york", "Ithaca": "ithaca"]  
+    let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
     
     func calculateDateRange() -> Date {
         let currentDate = Date()
@@ -49,7 +50,6 @@ import SwiftUI
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-//            try trips = decoder.decode([Trip].self, from: data)
             return try decoder.decode([Trip].self, from: data)
         } catch {
             print(error.localizedDescription)

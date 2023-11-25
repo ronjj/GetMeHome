@@ -10,6 +10,7 @@ import SwiftUI
 struct TripDetailView: View {
     
     var trip: Trip
+    var viewModel = ViewModel()
     
     var body: some View {
             List {
@@ -31,13 +32,12 @@ struct TripDetailView: View {
                 Section("Bus Service") {
                     Text("\(trip.busService)")
                 }
-                
             }
             .listStyle(.plain)
-            Button("Buy On \(trip.busService) Website"){
-                Link("Buy Ticket", destination: URL(string: "\(trip.ticketLink)")!)
-            }
-            .buttonStyle(.borderedProminent)
+            
+            Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                .buttonStyle(.bordered)
+                .tint(.indigo)
             Spacer()
         }
     }

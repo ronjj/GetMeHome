@@ -24,7 +24,6 @@ struct TripListView: View {
             }
         }
         
-        
         // Trips Array is Emtpy
         else {
             // User did not search yet
