@@ -23,10 +23,15 @@ import Observation
         return futureDate!
     }
     
-    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String) async throws -> [Trip] {
+    func convertForQuery(value string: String) -> String {
+        var queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
+        return queryMap[string] ?? "all"
+    }
+    
+    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
         
 //        MARK: be able to use custom dep_loc, arr_loc, and date for url
-        let endpoint = "http://127.0.0.1:5000/all/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else { 
             throw TripError.invalidURL
