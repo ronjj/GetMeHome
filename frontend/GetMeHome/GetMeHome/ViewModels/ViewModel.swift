@@ -10,6 +10,8 @@ import Observation
 
 @Observable class ViewModel {
     var trips: [Trip] = []
+    let services = ["All", "OurBus", "MegaBus", "FlixBus"]
+    let locationQueryMap = ["New York":"new_york", "Ithaca": "ithaca"]
     
     func calculateDateRange() -> Date {
         let currentDate = Date()
@@ -24,7 +26,7 @@ import Observation
     }
     
     func convertForQuery(value string: String) -> String {
-        var queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
+        let queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
         return queryMap[string] ?? "all"
     }
     
