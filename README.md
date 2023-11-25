@@ -10,6 +10,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 - Technologies: Python, Postman
 - Modules and Packages: Requests, BeautifulSoup, json
+- Hosted API on Render platform
 
 **Frontend**:
 

@@ -8,6 +8,7 @@ Jinja2
 jsonpickle
 jsonpointer
 jsonschema
+lxml
 MarkupSafe
 pickleshare
 pipenv

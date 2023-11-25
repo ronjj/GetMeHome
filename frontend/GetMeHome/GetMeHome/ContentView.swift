@@ -74,7 +74,6 @@ extension ContentView {
                     isLoading = true
                     do {
                         trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService))
-                        print(selectedDate)
                         isLoading = false
                         clickedSearch = true
                         
