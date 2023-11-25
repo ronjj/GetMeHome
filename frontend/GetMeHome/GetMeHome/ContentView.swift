@@ -38,10 +38,9 @@ struct ContentView: View {
 
 extension ContentView {
     private var dateAndLocationPickers: some View {
-    
         VStack {
             HStack{
-                DatePicker("Trip  Date", selection: $selectedDate, displayedComponents: .date)
+                DatePicker("Trip  Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
                     .labelsHidden()
                 Menu(selectedDeparture) {
                     Button("Ithaca") {

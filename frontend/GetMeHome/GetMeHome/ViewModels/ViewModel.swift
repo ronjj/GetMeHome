@@ -11,6 +11,18 @@ import Observation
 @Observable class ViewModel {
     var trips: [Trip] = []
     
+    func calculateDateRange() -> Date {
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+
+        dateComponent.month = 2
+
+        let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
+
+        print("Current date is: \(currentDate)")
+        return futureDate!
+    }
+    
     func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String) async throws -> [Trip] {
         
 //        MARK: be able to use custom dep_loc, arr_loc, and date for url
