@@ -41,8 +41,10 @@ struct ContentView: View {
                 LoadingView()
             } else {
                 TripListView(trips: trips, clickedSearch: $clickedSearch)
+                   
             }
         }
+        .ignoresSafeArea()
         .padding()
         .navigationTitle("GetMeHome")
     }
@@ -102,6 +104,7 @@ extension ContentView {
             HStack{
                 DatePicker("Trip  Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
                     .labelsHidden()
+                    .tint(.purple)
                 Menu(selectedDeparture) {
                     Button("Ithaca") {
                         selectedDeparture = "Ithaca"
@@ -121,9 +124,7 @@ extension ContentView {
                 } label: {
                     Image(systemName: "arrow.left.arrow.right")
                         .scaleEffect(0.8)
-                      
                 }
-                
                 .buttonStyle(.borderedProminent)
                 .tint(.purple)
                
@@ -139,9 +140,7 @@ extension ContentView {
                 .tint(.purple)
             }
             .padding()
-            
             searchAndBusPicker
-            
         }
     }
 }
