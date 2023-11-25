@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var clickedSearch = false
     @State private var selectedService = ""
     @State private var isLoading = false
+    @State private var tapped = false
     
     
     //    ViewModel and Query Info
@@ -31,8 +32,10 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.heavy)
             
-            dateAndLocationPickers
-                .padding(.bottom, 10)
+            HStack {
+                dateAndLocationPickers
+                    .padding(.bottom, 10)
+            }
             
             if isLoading {
                 LoadingView()
@@ -42,9 +45,6 @@ struct ContentView: View {
         }
         .padding()
         .navigationTitle("GetMeHome")
-        .toolbar {
-            
-        }
     }
 }
 
@@ -110,15 +110,20 @@ extension ContentView {
                         selectedDeparture = "New York"
                     }
                 }
+                .tint(.purple)
                 Button {
                     var tempLocation = ""
                     tempLocation = selectedDeparture
                     selectedDeparture = selectedArrival
                     selectedArrival = tempLocation
+                    tapped.toggle()
+                    
                 } label: {
-                    Image(systemName: "arrow.left.arrow.right.circle")
-                        
+                    Image(systemName: "arrow.left.arrow.right")
+                        .scaleEffect(0.8)
+                      
                 }
+                
                 .buttonStyle(.borderedProminent)
                 .tint(.purple)
                
@@ -130,6 +135,8 @@ extension ContentView {
                         selectedArrival = "New York"
                     }
                 }
+                .padding(.horizontal, 0)
+                .tint(.purple)
             }
             .padding()
             

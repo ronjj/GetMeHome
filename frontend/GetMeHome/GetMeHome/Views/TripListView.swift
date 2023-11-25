@@ -29,17 +29,22 @@ struct TripListView: View {
             // User did not search yet
             if clickedSearch {
                 Spacer()
-                VStack {
+                VStack(alignment: .center) {
                     Text("No Results Found :( ")
+                        .bold()
+                        .font(.headline)
                     Text("Check Again Later")
                 }
                 Spacer()
             //Search Result is empty with no errors
             } else {
                 Spacer()
-                VStack {
+                VStack(alignment: .center) {
                     Text("Search For Trips")
+                        .bold()
+                        .font(.headline)
                     Text("Select A Date, Bus Service, Origin, and Destination")
+                        .multilineTextAlignment(.center)
                 }
                 Spacer()
             }

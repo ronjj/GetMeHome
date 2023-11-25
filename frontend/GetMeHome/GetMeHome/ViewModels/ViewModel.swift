@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import SwiftUI
 
 @Observable class ViewModel {
     var trips: [Trip] = []
@@ -54,7 +55,6 @@ import Observation
             print(error.localizedDescription)
             throw TripError.invalidData
         }
-        
     }
 }
 
