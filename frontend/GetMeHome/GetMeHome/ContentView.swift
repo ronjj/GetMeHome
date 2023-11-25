@@ -110,7 +110,18 @@ extension ContentView {
                         selectedDeparture = "New York"
                     }
                 }
-                Image(systemName: "arrow.forward")
+                Button {
+                    var tempLocation = ""
+                    tempLocation = selectedDeparture
+                    selectedDeparture = selectedArrival
+                    selectedArrival = tempLocation
+                } label: {
+                    Image(systemName: "arrow.left.arrow.right.circle")
+                        
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+               
                 Menu(selectedArrival) {
                     Button("Ithaca") {
                         selectedArrival = "Ithaca"
