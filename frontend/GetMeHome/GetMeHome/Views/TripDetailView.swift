@@ -34,9 +34,10 @@ struct TripDetailView: View {
                 
             }
             .listStyle(.plain)
-            //                MARK: Implement
             Button("Buy On \(trip.busService) Website"){
-                
+//                  MARK: Implement
+//                open in safari maybe i guess 
+
             }
             .buttonStyle(.borderedProminent)
             Spacer()

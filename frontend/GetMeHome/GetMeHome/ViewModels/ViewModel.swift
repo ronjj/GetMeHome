@@ -7,14 +7,34 @@
 
 import Foundation
 import Observation
+import SwiftUI
 
 @Observable class ViewModel {
     var trips: [Trip] = []
+    let services = ["All", "OurBus", "MegaBus", "FlixBus"]
+    let locationQueryMap = ["New York":"new_york", "Ithaca": "ithaca"]
     
-    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String) async throws -> [Trip] {
+    func calculateDateRange() -> Date {
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+
+        dateComponent.month = 2
+
+        let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
+
+        print("Current date is: \(currentDate)")
+        return futureDate!
+    }
+    
+    func convertForQuery(value string: String) -> String {
+        let queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
+        return queryMap[string] ?? "all"
+    }
+    
+    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
         
 //        MARK: be able to use custom dep_loc, arr_loc, and date for url
-        let endpoint = "http://127.0.0.1:5000/all/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else { 
             throw TripError.invalidURL
@@ -35,7 +55,6 @@ import Observation
             print(error.localizedDescription)
             throw TripError.invalidData
         }
-        
     }
 }
 

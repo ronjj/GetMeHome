@@ -10,14 +10,21 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var path = NavigationPath()
+    
+    //    User Selections
     @State private var selectedDate = Date()
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
+    @State private var clickedSearch = false
+    @State private var selectedService = ""
+    @State private var isLoading = false
+    @State private var tapped = false
+    
+    
+    //    ViewModel and Query Info
     @State private var trips: [Trip]?
-    
-    var queryMap = ["New York":"new_york", "Ithaca": "ithaca"]
-    
     var viewModel = ViewModel()
+
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -25,10 +32,16 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.heavy)
             
-            dateAndLocationPickers
-                .padding(.bottom, 10)
+            HStack {
+                dateAndLocationPickers
+                    .padding(.bottom, 10)
+            }
             
-            listOfTrips
+            if isLoading {
+                LoadingView()
+            } else {
+                TripListView(trips: trips, clickedSearch: $clickedSearch)
+            }
         }
         .padding()
         .navigationTitle("GetMeHome")
@@ -37,11 +50,57 @@ struct ContentView: View {
 
 
 extension ContentView {
-    private var dateAndLocationPickers: some View {
     
+    private var searchAndBusPicker: some View {
+        HStack {
+            Picker("Choose A Bus Service", selection: $selectedService) {
+                ForEach(viewModel.services, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(.segmented)
+            
+            
+            Button("Search") {
+//           Converting Date From:  2023-11-24 21:51:35 +0000
+//           To: 11-24-2023
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM-dd-yyyy"
+                let newDateString = formatter.string(from: selectedDate)
+                
+                Task {
+                    isLoading = true
+                    do {
+                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService))
+                        print(selectedDate)
+                        isLoading = false
+                        clickedSearch = true
+                        
+                    } catch TripError.invalidURL {
+                        print("invalid url")
+                        isLoading = false
+                    } catch TripError.invalidReponse {
+                        print("invalid response")
+                        isLoading = false
+                    } catch TripError.invalidData {
+                        print("invalid data")
+                        isLoading = false
+                    } catch {
+                        print("unexpected erorr")
+                        isLoading = false
+                    }
+                }
+            }
+            .buttonStyle(.bordered)
+            .tint(.indigo)
+            .disabled(selectedDeparture == selectedArrival || selectedService == "")
+        }
+    }
+    
+    private var dateAndLocationPickers: some View {
         VStack {
             HStack{
-                DatePicker("Trip  Date", selection: $selectedDate, displayedComponents: .date)
+                DatePicker("Trip  Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
                     .labelsHidden()
                 Menu(selectedDeparture) {
                     Button("Ithaca") {
@@ -51,7 +110,23 @@ extension ContentView {
                         selectedDeparture = "New York"
                     }
                 }
-                Image(systemName: "arrow.forward")
+                .tint(.purple)
+                Button {
+                    var tempLocation = ""
+                    tempLocation = selectedDeparture
+                    selectedDeparture = selectedArrival
+                    selectedArrival = tempLocation
+                    tapped.toggle()
+                    
+                } label: {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .scaleEffect(0.8)
+                      
+                }
+                
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+               
                 Menu(selectedArrival) {
                     Button("Ithaca") {
                         selectedArrival = "Ithaca"
@@ -60,48 +135,13 @@ extension ContentView {
                         selectedArrival = "New York"
                     }
                 }
+                .padding(.horizontal, 0)
+                .tint(.purple)
             }
             .padding()
-            Button("Search") {
-
-//               Converting Date From:  2023-11-24 21:51:35 +0000
-    //           To: 11-24-2023
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MM-dd-yyyy"
-                let newDateString = formatter.string(from: selectedDate)
-
-                Task {
-                    do {
-                        trips = try await viewModel.getTrips(from: queryMap[selectedDeparture] ?? "new_york", to: queryMap[selectedArrival] ?? "ithaca", on: newDateString)
-                        print(selectedDate)
-                        
-                    } catch TripError.invalidURL {
-                        print("invalid url")
-                    } catch TripError.invalidReponse {
-                        print("invalid response")
-                    } catch TripError.invalidData {
-                        print("invalid data")
-                    } catch {
-                        print("unexpected erorr")
-                    }
-                }
-            }
-            .buttonStyle(.bordered)
-            .tint(.indigo)
-            .disabled(selectedDeparture == selectedArrival)
-        }
-    }
-    
-    private var listOfTrips: some View {
-        List(trips ?? [], id: \.randomNum) { trip in
-            NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
-            }
-        }
-        
-        .listStyle(.plain)
-        .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip)
+            
+            searchAndBusPicker
+            
         }
     }
 }
