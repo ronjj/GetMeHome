@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var selectedDate = Date()
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
+    @State private var clickedSearch = false
     
     //    Segmented Picker
     @State private var selectedService = ""
@@ -35,7 +36,7 @@ struct ContentView: View {
             dateAndLocationPickers
                 .padding(.bottom, 10)
             
-            listOfTrips
+            TripListView(trips: trips, clickedSearch: $clickedSearch)
         }
         .padding()
         .navigationTitle("GetMeHome")
@@ -56,6 +57,9 @@ extension ContentView {
             
             
             Button("Search") {
+                
+            clickedSearch = true
+                
 //           Converting Date From:  2023-11-24 21:51:35 +0000
 //           To: 11-24-2023
                 let formatter = DateFormatter()
@@ -111,19 +115,6 @@ extension ContentView {
             
             searchAndBusPicker
             
-        }
-    }
-    
-    private var listOfTrips: some View {
-        List(trips ?? [], id: \.randomNum) { trip in
-            NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
-            }
-        }
-        
-        .listStyle(.plain)
-        .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip)
         }
     }
 }
