@@ -16,4 +16,5 @@ python-json-logger
 soupsieve
 virtualenv
 websocket-client
+requests
 Werkzeug
