@@ -56,7 +56,7 @@ import SwiftUI
 //            If a min time was selected, filter results
                 if minTime != Date.init(timeIntervalSince1970: 0) {
                     let formatter = DateFormatter()
-                    var results = try decoder.decode([Trip].self, from: data)
+                    let results = try decoder.decode([Trip].self, from: data)
                     formatter.dateFormat = "hh:mma"
                     print("results before: \(results.count)")
                     let minTimeString = formatter.string(from: minTime)
