@@ -29,7 +29,9 @@ struct TripDetailView: View {
             Section("Destination") {
                 Text("\(trip.arrivalLocation)")
             }
-            
+            if trip.busService == "MegaBus"{
+                ghghgghgh
+            }
             if trip.busService == "FlixBus" {
                 Section("Intermediate Stops") {
                     Text("\(trip.intermediateCount - 2)")
