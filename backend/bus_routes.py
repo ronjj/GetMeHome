@@ -91,24 +91,29 @@ def get_our_bus(date,dep_loc,arr_loc):
     for index in range(len(loaded_data)):
         try:
             journey = loaded_data[index]
-            trip_date = journey['travel_date']
-            price = journey['pass_amount']
-            arr_time = journey['last_stop_eta']
-            arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
-            arr_location = journey['dest_landmark']
-            departure_time = journey['start_time']
-            dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
-            departure_location = journey['src_landmark']
-            bus = "OurBus"
-            non_stop = str(journey['non_stop'])
-            random_num = randrange(10000)
 
-            newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-            trips.append(newTrip)
-            our_trips.append(newTrip)
-            our_trips.sort(key=lambda x: x.price)
+            # skip sold out bus or non direct buses
+            if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "false":
+                continue
+            else:
+                trip_date = journey['travel_date']
+                price = journey['pass_amount']
+                arr_time = journey['last_stop_eta']
+                arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+                arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+                arr_location = journey['dest_landmark']
+                departure_time = journey['start_time']
+                dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+                dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+                departure_location = journey['src_landmark']
+                bus = "OurBus"
+                non_stop = str(journey['non_stop'])
+                random_num = randrange(10000)
+
+                newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+                trips.append(newTrip)
+                our_trips.append(newTrip)
+                our_trips.sort(key=lambda x: x.price)
         except:
             continue
             
