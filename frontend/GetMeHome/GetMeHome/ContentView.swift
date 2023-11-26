@@ -19,6 +19,8 @@ struct ContentView: View {
     @State private var selectedService = ""
     @State private var isLoading = false
     @State private var tapped = false
+    @State private var showAdvancedOptions = false
+    @State private var selectedTime = Date()
     
     
     //    ViewModel and Query Info
@@ -64,16 +66,19 @@ extension ContentView {
             
             
             Button("Search") {
+                
 //           Converting Date From:  2023-11-24 21:51:35 +0000
 //           To: 11-24-2023
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM-dd-yyyy"
                 let newDateString = formatter.string(from: selectedDate)
+            
+//                fix on change of date not working
                 
                 Task {
                     isLoading = true
                     do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService))
+                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (showAdvancedOptions ? selectedTime : Date.init(timeIntervalSince1970: 0)))
                         isLoading = false
                         clickedSearch = true
                         
@@ -141,6 +146,16 @@ extension ContentView {
             }
             .padding()
             searchAndBusPicker
+            
+            if showAdvancedOptions {
+                DatePicker("Pick Earilest Bus Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                    .tint(.purple)
+            }
+            else {
+                Button ("Show Advanced Options") {
+                    showAdvancedOptions = true
+                }
+            }
         }
     }
 }
