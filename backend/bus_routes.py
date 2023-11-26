@@ -24,7 +24,6 @@ Output:
 Returns a list of Trip objects in ascending order of price
 """
 
-trips = []
 
 class Trip:
     def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A" ):
@@ -91,7 +90,7 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
             journey = loaded_data[index]
 
             # skip sold out bus or non direct buses
-            if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "false":
+            if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "False":
                 continue
             else:
                 trip_date = journey['travel_date']
@@ -109,7 +108,6 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                 random_num = randrange(10000)
 
                 newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-                trips.append(newTrip)
                 return_to.append(newTrip)
                 return_to.sort(key=lambda x: x.price)
         except:
