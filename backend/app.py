@@ -20,6 +20,12 @@ def get_trips(date, origin, destination):
     trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
     return trips
 
+# Get All Trips for A Date, Origin, and Destination given a min time
+@app.route('/all/<date>/<origin>/<destination>/<min>', methods=["GET"])
+def get_trips(date, origin, destination, min):
+    trips = bus_routes.get_all_min_time(date=date, dep_loc=origin, arr_loc=destination, min_time=min)
+    return trips
+
 # OurBus
 @app.route('/our/<date>/<origin>/<destination>', methods=["GET"])
 def get_our_bus_trips(date, origin, destination):

@@ -77,9 +77,8 @@ def get_our_bus(date,dep_loc,arr_loc):
         "new_york":"New%20York,%20NY",
     }
 
-
     api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
-    web = urllib.request.urlopen(api_link)
+    web = urllib.request.urlopen(api_and_ticket_link)
     soup = BeautifulSoup(web.read(), 'lxml')
 
     # Get the 35th script tag as a string, split by new line, get var default search line which is line 44, 
@@ -95,11 +94,11 @@ def get_our_bus(date,dep_loc,arr_loc):
             price = journey['pass_amount']
             arr_time = journey['last_stop_eta']
             arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+            arr_time_12h = arr_time_12h.strftime("%I:%M%p")
             arr_location = journey['dest_landmark']
             departure_time = journey['start_time']
             dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+            dep_time_12h = dep_time_12h.strftime("%I:%M%p")
             departure_location = journey['src_landmark']
             bus = "OurBus"
             non_stop = str(journey['non_stop'])
@@ -139,12 +138,12 @@ def get_mega_bus(date, dep_loc, arr_loc):
         price = journey['price']
         arr_time = journey_arr_date_time[1]
         arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-        arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+        arr_time_12h = arr_time_12h.strftime("%I:%M%p")
 
         arr_location = journey['destination']['stopName']
         departure_time = journey_dep_date_time[1]
         dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-        dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+        dep_time_12h = dep_time_12h.strftime("%I:%M%p")
         departure_location = journey['origin']['stopName']
         bus = "MegaBus"
         random_num = randrange(10000)
@@ -193,12 +192,12 @@ def get_flix_bus(date, dep_loc, arr_loc):
             departure_date = departure_string[0]
             departure_time = departure_string[1][:5]
             dep_time_12h = datetime.strptime(departure_time, "%H:%M")
-            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+            dep_time_12h = dep_time_12h.strftime("%I:%M%p")
             arrival_string = flix_info[uid]['arrival']['date'].split("T")
             arrival_city = flix_location_id[flix_info[uid]['arrival']['station_id']]
             arrival_time = arrival_string[1][:5]
             arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
-            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+            arr_time_12h = arr_time_12h.strftime("%I:%M%p")
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
             random_num = randrange(10000)
@@ -225,4 +224,24 @@ def get_all(date, dep_loc, arr_loc):
     print(f"Cheapest Trip: {trips[0]}")
 
     return jsonpickle.encode(trips)
+
+
+def get_all_min_time(date, dep_loc, arr_loc, min_time):
+    # Call each service
+    get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+    get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+    get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+
+    trips.sort(key=lambda x: x.price)
+
+    for trip in trips:
+        if datetime.strptime(trip.departure_time, "%I:%M%p") < datetime.strptime(min_time, "%I:%M%p"):
+            trips.remove(trip)
+
+    print(f"Total Options: {len(trips)}")
+    print(f"Cheapest Trip: {trips[0]}")
+
+    return jsonpickle.encode(trips)
+
+
 

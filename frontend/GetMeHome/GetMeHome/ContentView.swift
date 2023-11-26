@@ -13,12 +13,14 @@ struct ContentView: View {
     
     //    User Selections
     @State private var selectedDate = Date()
+    @State private var selectedTime = Date()
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "New York"
     @State private var clickedSearch = false
     @State private var selectedService = ""
     @State private var isLoading = false
     @State private var tapped = false
+    @State private var showAdvanced = false
     
     
     //    ViewModel and Query Info
@@ -71,25 +73,48 @@ extension ContentView {
                 let newDateString = formatter.string(from: selectedDate)
                 
                 Task {
-                    isLoading = true
-                    do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService))
-                        isLoading = false
-                        clickedSearch = true
-                        
-                    } catch TripError.invalidURL {
-                        print("invalid url")
-                        isLoading = false
-                    } catch TripError.invalidReponse {
-                        print("invalid response")
-                        isLoading = false
-                    } catch TripError.invalidData {
-                        print("invalid data")
-                        isLoading = false
-                    } catch {
-                        print("unexpected erorr")
-                        isLoading = false
+                    if !showAdvanced {
+                        isLoading = true
+                        do {
+                            trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService))
+                            isLoading = false
+                            clickedSearch = true
+                            
+                        } catch TripError.invalidURL {
+                            print("invalid url")
+                            isLoading = false
+                        } catch TripError.invalidReponse {
+                            print("invalid response")
+                            isLoading = false
+                        } catch TripError.invalidData {
+                            print("invalid data")
+                            isLoading = false
+                        } catch {
+                            print("unexpected erorr")
+                            isLoading = false
+                        }
+                    } else {
+                        isLoading = true
+                        do {
+                            trips = try await viewModel.getTripsMinTime(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), min: selectedTime)
+                            isLoading = false
+                            clickedSearch = true
+                            
+                        } catch TripError.invalidURL {
+                            print("invalid url")
+                            isLoading = false
+                        } catch TripError.invalidReponse {
+                            print("invalid response")
+                            isLoading = false
+                        } catch TripError.invalidData {
+                            print("invalid data")
+                            isLoading = false
+                        } catch {
+                            print("unexpected erorr")
+                            isLoading = false
+                        }
                     }
+                    
                 }
             }
             .buttonStyle(.bordered)
@@ -137,9 +162,19 @@ extension ContentView {
                 }
                 .padding(.horizontal, 0)
                 .tint(.purple)
+                
             }
             .padding()
             searchAndBusPicker
+            
+            if showAdvanced {
+                DatePicker("Earliest Time To Leave", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                    .tint(.purple)
+            } else {
+                Button("Advanced Settings") {
+                    showAdvanced = true
+                }
+            }
         }
     }
 }

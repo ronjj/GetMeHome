@@ -22,8 +22,6 @@ import SwiftUI
         dateComponent.month = 2
 
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
-
-        print("Current date is: \(currentDate)")
         return futureDate!
     }
     
@@ -55,6 +53,34 @@ import SwiftUI
             print(error.localizedDescription)
             throw TripError.invalidData
         }
+    }
+    
+    func getTripsMinTime(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String, min: Date) async throws -> [Trip] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mma"
+        let dateString = formatter.string(from: min)
+        
+        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)/\(dateString)"
+        
+        guard let url = URL(string: endpoint) else {
+            throw TripError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw TripError.invalidReponse
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            return try decoder.decode([Trip].self, from: data)
+        } catch {
+            print(error.localizedDescription)
+            throw TripError.invalidData
+        }
+
     }
 }
 
