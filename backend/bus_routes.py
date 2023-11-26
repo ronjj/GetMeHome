@@ -154,10 +154,8 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         random_num = randrange(10000)
 
         newTrip = Trip(ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+        return_to.append(newTrip)
 
-        # Add new trip to all trips to respond with 
-
-        
     return_to.sort(key=lambda x: x.price)
     if all_or_single:
         return return_to

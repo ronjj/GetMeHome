@@ -23,7 +23,7 @@ import SwiftUI
 
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
 
-        print("Current date is: \(currentDate)")
+//        print("Current date is: \(currentDate)")
         return futureDate!
     }
     

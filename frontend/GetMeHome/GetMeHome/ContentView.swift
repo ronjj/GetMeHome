@@ -77,7 +77,7 @@ extension ContentView {
                         isLoading = false
                         clickedSearch = true
                         
-//                        
+//
                     } catch TripError.invalidURL {
                         print("invalid url")
                         isLoading = false
