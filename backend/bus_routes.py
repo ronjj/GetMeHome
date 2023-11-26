@@ -109,7 +109,7 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                 non_stop = str(journey['non_stop'])
                 random_num = randrange(10000)
 
-                newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+                newTrip = Trip(intermediate_stations=[],ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
                 return_to.append(newTrip)
                 return_to.sort(key=lambda x: x.price)
         except:
@@ -153,7 +153,7 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         bus = "MegaBus"
         random_num = randrange(10000)
 
-        newTrip = Trip(ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+        newTrip = Trip(intermediate_stations=[],ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
         return_to.append(newTrip)
 
     return_to.sort(key=lambda x: x.price)
