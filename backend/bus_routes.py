@@ -162,8 +162,8 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         
         intermediate_stations_names = []
         for index in range(0,len(intermediate_stations_info)):
-            intermediate_stations_names.append(intermediate_stations_info[index]['cityName'])
-            # or I could use: intermediate_stations_info[index]['location']) for more information
+            city_and_location = f"{index+1}. {intermediate_stations_info[index]['cityName']} \n{intermediate_stations_info[index]['location']}"
+            intermediate_stations_names.append(city_and_location)
 
         newTrip = Trip(intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
         return_to.append(newTrip)

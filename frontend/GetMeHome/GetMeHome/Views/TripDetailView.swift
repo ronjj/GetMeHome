@@ -13,49 +13,47 @@ struct TripDetailView: View {
     var viewModel = ViewModel()
     
     var body: some View {
-        List {
-            Section("Date") {
-                Text("\(trip.date)")
-            }
-            Section("Time") {
-                Text("\(trip.departureTime) - \(trip.arrivalTime)")
-            }
-            Section("Price") {
-                Text("$\(trip.price, specifier: "%.2f")")
-            }
-            Section("Departure") {
-                Text("\(trip.departureLocation)")
-            }
-            Section("Destination") {
-                Text("\(trip.arrivalLocation)")
-            }
-            if trip.busService == "MegaBus"{
-                ghghgghgh
-            }
-            if trip.busService == "FlixBus" {
-                Section("Intermediate Stops") {
-                    Text("\(trip.intermediateCount - 2)")
+        VStack {
+            List {
+                Section("Date") {
+                    Text("\(trip.date)")
                 }
-                
-                Section("Bus Destinations") {
-                    VStack(alignment: .leading) {
-                        ForEach(trip.intermediateStations, id: \.self) { station in
-                            Text(station)
+                Section("Time") {
+                    Text("\(trip.departureTime) - \(trip.arrivalTime)")
+                }
+                Section("Price") {
+                    Text("$\(trip.price, specifier: "%.2f")")
+                }
+                Section("Departure") {
+                    Text("\(trip.departureLocation)")
+                }
+                Section("Destination") {
+                    Text("\(trip.arrivalLocation)")
+                }
+                if trip.busService == "FlixBus" || trip.busService == "MegaBus" {
+                    Section("Intermediate Stops") {
+                        Text("\(trip.intermediateCount - 2)")
+                    }
+                    
+                    Section("Bus Destinations") {
+                        VStack(alignment: .leading) {
+                            ForEach(trip.intermediateStations, id: \.self) { station in
+                                Text(station)
+                            }
                         }
                     }
                 }
+                
+                Section("Bus Service") {
+                    Text("\(trip.busService)")
+                }
             }
+            .listStyle(.plain)
             
-            Section("Bus Service") {
-                Text("\(trip.busService)")
-            }
+            Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                .buttonStyle(.bordered)
+                .tint(.indigo)
         }
-        .listStyle(.plain)
-        
-        Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-            .buttonStyle(.bordered)
-            .tint(.indigo)
-        Spacer()
     }
 }
 
