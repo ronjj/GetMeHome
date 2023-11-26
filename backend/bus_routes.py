@@ -26,7 +26,7 @@ Returns a list of Trip objects in ascending order of price
 
 
 class Trip:
-    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_stops=0):
+    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_count=0, intermediate_stations = []):
         self.random_num = random_num
         self.date = date
         self.price = price
@@ -37,7 +37,8 @@ class Trip:
         self.bus_service = bus_serivce
         self.non_stop = non_stop
         self.ticket_link = ticket_link
-        self.intermediate_stops = intermediate_stops
+        self.intermediate_count = intermediate_count
+        self.intermediate_stations = intermediate_stations
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
@@ -108,7 +109,7 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                 non_stop = str(journey['non_stop'])
                 random_num = randrange(10000)
 
-                newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+                newTrip = Trip(intermediate_stations=[],ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
                 return_to.append(newTrip)
                 return_to.sort(key=lambda x: x.price)
         except:
@@ -152,7 +153,7 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         bus = "MegaBus"
         random_num = randrange(10000)
 
-        newTrip = Trip(ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+        newTrip = Trip(intermediate_stations=[],ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
         return_to.append(newTrip)
 
     return_to.sort(key=lambda x: x.price)
@@ -204,9 +205,20 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
             random_num = randrange(10000)
-            intermediate_stops = flix_info[uid]['intermediate_stations_count']
+            intermediate_count = flix_info[uid]['intermediate_stations_count']
 
-            newTrip = Trip(intermediate_stops=intermediate_stops,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+            flix_id_parts = uid.split(":")
+            intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+            intermediate_stations_request = requests.get(intermediate_stations_link)
+            intermediate_stations_response = json.loads(intermediate_stations_request.text)
+            intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
+            intermediate_count = len(intermediate_stations_info)
+            
+            intermediate_stations_names = []
+            for index in range(0,len(intermediate_stations_info)):
+                intermediate_stations_names.append(intermediate_stations_info[index]['name'])
+
+            newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             return_to.append(newTrip)
         
