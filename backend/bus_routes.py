@@ -26,7 +26,7 @@ Returns a list of Trip objects in ascending order of price
 
 
 class Trip:
-    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A" ):
+    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_stops=0):
         self.random_num = random_num
         self.date = date
         self.price = price
@@ -37,6 +37,7 @@ class Trip:
         self.bus_service = bus_serivce
         self.non_stop = non_stop
         self.ticket_link = ticket_link
+        self.intermediate_stops = intermediate_stops
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
@@ -203,8 +204,9 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
             random_num = randrange(10000)
+            intermediate_stops = flix_info[uid]['intermediate_stations_count']
 
-            newTrip = Trip(ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+            newTrip = Trip(intermediate_stops=intermediate_stops,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
             return_to.append(newTrip)
         
