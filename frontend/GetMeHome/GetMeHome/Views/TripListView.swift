@@ -19,15 +19,10 @@ struct TripListView: View {
             if trips.count > 2 {
                 multipleResultsList
             }
-            else {
+            else if trips.count > 0 {
                 singleResultList
             }
-        }
-        
-        // Trips Array is Emtpy
-        else {
-            // User did not search yet
-            if clickedSearch {
+            else {
                 Spacer()
                 VStack(alignment: .center) {
                     Text("No Results Found :( ")
@@ -36,8 +31,14 @@ struct TripListView: View {
                     Text("Check Again Later")
                 }
                 Spacer()
-            //Search Result is empty with no errors
-            } else {
+            }
+        }
+        
+        // Trips Array is Emtpy
+        else {
+            // User did not search yet
+            if !clickedSearch {
+            }
                 Spacer()
                 VStack(alignment: .center) {
                     Text("Search For Trips")
@@ -47,7 +48,7 @@ struct TripListView: View {
                         .multilineTextAlignment(.center)
                 }
                 Spacer()
-            }
+            
         }
     }
 }

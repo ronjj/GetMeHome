@@ -79,7 +79,7 @@ def get_our_bus(date,dep_loc,arr_loc):
 
 
     api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
-    web = urllib.request.urlopen(api_link)
+    web = urllib.request.urlopen(api_and_ticket_link)
     soup = BeautifulSoup(web.read(), 'lxml')
 
     # Get the 35th script tag as a string, split by new line, get var default search line which is line 44, 
@@ -126,8 +126,7 @@ def get_mega_bus(date, dep_loc, arr_loc):
     proper_date = format_date(date=date, bus_service="mega")
 
     ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={mega_location_id[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={mega_location_id[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
-    api_link = f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1"
-    mega_request = requests.get(api_link)
+    mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
     mega_response = json.loads(mega_request.text)
     mega_info = mega_response['journeys']
 
