@@ -68,15 +68,13 @@ def format_date(date, bus_service):
         return f"{month}/{day}/{year}"
 
 # OurBus
-def get_our_bus(date,dep_loc,arr_loc):
-    our_trips = []
+def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
     proper_date = format_date(date=date, bus_service="our")
 
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
         "new_york":"New%20York,%20NY",
     }
-
 
     api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
     web = urllib.request.urlopen(api_and_ticket_link)
@@ -112,16 +110,18 @@ def get_our_bus(date,dep_loc,arr_loc):
 
                 newTrip = Trip(ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
                 trips.append(newTrip)
-                our_trips.append(newTrip)
-                our_trips.sort(key=lambda x: x.price)
+                return_to.append(newTrip)
+                return_to.sort(key=lambda x: x.price)
         except:
             continue
             
-    return jsonpickle.encode(our_trips)
+    if all_or_single:
+        return return_to
+    else:
+        return jsonpickle.encode(return_to)
 
 # MegaBus
-def get_mega_bus(date, dep_loc, arr_loc):
-    mega_trips = []
+def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -153,19 +153,20 @@ def get_mega_bus(date, dep_loc, arr_loc):
         bus = "MegaBus"
         random_num = randrange(10000)
 
-
         newTrip = Trip(ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
 
         # Add new trip to all trips to respond with 
-        trips.append(newTrip)
-        mega_trips.append(newTrip)
+
         
-    mega_trips.sort(key=lambda x: x.price)
-    return jsonpickle.encode(mega_trips)
+    return_to.sort(key=lambda x: x.price)
+    if all_or_single:
+        return return_to
+    else:
+        return jsonpickle.encode(return_to)
+
 
 # FlixBus
-def get_flix_bus(date, dep_loc, arr_loc):
-    flix_trips = []
+def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -207,21 +208,23 @@ def get_flix_bus(date, dep_loc, arr_loc):
             price = flix_info[uid]['price']['total']
             random_num = randrange(10000)
 
-
             newTrip = Trip(ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
-            # Add new trip to all trips to respond with 
-            trips.append(newTrip)
-            flix_trips.append(newTrip)
+            return_to.append(newTrip)
         
-    flix_trips.sort(key=lambda x: x.price)
-    return jsonpickle.encode(flix_trips)
+    return_to.sort(key=lambda x: x.price)
+    # Dont want to wrap in json if its in the get all function
+    if all_or_single:
+        return return_to
+    else:
+        return jsonpickle.encode(return_to)
 
 def get_all(date, dep_loc, arr_loc):
     # Call each service
-    get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
-    get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
-    get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
+    trips = []
+    get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
+    get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
+    get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
 
     trips.sort(key=lambda x: x.price)
 
