@@ -233,13 +233,15 @@ def get_all_min_time(date, dep_loc, arr_loc, min_time):
     get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc)
 
     trips.sort(key=lambda x: x.price)
-
+    print(f"length of trips before: {len(trips)}")
     for trip in trips:
         if datetime.strptime(trip.departure_time, "%I:%M%p") < datetime.strptime(min_time, "%I:%M%p"):
             trips.remove(trip)
 
-    print(f"Total Options: {len(trips)}")
-    print(f"Cheapest Trip: {trips[0]}")
+    print(f"length of trips after: {len(trips)}")
+
+    # print(f"Total Options: {len(trips)}")
+    # print(f"Cheapest Trip: {trips[0]}")
 
     return jsonpickle.encode(trips)
 
