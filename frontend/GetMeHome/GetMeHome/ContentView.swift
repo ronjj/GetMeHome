@@ -208,7 +208,7 @@ struct SheetView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Cancel"){
+                Button("Close"){
                     presentSheet = false
                 }
                 .tint(.purple)
