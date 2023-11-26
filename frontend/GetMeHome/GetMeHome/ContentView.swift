@@ -19,36 +19,57 @@ struct ContentView: View {
     @State private var selectedService = ""
     @State private var isLoading = false
     @State private var tapped = false
-    @State private var showAdvancedOptions = false
     @State private var selectedTime = Date()
+    
+    
+    //    Sheet logic
+    @State private var presentSheet = false
+    @State private var minTimeToggle = false
     
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
     var viewModel = ViewModel()
-
+    
     
     var body: some View {
         NavigationStack(path: $path) {
-            Text("GetMeHome")
-                .font(.largeTitle)
-                .fontWeight(.heavy)
-            
             HStack {
                 dateAndLocationPickers
                     .padding(.bottom, 10)
+                    .navigationTitle("GetMeHome")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .sheet(isPresented:  $presentSheet) {
+                        print("Sheet dismissed!")
+                        print(selectedTime)
+                    } content: {
+                        
+                        NavigationStack{
+                            SheetView(minTimeToggle: $minTimeToggle, presentSheet: $presentSheet)
+                        }
+                        
+                        
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            toolBarHeader
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            toolBarSettingsIcon
+                        }
+                    }
             }
             
             if isLoading {
                 LoadingView()
             } else {
                 TripListView(trips: trips, clickedSearch: $clickedSearch)
-                   
+                
             }
         }
         .ignoresSafeArea()
         .padding()
-        .navigationTitle("GetMeHome")
+        
     }
 }
 
@@ -67,22 +88,23 @@ extension ContentView {
             
             Button("Search") {
                 
-//           Converting Date From:  2023-11-24 21:51:35 +0000
-//           To: 11-24-2023
+                //           Converting Date From:  2023-11-24 21:51:35 +0000
+                //           To: 11-24-2023
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM-dd-yyyy"
                 let newDateString = formatter.string(from: selectedDate)
-            
-//                fix on change of date not working
+                
+                //                fix on change of date not working
                 
                 Task {
                     isLoading = true
                     do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (showAdvancedOptions ? selectedTime : Date.init(timeIntervalSince1970: 0)))
+                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (minTimeToggle ? selectedTime : Date.init(timeIntervalSince1970: 0)))
+                        print(selectedTime)
                         isLoading = false
                         clickedSearch = true
                         
-//
+                        //
                     } catch TripError.invalidURL {
                         print("invalid url")
                         isLoading = false
@@ -132,7 +154,7 @@ extension ContentView {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.purple)
-               
+                
                 Menu(selectedArrival) {
                     Button("Ithaca") {
                         selectedArrival = "Ithaca"
@@ -147,21 +169,53 @@ extension ContentView {
             .padding()
             searchAndBusPicker
             
-            if showAdvancedOptions {
+            if minTimeToggle {
                 DatePicker("Pick Earilest Bus Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
                     .tint(.purple)
             }
-            else {
-                Button ("Show Advanced Options") {
-                    showAdvancedOptions = true
+        }
+    }
+    
+    private var toolBarHeader: some View {
+        Text("GetMeHome")
+            .font(.largeTitle)
+            .fontWeight(.heavy)
+    }
+    
+    private var toolBarSettingsIcon: some View {
+        Button {
+            presentSheet = true
+        } label: {
+            Image(systemName: "gear")
+        }
+        .tint(.purple)
+    }
+}
+
+struct SheetView: View {
+    
+    @Binding var minTimeToggle: Bool
+    @Binding var presentSheet: Bool
+    
+    var body: some View {
+        VStack{
+            Toggle("Set Earliest Departure Time", isOn: $minTimeToggle)
+                .tint(.purple)
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Cancel"){
+                    presentSheet = false
                 }
                 .tint(.purple)
-                .buttonStyle(.bordered)
             }
         }
     }
 }
-
 
 
 
