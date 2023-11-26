@@ -80,7 +80,6 @@ import SwiftUI
             print(error.localizedDescription)
             throw TripError.invalidData
         }
-
     }
 }
 
