@@ -155,6 +155,8 @@ extension ContentView {
                 Button ("Show Advanced Options") {
                     showAdvancedOptions = true
                 }
+                .tint(.purple)
+                .buttonStyle(.bordered)
             }
         }
     }
