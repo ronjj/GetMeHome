@@ -236,7 +236,7 @@ def get_all_min_time(date, dep_loc, arr_loc, min_time):
     trips2 = []
     print(f"length of trips before: {len(trips)}")
     for trip in trips:
-        if datetime.strptime(trip.departure_time, "%I:%M%p") < datetime.strptime(min_time, "%I:%M%p"):
+        if datetime.strptime(trip.departure_time, "%I:%M%p") > datetime.strptime(min_time, "%I:%M%p"):
             trips2.append(trip)
     trips2.sort(key=lambda x: x.price)
 
