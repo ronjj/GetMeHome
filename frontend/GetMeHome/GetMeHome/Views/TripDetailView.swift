@@ -29,6 +29,13 @@ struct TripDetailView: View {
                 Section("Destination") {
                     Text("\(trip.arrivalLocation)")
                 }
+                
+                if trip.busService == "FlixBus" {
+                    Section("Intermediate Stops") {
+                        Text("\(trip.intermediateStops)")
+                    }
+                }
+                
                 Section("Bus Service") {
                     Text("\(trip.busService)")
                 }
