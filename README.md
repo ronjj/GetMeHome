@@ -1,8 +1,13 @@
 # **GetMeHome**
 
-To make it easier to get home on school breaks, I developed GetMeHome, a fullstack iOS project that aggregates trip information across MegaBus, FlixBus, and OurBus. Users enter in a travel date, departure city, and destination city and are returned a list of trips from each service sorted in increasing order of price.
+To make it easier to get home on school breaks, I developed GetMeHome, a fullstack iOS project that aggregates trip information across MegaBus, FlixBus, and OurBus. Users enter in a travel date, departure city, and destination city and are returned a list of trips from each service sorted in increasing order of price. Users can further refine their search by selecting the earliest departure time, latest arrival time, or neither.
 
-- V1 was built in a few days during my Thanksgiving break. Plan to expand locations, backend routes, and add a more robust front end in the future.
+- V1: Built in 5 days during my Thanksgiving break.
+- V2 Plans:
+
+  - Clean up backend and front end code
+  - Tests
+  - Alerts for failed requests and a description.
 
 - A sample response can be found in the file sample_response_v1.json
 
@@ -15,6 +20,16 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 **Frontend**:
 
 - Technologies: Swift, SwiftUI
+- Features:
+
+  - Select date of trip, origin, and destination
+  - Select a bus service: MegaBus, OurBus, FlixBus, or all
+  - Filter based on earliest departure, latest arrival, or neither
+  - View intermediate stops and full route the bus will take (Mega and FlixBus) currently
+  - Get link to buy ticket from respective services website
+
+  - \*Trips that involve transferring buses are automatically skipped (FlixBus)
+  - \*Trips that are not direct from city to city are automatically skipped (OurBus)
 
 **What I Learned**:
 
@@ -26,6 +41,10 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 **Challenges**:
 
 - Had to scrape HTML for OurBus information then convert it to JSON
+- Working with data from with three different data services and consolidating them into one data type
+- Deciding when to handle logic on the frontend or backend. I ended up choosing the frontend more often because it would reduce the complexity
+  my routes and API
+- MegaBus's API was down for almost an entire day during the development of V1
 
 **Current Screenshots of App and Backend**
 
