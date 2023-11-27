@@ -57,7 +57,7 @@ extension TripListView {
     private var multipleResultsList: some View {
 //        Force unwrapping since this code is inside an if-let for trips array
         List {
-            Text("Total Options: \(trips!.count)")
+            Text("\(trips!.count) Trips")
             Section("Cheapest Trip") {
                 ForEach(trips![...0] , id: \.randomNum) { trip in
                     NavigationLink(value: trip) {

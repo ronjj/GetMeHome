@@ -48,16 +48,6 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 **Current Screenshots of App and Backend**
 
-<img src="/screenshots/ss_1.png" alt="home screen" title="home screen" height = "694" width = "321">
-
-<img src="/screenshots/ss_2.png" alt="calendar" title="calendar" height = "694" width = "321">
-
-<img src="/screenshots/ss_3.png" alt="loading" title="loading" height = "694" width = "321">
-
-<img src="/screenshots/ss_4.png" alt="list of results " title="list of results" height = "694" width = "321">
-
-<img src="/screenshots/ss_5.png" alt="list of results" title="list of results" height = "694" width = "321">
-
-<img src="/screenshots/ss_6.png" alt="detail view" title="detail view" height = "694" width = "321">
+<img src="/screenshots/ss_1.png" width="23%"></img> <img src="/screenshots/ss_2.png" width="23%"></img> <img src="/screenshots/ss_3.png" width="23%"></img> <img src="/screenshots/ss_4.png" width="23%"></img> <img src="/screenshots/ss_5.png" width="23%"></img> <img src="/screenshots/ss_6.png" width="23%"></img> <img src="/screenshots/ss_7.png" width="23%"></img> <img src="/screenshots/ss_8.png" width="23%"></img>
 
 <img src="/screenshots/backend_response_v1.png" alt="backend response" title="backend response v1" height = "30" width = "500">
