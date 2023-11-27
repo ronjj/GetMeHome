@@ -46,8 +46,6 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
   my routes and API
 - MegaBus's API was down for almost an entire day during the development of V1
 
-**Current Screenshots of App and Backend**
+**Current Screenshots of App**
 
 <img src="/screenshots/ss_1.png" width="23%"></img> <img src="/screenshots/ss_2.png" width="23%"></img> <img src="/screenshots/ss_3.png" width="23%"></img> <img src="/screenshots/ss_4.png" width="23%"></img> <img src="/screenshots/ss_5.png" width="23%"></img> <img src="/screenshots/ss_6.png" width="23%"></img> <img src="/screenshots/ss_7.png" width="23%"></img> <img src="/screenshots/ss_8.png" width="23%"></img>
-
-<img src="/screenshots/backend_response_v1.png" alt="backend response" title="backend response v1" height = "30" width = "500">
