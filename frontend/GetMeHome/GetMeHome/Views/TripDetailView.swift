@@ -11,12 +11,13 @@ struct TripDetailView: View {
     
     var trip: Trip
     var viewModel = ViewModel()
+    @State private var date = Date()
     
     var body: some View {
         VStack {
             List {
                 Section("Date") {
-                    Text("\(trip.date)")
+                    Text(date, style: .date)
                 }
                 Section("Time") {
                     Text("\(trip.departureTime) - \(trip.arrivalTime)")
@@ -48,6 +49,16 @@ struct TripDetailView: View {
                     Text("\(trip.busService)")
                 }
             }
+            .onAppear(perform: {
+                let dateFormatter = DateFormatter()
+//               Get a Date type from trip.date string
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateDate = dateFormatter.date(from:trip.date)!
+//               Convert date to a Date object with a more readable format
+                dateFormatter.dateFormat = "MMMM d, yyyy"
+                let dateString = dateFormatter.string(from: dateDate)
+                date = dateFormatter.date(from: dateString)!
+            })
             .listStyle(.plain)
             
             Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
