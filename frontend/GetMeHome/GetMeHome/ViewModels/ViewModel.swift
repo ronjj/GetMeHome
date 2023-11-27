@@ -83,7 +83,6 @@ import SwiftUI
                     let minTimeString = formatter.string(from: minTime)
                     results_list = results.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
                     print("results after: \(results_list.count)")
-//                Else, return all results
                 } else {
                     results_list = try decoder.decode([Trip].self, from: data)
                 }
