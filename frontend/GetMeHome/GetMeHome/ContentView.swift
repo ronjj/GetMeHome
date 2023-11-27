@@ -11,24 +11,21 @@ struct ContentView: View {
     
     @State private var path = NavigationPath()
     
-    //    User Selections
+//    User Selections
     @State private var selectedDate = Date()
-    @State private var selectedDeparture = "Ithaca"
-    @State private var selectedArrival = "New York"
-    @State private var clickedSearch = false
     @State private var selectedService = ""
-    @State private var isLoading = false
-    @State private var tapped = false
-    
-    
-//    selectedTime = earlestDepartureTime
-    @State private var selectedTime = Date()
+    @State private var selectedDeparture = "Ithaca"
+    @State private var earliestDepartureTime = Date()
+    @State private var earliestDepartureTimeToggle = false
+    @State private var selectedArrival = "New York"
     @State private var latestArrivalTime = Date()
-    @State private var presentSheet = false
-    @State private var minTimeToggle = false
     @State private var latestArrivalTimeToggle = false
+    @State private var switchOriginAndDestinationButtonClicked = false
+    @State private var clickedSearch = false
+    @State private var isLoading = false
+    @State private var presentSheet = false
     
-    
+
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
     var viewModel = ViewModel()
@@ -45,7 +42,7 @@ struct ContentView: View {
                         print("Sheet dismissed!")
                     } content: {
                         NavigationStack{
-                            SheetView(minTimeToggle: $minTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
+                            SheetView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
                         }
                     }
                     .toolbar {
@@ -72,7 +69,6 @@ struct ContentView: View {
 
 
 extension ContentView {
-    
     private var searchAndBusPicker: some View {
         HStack {
             Picker("Choose A Bus Service", selection: $selectedService) {
@@ -82,25 +78,19 @@ extension ContentView {
             }
             .pickerStyle(.segmented)
             
-            
             Button("Search") {
-                
-                //           Converting Date From:  2023-11-24 21:51:35 +0000
-                //           To: 11-24-2023
+//           Converting Date From:  2023-11-24 21:51:35 +0000
+//           To: 11-24-2023
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM-dd-yyyy"
                 let newDateString = formatter.string(from: selectedDate)
                 
-                //                fix on change of date not working
-                
                 Task {
                     isLoading = true
                     do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (minTimeToggle ? selectedTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
                         isLoading = false
                         clickedSearch = true
-                        
-                        //
                     } catch TripError.invalidURL {
                         print("invalid url")
                         isLoading = false
@@ -142,7 +132,7 @@ extension ContentView {
                     tempLocation = selectedDeparture
                     selectedDeparture = selectedArrival
                     selectedArrival = tempLocation
-                    tapped.toggle()
+                    switchOriginAndDestinationButtonClicked.toggle()
                     
                 } label: {
                     Image(systemName: "arrow.left.arrow.right")
@@ -165,13 +155,13 @@ extension ContentView {
             .padding()
             searchAndBusPicker
             
-            if minTimeToggle {
-                DatePicker("Pick Earilest Departure Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+            if earliestDepartureTimeToggle {
+                DatePicker("Earilest Departure Time", selection: $earliestDepartureTime, displayedComponents: .hourAndMinute)
                     .tint(.purple)
             }
             
             if latestArrivalTimeToggle {
-                DatePicker("Pick Latest Arrival Time", selection: $latestArrivalTime, displayedComponents: .hourAndMinute)
+                DatePicker("Latest Arrival Time", selection: $latestArrivalTime, displayedComponents: .hourAndMinute)
                     .tint(.purple)
             }
         }
@@ -193,33 +183,7 @@ extension ContentView {
     }
 }
 
-struct SheetView: View {
-    
-    @Binding var minTimeToggle: Bool
-    @Binding var presentSheet: Bool
-    @Binding var latestArrivalTimeToggle: Bool
-    
-    var body: some View {
-        VStack{
-            Toggle("Set Earliest Departure Time", isOn: $minTimeToggle)
-                .tint(.purple)
-            Toggle("Set Latest Arrival Time", isOn: $latestArrivalTimeToggle)
-                .tint(.purple)
-            Spacer()
-        }
-        .padding()
-        .navigationTitle("Settings")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Close"){
-                    presentSheet = false
-                }
-                .tint(.purple)
-            }
-        }
-    }
-}
+
 
 
 

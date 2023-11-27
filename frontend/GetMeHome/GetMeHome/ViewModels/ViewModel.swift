@@ -18,12 +18,9 @@ import SwiftUI
     func calculateDateRange() -> Date {
         let currentDate = Date()
         var dateComponent = DateComponents()
-        
-        dateComponent.month = 2
-        
+        dateComponent.month = 1
+        dateComponent.day = 7
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
-        
-        //        print("Current date is: \(currentDate)")
         return futureDate!
     }
     
@@ -46,22 +43,17 @@ import SwiftUI
             throw TripError.invalidReponse
         }
         
-
         var results_list = [Trip]()
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-            
             if latestArrival != Date.init(timeIntervalSince1970: 0) && minTime != Date.init(timeIntervalSince1970: 0) {
-                print("both are enabled!")
                 let formatter = DateFormatter()
                 let results = try decoder.decode([Trip].self, from: data)
                 formatter.dateFormat = "hh:mma"
                 
                 print("results before: \(results.count)")
-                
-             
                 let minTimeString = formatter.string(from: minTime)
                 results_list = results.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
                 
@@ -79,7 +71,6 @@ import SwiftUI
                 let latestArrivalTimeString = formatter.string(from: latestArrival)
                 results_list = results.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
                 print("results after: \(results_list.count)")
-//                Else, return all results
             }
             
 //              TimeIntervalSince1970 = 0 is basically the only way to set a date = 0

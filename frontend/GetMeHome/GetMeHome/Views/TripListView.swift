@@ -13,8 +13,7 @@ struct TripListView: View {
     @Binding var clickedSearch: Bool
     
     var body: some View {
-        
-        // If Able to Unwrap trips
+// If Able to Unwrap trips
         if let trips {
             if trips.count > 2 {
                 multipleResultsList
@@ -24,31 +23,17 @@ struct TripListView: View {
             }
             else {
                 Spacer()
-                VStack(alignment: .center) {
-                    Text("No Results Found :( ")
-                        .bold()
-                        .font(.headline)
-                    Text("Check Again Later")
-                }
+                noResultsFound
                 Spacer()
             }
         }
         
-        // Trips Array is Emtpy
+// Trips Array is Emtpy
         else {
             // User did not search yet
-            if !clickedSearch {
-            }
                 Spacer()
-                VStack(alignment: .center) {
-                    Text("Search For Trips")
-                        .bold()
-                        .font(.headline)
-                    Text("Select A Date, Bus Service, Origin, and Destination")
-                        .multilineTextAlignment(.center)
-                }
+                searchForTrips
                 Spacer()
-            
         }
     }
 }
@@ -90,6 +75,25 @@ extension TripListView {
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
             TripDetailView(trip: trip)
+        }
+    }
+    
+    private var noResultsFound: some View {
+        VStack(alignment: .center) {
+            Text("No Results Found :( ")
+                .bold()
+                .font(.headline)
+            Text("Check again later or adjust search settings")
+        }
+    }
+    
+    private var searchForTrips: some View {
+        VStack(alignment: .center) {
+            Text("Search For Trips")
+                .bold()
+                .font(.headline)
+            Text("Select A Date, Bus Service, Origin, and Destination")
+                .multilineTextAlignment(.center)
         }
     }
 }
