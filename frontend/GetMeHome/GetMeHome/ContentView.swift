@@ -19,12 +19,14 @@ struct ContentView: View {
     @State private var selectedService = ""
     @State private var isLoading = false
     @State private var tapped = false
+    
+    
+//    selectedTime = earlestDepartureTime
     @State private var selectedTime = Date()
-    
-    
-    //    Sheet logic
+    @State private var latestArrivalTime = Date()
     @State private var presentSheet = false
     @State private var minTimeToggle = false
+    @State private var latestArrivalTimeToggle = false
     
     
     //    ViewModel and Query Info
@@ -41,14 +43,10 @@ struct ContentView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .sheet(isPresented:  $presentSheet) {
                         print("Sheet dismissed!")
-                        print(selectedTime)
                     } content: {
-                        
                         NavigationStack{
-                            SheetView(minTimeToggle: $minTimeToggle, presentSheet: $presentSheet)
+                            SheetView(minTimeToggle: $minTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
                         }
-                        
-                        
                     }
                     .toolbar {
                         ToolbarItem(placement: .principal) {
@@ -69,7 +67,6 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
         .padding()
-        
     }
 }
 
@@ -99,8 +96,7 @@ extension ContentView {
                 Task {
                     isLoading = true
                     do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (minTimeToggle ? selectedTime : Date.init(timeIntervalSince1970: 0)))
-                        print(selectedTime)
+                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (minTimeToggle ? selectedTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
                         isLoading = false
                         clickedSearch = true
                         
@@ -170,7 +166,12 @@ extension ContentView {
             searchAndBusPicker
             
             if minTimeToggle {
-                DatePicker("Pick Earilest Bus Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                DatePicker("Pick Earilest Departure Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                    .tint(.purple)
+            }
+            
+            if latestArrivalTimeToggle {
+                DatePicker("Pick Latest Arrival Time", selection: $latestArrivalTime, displayedComponents: .hourAndMinute)
                     .tint(.purple)
             }
         }
@@ -196,10 +197,13 @@ struct SheetView: View {
     
     @Binding var minTimeToggle: Bool
     @Binding var presentSheet: Bool
+    @Binding var latestArrivalTimeToggle: Bool
     
     var body: some View {
         VStack{
             Toggle("Set Earliest Departure Time", isOn: $minTimeToggle)
+                .tint(.purple)
+            Toggle("Set Latest Arrival Time", isOn: $latestArrivalTimeToggle)
                 .tint(.purple)
             Spacer()
         }

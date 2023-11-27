@@ -32,7 +32,7 @@ import SwiftUI
         return queryMap[string] ?? "all"
     }
     
-    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String, minTime: Date) async throws -> [Trip] {
+    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String, minTime: Date, latestArrival: Date) async throws -> [Trip] {
 //        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
@@ -51,10 +51,40 @@ import SwiftUI
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                "hh:mma"
+            
+            
+            if latestArrival != Date.init(timeIntervalSince1970: 0) && minTime != Date.init(timeIntervalSince1970: 0) {
+                print("both are enabled!")
+                let formatter = DateFormatter()
+                let results = try decoder.decode([Trip].self, from: data)
+                formatter.dateFormat = "hh:mma"
+                
+                print("results before: \(results.count)")
+                
+             
+                let minTimeString = formatter.string(from: minTime)
+                results_list = results.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
+                
+                let latestArrivalTimeString = formatter.string(from: latestArrival)
+                results_list = results_list.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
+                print("results after: \(results_list.count)")
+                
+            }
+            
+            else if latestArrival != Date.init(timeIntervalSince1970: 0) {
+                let formatter = DateFormatter()
+                let results = try decoder.decode([Trip].self, from: data)
+                formatter.dateFormat = "hh:mma"
+                print("results before: \(results.count)")
+                let latestArrivalTimeString = formatter.string(from: latestArrival)
+                results_list = results.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
+                print("results after: \(results_list.count)")
+//                Else, return all results
+            }
+            
 //              TimeIntervalSince1970 = 0 is basically the only way to set a date = 0
 //            If a min time was selected, filter results
-                if minTime != Date.init(timeIntervalSince1970: 0) {
+                else if minTime != Date.init(timeIntervalSince1970: 0) {
                     let formatter = DateFormatter()
                     let results = try decoder.decode([Trip].self, from: data)
                     formatter.dateFormat = "hh:mma"
