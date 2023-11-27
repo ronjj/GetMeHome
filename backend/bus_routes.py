@@ -24,7 +24,6 @@ Output:
 Returns a list of Trip objects in ascending order of price
 """
 
-
 class Trip:
     def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_count=0, intermediate_stations = []):
         self.random_num = random_num

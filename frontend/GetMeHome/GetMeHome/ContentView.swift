@@ -25,11 +25,9 @@ struct ContentView: View {
     @State private var isLoading = false
     @State private var presentSheet = false
     
-
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
     var viewModel = ViewModel()
-    
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -108,7 +106,7 @@ extension ContentView {
             }
             .buttonStyle(.bordered)
             .tint(.indigo)
-            .disabled(selectedDeparture == selectedArrival || selectedService == "")
+            .disabled(selectedDeparture == selectedArrival || selectedService == "" || isLoading)
         }
     }
     
