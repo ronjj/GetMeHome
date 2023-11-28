@@ -49,4 +49,5 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 **Current Screenshots of App**
 
 Youtube Video Demo Link: https://youtu.be/nQvyMH7IZIA
+
 <img src="/screenshots/ss_1.png" width="23%"></img> <img src="/screenshots/ss_2.png" width="23%"></img> <img src="/screenshots/ss_3.png" width="23%"></img> <img src="/screenshots/ss_4.png" width="23%"></img> <img src="/screenshots/ss_5.png" width="23%"></img> <img src="/screenshots/ss_6.png" width="23%"></img> <img src="/screenshots/ss_7.png" width="23%"></img> <img src="/screenshots/ss_8.png" width="23%"></img>
