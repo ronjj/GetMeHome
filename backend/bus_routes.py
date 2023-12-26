@@ -43,10 +43,10 @@ class Trip:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
     
 
-def format_date(date, bus_service):
+def format_date(search_date, bus_service):
     # Checking for '-' between dates
     try:
-        date_info = date.split('-')
+        date_info = search_date.split('-')
     except:
         raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
    
@@ -57,8 +57,26 @@ def format_date(date, bus_service):
     if len(month) != 2 or len(day) != 2 or len(year) != 4:
         raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
 
-    if len(date) != 10:
+    if len(search_date) != 10:
         raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+    
+    # Check that date is not in past
+    # TODO: make sure date is not more than a month out
+
+    # search_date_string = f"{month}/{day}/{year[2:]}"
+    # current_date = datetime.now()
+    # current_date_string = current_date.strftime("%x")
+
+
+    search_date_string = datetime(int(year),int(month),int(day))
+    
+    current_date_day = datetime.now().day
+    current_date_month = datetime.now().month
+    current_date_year = datetime.now().year
+    current_date_string = datetime(current_date_year, current_date_month, current_date_day)
+
+    if not current_date_string <= search_date_string:
+        raise Exception("Cannot search for past dates. Must search for current or future date")
     
     if bus_service == "flix":
         return f"{day}.{month}.{year}"
@@ -69,7 +87,7 @@ def format_date(date, bus_service):
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
-    proper_date = format_date(date=date, bus_service="our")
+    proper_date = format_date(search_date=date, bus_service="our")
 
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
@@ -142,7 +160,7 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         "123":"New York",
         "new_york": "123"
     }
-    proper_date = format_date(date=date, bus_service="mega")
+    proper_date = format_date(search_date=date, bus_service="mega")
 
     ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={mega_location_id[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={mega_location_id[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
     mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
@@ -203,7 +221,7 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
     }
    
-    proper_date = format_date(date=date, bus_service="flix")
+    proper_date = format_date(search_date=date, bus_service="flix")
     link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
     flix_request = requests.get(link)
     flix_response = json.loads(flix_request.text)
