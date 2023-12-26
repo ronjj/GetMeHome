@@ -5,6 +5,8 @@ import urllib
 import jsonpickle 
 from datetime import datetime
 from random import randrange
+import exceptions
+
 """
 Bus Routes:
 
@@ -48,35 +50,27 @@ def format_date(search_date, bus_service):
     try:
         date_info = search_date.split('-')
     except:
-        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+        raise exceptions.IncorrectDateFormatException
    
     month = date_info[0]
     day = date_info[1]
     year = date_info[2]
 
     if len(month) != 2 or len(day) != 2 or len(year) != 4:
-        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+        raise exceptions.IncorrectDateFormatException
 
     if len(search_date) != 10:
-        raise Exception("Date formatting incorrect. Format is MM-DD-YYYY")
+        raise exceptions.IncorrectDateFormatException
     
     # Check that date is not in past
-    # TODO: make sure date is not more than a month out
-
-    # search_date_string = f"{month}/{day}/{year[2:]}"
-    # current_date = datetime.now()
-    # current_date_string = current_date.strftime("%x")
-
-
     search_date_string = datetime(int(year),int(month),int(day))
-    
     current_date_day = datetime.now().day
     current_date_month = datetime.now().month
     current_date_year = datetime.now().year
     current_date_string = datetime(current_date_year, current_date_month, current_date_day)
 
     if not current_date_string <= search_date_string:
-        raise Exception("Cannot search for past dates. Must search for current or future date")
+        raise exceptions.PastDateException
     
     if bus_service == "flix":
         return f"{day}.{month}.{year}"
