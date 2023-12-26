@@ -80,11 +80,26 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
     web = urllib.request.urlopen(api_and_ticket_link)
     soup = BeautifulSoup(web.read(), 'lxml')
 
-    # Get the 35th script tag as a string, split by new line, get var default search line which is line 44, 
-    # create json starting from character 21
-    # Have to do this since the request returns HTML and not JSON
-    data  = soup.find_all("script")[35].string.splitlines()[44][21:-2]
-    loaded_data = json.loads(data)['searchedRouteList']['list']
+    # Code to find script tag with variable defaultSearch since this contains the trips
+    # 1. Find all script tags in response and go through each until I find the tag containing "var defaultSearch" 
+    # 2. Go through the lines of the found tag and get the exact line of defaultSearch
+    # 3. Remove extra characters and spacing to make it into JSON -> [21:-2]
+
+    data = soup.find_all("script")
+    for tag in data:
+        # check if tag is non empty
+        if tag.string:
+            # check script tag for defaultSearch
+            if "var defaultSearch" in tag.string:
+                lines = tag.string.splitlines()
+                for line in lines:
+                    # get the exact defaultSearch line as a string
+                    if "var defaultSearch" in str(line):
+                        parsed_trips = line[21:-2]
+                        break
+    
+    # Need to ignore first half of JSON which is promotional codes and just get trips
+    loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
 
     for index in range(len(loaded_data)):
         try:

@@ -22,22 +22,19 @@ def get_trips(date, origin, destination):
 # OurBus
 @app.route('/our/<date>/<origin>/<destination>', methods=["GET"])
 def get_our_bus_trips(date, origin, destination):
-    list_of_trips = []
-    trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=list_of_trips, all_or_single=False)
+    trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
     return trips
 
 # Mega
 @app.route('/mega/<date>/<origin>/<destination>', methods=["GET"])
 def get_mega_trips(date, origin, destination):
-    list_of_trips = []
-    trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=list_of_trips, all_or_single=False)
+    trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
     return trips
 
 # Flix
 @app.route('/flix/<date>/<origin>/<destination>', methods=["GET"])
 def get_flix_trips(date, origin, destination):
-    list_of_trips = []
-    trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=list_of_trips, all_or_single=False)
+    trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
     return trips
 
 # Run Server
