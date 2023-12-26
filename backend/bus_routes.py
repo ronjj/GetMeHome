@@ -114,32 +114,44 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
     loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
 
     for index in range(len(loaded_data)):
-        try:
-            journey = loaded_data[index]
-
-            # skip sold out bus or non direct buses
-            if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "False":
-                continue
-            else:
-                trip_date = journey['travel_date']
-                price = journey['pass_amount']
-                arr_time = journey['last_stop_eta']
-                arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-                arr_time_12h = arr_time_12h.strftime("%I:%M %p")
-                arr_location = journey['dest_landmark']
-                departure_time = journey['start_time']
-                dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-                dep_time_12h = dep_time_12h.strftime("%I:%M %p")
-                departure_location = journey['src_landmark']
-                bus = "OurBus"
-                non_stop = str(journey['non_stop'])
-                random_num = randrange(10000)
-
-                newTrip = Trip(intermediate_stations=[],ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-                return_to.append(newTrip)
-                return_to.sort(key=lambda x: x.price)
-        except:
+        journey = loaded_data[index]
+        # skip sold out bus or non direct buses
+        if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "False":
             continue
+        else:
+            trip_date = journey['travel_date']
+            price = journey['pass_amount']
+            arr_time = journey['last_stop_eta']
+            arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+            arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+            arr_location = journey['dest_landmark']
+            departure_time = journey['start_time']
+            dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+            dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+            departure_location = journey['src_landmark']
+            bus = "OurBus"
+            non_stop = str(journey['non_stop'])
+            random_num = randrange(10000)
+            route_id = journey['route_id']
+            try:
+                intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
+                intermediate_stations_request = requests.get(intermediate_stations_link)
+                intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                intermediate_stations_info = intermediate_stations_response["stopList"]
+                intermediate_count = len(intermediate_stations_info)
+            
+                intermediate_stations_names = []
+                for index in range(0,intermediate_count):
+                    city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
+                    intermediate_stations_names.append(city_and_location)
+            except:
+                intermediate_count = 0
+                intermediate_stations_names = []
+
+            newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count, ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+            return_to.append(newTrip)
+            return_to.sort(key=lambda x: x.price)
+        
             
     if all_or_single:
         return return_to
@@ -178,18 +190,23 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
         departure_location = journey['origin']['stopName']
         bus = "MegaBus"
         random_num = randrange(10000)
-
         journey_id = journey["journeyId"]
-        intermediate_stations_link = f"https://us.megabus.com/journey-planner/api/itinerary?journeyId={journey_id}"
-        intermediate_stations_request = requests.get(intermediate_stations_link)
-        intermediate_stations_response = json.loads(intermediate_stations_request.text)
-        intermediate_stations_info = intermediate_stations_response["scheduledStops"]
-        intermediate_count = len(intermediate_stations_info)
-        
-        intermediate_stations_names = []
-        for index in range(0,len(intermediate_stations_info)):
-            city_and_location = f"{index+1}. {intermediate_stations_info[index]['cityName']} \n{intermediate_stations_info[index]['location']}"
-            intermediate_stations_names.append(city_and_location)
+
+        # Make request to get intermediate stop information
+        try:
+            intermediate_stations_link = f"https://us.megabus.com/journey-planner/api/itinerary?journeyId={journey_id}"
+            intermediate_stations_request = requests.get(intermediate_stations_link)
+            intermediate_stations_response = json.loads(intermediate_stations_request.text)
+            intermediate_stations_info = intermediate_stations_response["scheduledStops"]
+            intermediate_count = len(intermediate_stations_info)
+            
+            intermediate_stations_names = []
+            for index in range(0,intermediate_count):
+                city_and_location = f"{index+1}. {intermediate_stations_info[index]['cityName']} \n{intermediate_stations_info[index]['location']}"
+                intermediate_stations_names.append(city_and_location)
+        except:
+            intermediate_count = 0
+            intermediate_stations_names = []
 
         newTrip = Trip(intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
         return_to.append(newTrip)
@@ -243,18 +260,22 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
             bus_service = 'FlixBus'
             price = flix_info[uid]['price']['total']
             random_num = randrange(10000)
-            intermediate_count = flix_info[uid]['intermediate_stations_count']
 
-            flix_id_parts = uid.split(":")
-            intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
-            intermediate_stations_request = requests.get(intermediate_stations_link)
-            intermediate_stations_response = json.loads(intermediate_stations_request.text)
-            intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
-            intermediate_count = len(intermediate_stations_info)
-            
-            intermediate_stations_names = []
-            for index in range(0,len(intermediate_stations_info)):
-                intermediate_stations_names.append(intermediate_stations_info[index]['name'])
+            # Make request to get intermediate stop information
+            try:
+                intermediate_count = flix_info[uid]['intermediate_stations_count']
+                flix_id_parts = uid.split(":")
+                intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+                intermediate_stations_request = requests.get(intermediate_stations_link)
+                intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
+                intermediate_count = len(intermediate_stations_info)
+                intermediate_stations_names = []
+                for index in range(0,len(intermediate_stations_info)):
+                    intermediate_stations_names.append(intermediate_stations_info[index]['name'])
+            except:
+                intermediate_stations_names = []
+                intermediate_count = 0
 
             newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
 
