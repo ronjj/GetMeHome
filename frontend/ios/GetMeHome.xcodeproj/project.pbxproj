@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		540D5BA62B142A7200C43F39 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540D5BA52B142A7200C43F39 /* SheetView.swift */; };
+		540D5BA62B142A7200C43F39 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540D5BA52B142A7200C43F39 /* SettingsView.swift */; };
 		543928832B10EDA400C5E609 /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928822B10EDA400C5E609 /* TripRowView.swift */; };
 		543928852B10EDD200C5E609 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928842B10EDD200C5E609 /* Trip.swift */; };
 		543928872B1100B100C5E609 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928862B1100B100C5E609 /* TripDetailView.swift */; };
@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		540D5BA52B142A7200C43F39 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		540D5BA52B142A7200C43F39 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		543928822B10EDA400C5E609 /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		543928842B10EDD200C5E609 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		543928862B1100B100C5E609 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
 				548D3CFF2B12460300E9067F /* TripListView.swift */,
 				548D3D012B124DAC00E9067F /* LoadingView.swift */,
-				540D5BA52B142A7200C43F39 /* SheetView.swift */,
+				540D5BA52B142A7200C43F39 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -187,7 +187,7 @@
 			files = (
 				548D3D002B12460300E9067F /* TripListView.swift in Sources */,
 				543928872B1100B100C5E609 /* TripDetailView.swift in Sources */,
-				540D5BA62B142A7200C43F39 /* SheetView.swift in Sources */,
+				540D5BA62B142A7200C43F39 /* SettingsView.swift in Sources */,
 				543928892B11199B00C5E609 /* MockData.swift in Sources */,
 				543928852B10EDD200C5E609 /* Trip.swift in Sources */,
 				543928832B10EDA400C5E609 /* TripRowView.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SheetView: View {
+struct SettingsView: View {
     
     @Binding var minTimeToggle: Bool
     @Binding var presentSheet: Bool

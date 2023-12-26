@@ -14,47 +14,46 @@ struct TripDetailView: View {
     @State private var date = Date()
     
     var body: some View {
-        VStack {
-            List {
-                Section("Date") {
-                    Text(date, style: .date)
-                }
-                Section("Time") {
-                    Text("\(trip.departureTime) - \(trip.arrivalTime)")
-                }
-                Section("Price") {
-                    Text("$\(trip.price, specifier: "%.2f")")
-                }
-                Section("Departure") {
-                    Text("\(trip.departureLocation)")
-                }
-                Section("Destination") {
-                    Text("\(trip.arrivalLocation)")
-                }
-                if trip.busService == "FlixBus" || trip.busService == "MegaBus" {
-                    Section("Intermediate Stops") {
-                        Text("\(trip.intermediateCount - 2)")
+        
+        List {
+            Section("Date") {
+                Text(date, style: .date)
+            }
+            Section("Time") {
+                Text("\(trip.departureTime) - \(trip.arrivalTime)")
+            }
+            Section("Price") {
+                Text("$\(trip.price, specifier: "%.2f")")
+            }
+            Section("Departure") {
+                Text("\(trip.departureLocation)")
+            }
+            Section("Destination") {
+                Text("\(trip.arrivalLocation)")
+            }
+            
+            Section("Intermediate Stops") {
+                Text("\(trip.intermediateCount - 2)")
+            }
+            
+            Section("Bus Destinations") {
+                VStack(alignment: .leading) {
+                    ForEach(trip.intermediateStations, id: \.self) { station in
+                        Text(station)
                     }
-                    
-                    Section("Bus Destinations") {
-                        VStack(alignment: .leading) {
-                            ForEach(trip.intermediateStations, id: \.self) { station in
-                                Text(station)
-                            }
-                        }
-                    }
-                }
-                
-                Section("Bus Service") {
-                    Text("\(trip.busService)")
                 }
             }
+            
+            Section("Bus Service") {
+                Text("\(trip.busService)")
+            }
+            .listStyle(.plain)
             .onAppear(perform: {
                 let dateFormatter = DateFormatter()
-//               Get a Date type from trip.date string
+                //               Get a Date type from trip.date string
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateDate = dateFormatter.date(from:trip.date)!
-//               Convert date to a Date object with a more readable format
+                //               Convert date to a Date object with a more readable format
                 dateFormatter.dateFormat = "MMMM d, yyyy"
                 let dateString = dateFormatter.string(from: dateDate)
                 date = dateFormatter.date(from: dateString)!
@@ -67,5 +66,6 @@ struct TripDetailView: View {
         }
     }
 }
+
 
 

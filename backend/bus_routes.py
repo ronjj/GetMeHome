@@ -280,8 +280,10 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
                     intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
                     intermediate_count = len(intermediate_stations_info)
                     intermediate_stations_names = []
-                    for index in range(0,len(intermediate_stations_info)):
-                        intermediate_stations_names.append(intermediate_stations_info[index]['name'])
+                    for index in range(0,intermediate_count):
+                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']} "
+                        intermediate_stations_names.append(city_name)
+
                 except:
                     intermediate_stations_names = []
                     intermediate_count = 0

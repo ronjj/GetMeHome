@@ -40,7 +40,7 @@ struct ContentView: View {
                         print("Sheet dismissed!")
                     } content: {
                         NavigationStack{
-                            SheetView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
+                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
                         }
                     }
                     .toolbar {
