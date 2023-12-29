@@ -123,7 +123,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         for index in range(len(discount_code_loaded_data)):
             discount_code = discount_code_loaded_data[index]
             discount_code_name = discount_code['voucher_name']
-            discount_codes.append(discount_code_name)
+            discount_codes.append(f"OurBus: {discount_code_name}")
 
         # Basic Trip Information
         for index in range(len(loaded_data)):
@@ -167,14 +167,22 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 result.append(newTrip)
           
         if all_or_single:
-            return result
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
             result.sort(key=lambda x: x.price)
-            return jsonpickle.encode(result)
-
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+            return jsonpickle.encode(trips_and_codes)
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
+    discount_codes = []
+
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -232,14 +240,22 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             result.append(newTrip)
 
         if all_or_single:
-            return result
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
             result.sort(key=lambda x: x.price)
-            return jsonpickle.encode(result)
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+            return jsonpickle.encode(trips_and_codes)
 
 # FlixBus
 def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
+    discount_codes = []
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -310,10 +326,18 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
             
         # Dont want to wrap in json if its in the get all function
         if all_or_single:
-            return result
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
             result.sort(key=lambda x: x.price)
-            return jsonpickle.encode(result)
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+
+            return jsonpickle.encode(trips_and_codes)
 
 def get_all(date, dep_loc, arr_loc):
     # Call each service
@@ -324,10 +348,19 @@ def get_all(date, dep_loc, arr_loc):
     except Exception as e:
         raise e
     else:
-        # Add Three Lists Into One
-        trips = flix_trips + mega_trips + our_bus_trips
+        # Combining Three Lists Into A Single list Using '+'
+        trips = flix_trips['trips'] + mega_trips['trips'] + our_bus_trips['trips']
         trips.sort(key=lambda x: x.price)
+
+        discount_codes = flix_trips['discount_codes'] + mega_trips['discount_codes'] + our_bus_trips['discount_codes']
+        
         print(f"Total Options: {len(trips)}")
         print(f"Cheapest Trip: {trips[0]}")
-        return jsonpickle.encode(trips)
+        
+        trips_and_codes =  {
+            "trips": trips,
+            "discount_codes": discount_codes
+        }
+
+        return jsonpickle.encode(trips_and_codes)
 
