@@ -35,7 +35,7 @@ def get_trips(date, origin, destination):
 @app.route('/our/<date>/<origin>/<destination>', methods=["GET"])
 def get_our_bus_trips(date, origin, destination):
     try:
-        trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
+        trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
     except exceptions.IncorrectDateFormatException:
         return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
     except exceptions.PastDateException:
@@ -49,7 +49,7 @@ def get_our_bus_trips(date, origin, destination):
 @app.route('/mega/<date>/<origin>/<destination>', methods=["GET"])
 def get_mega_trips(date, origin, destination):
     try:
-        trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
+        trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
     except exceptions.IncorrectDateFormatException:
         return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
     except exceptions.PastDateException:
@@ -63,7 +63,7 @@ def get_mega_trips(date, origin, destination):
 @app.route('/flix/<date>/<origin>/<destination>', methods=["GET"])
 def get_flix_trips(date, origin, destination):
     try:
-        trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, return_to=[], all_or_single=False)
+        trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
     except exceptions.IncorrectDateFormatException:
         return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
     except exceptions.PastDateException:

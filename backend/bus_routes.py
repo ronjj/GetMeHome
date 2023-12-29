@@ -79,7 +79,8 @@ def format_date(search_date, bus_service):
         return f"{month}/{day}/{year}"
 
 # OurBus
-def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
+def get_our_bus(date,dep_loc,arr_loc, all_or_single):
+    result = []
     proper_date = format_date(search_date=date, bus_service="our")
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
@@ -108,11 +109,30 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                         if "var defaultSearch" in str(line):
                             parsed_trips = line[21:-2]
                             break
-        # Need to ignore first half of JSON which is promotional codes and just get trips
+        # Trip List Data
         loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
+
+        # Discount Code Loaded Data
+        discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
+
     except Exception as e:
         raise e
     else:
+        # Discount Codes
+        discount_codes = []
+        for index in range(len(discount_code_loaded_data)):
+            discount_code = discount_code_loaded_data[index]
+            discount_code_name = discount_code['voucher_name']
+            random_num_id = randrange(10000)
+            discount_codes.append(
+                {
+                    "id": random_num_id,
+                    "service": "OurBus",
+                    "code": f"{discount_code_name}"
+                }
+            )
+
+        # Basic Trip Information
         for index in range(len(loaded_data)):
             journey = loaded_data[index]
             # skip sold out bus or non direct buses
@@ -134,6 +154,7 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                 random_num = randrange(10000)
                 route_id = journey['route_id']
                 try:
+                    # Intermediate Stations Request and Information
                     intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
                     intermediate_stations_request = requests.get(intermediate_stations_link)
                     intermediate_stations_response = json.loads(intermediate_stations_request.text)
@@ -144,21 +165,31 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                     for index in range(0,intermediate_count):
                         city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
                         intermediate_stations_names.append(city_and_location)
+            
                 except:
                     intermediate_count = 0
                     intermediate_stations_names = []
 
                 newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count, ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
-                return_to.append(newTrip)
-                return_to.sort(key=lambda x: x.price)
-            
+                result.append(newTrip)
+          
         if all_or_single:
-            return return_to
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
-            return jsonpickle.encode(return_to)
-
+            result.sort(key=lambda x: x.price)
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+            return jsonpickle.encode(trips_and_codes)
 # MegaBus
-def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
+def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
+    result = []
+    discount_codes = []
+
     mega_location_id = {
         "511":"Ithaca",
         "ithaca":"511",
@@ -213,16 +244,25 @@ def get_mega_bus(date, dep_loc, arr_loc, return_to, all_or_single):
                 intermediate_stations_names = []
 
             newTrip = Trip(intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
-            return_to.append(newTrip)
+            result.append(newTrip)
 
-        return_to.sort(key=lambda x: x.price)
         if all_or_single:
-            return return_to
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
-            return jsonpickle.encode(return_to)
+            result.sort(key=lambda x: x.price)
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+            return jsonpickle.encode(trips_and_codes)
 
 # FlixBus
-def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
+def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
+    result = []
+    discount_codes = []
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
@@ -281,7 +321,7 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
                     intermediate_count = len(intermediate_stations_info)
                     intermediate_stations_names = []
                     for index in range(0,intermediate_count):
-                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']} "
+                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
                         intermediate_stations_names.append(city_name)
 
                 except:
@@ -289,27 +329,46 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
                     intermediate_count = 0
 
                 newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
-                return_to.append(newTrip)
+                result.append(newTrip)
             
-        return_to.sort(key=lambda x: x.price)
         # Dont want to wrap in json if its in the get all function
+        # Also don't want to sort it since it will be sorted again with the other services
         if all_or_single:
-            return return_to
+            return {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
         else:
-            return jsonpickle.encode(return_to)
+            result.sort(key=lambda x: x.price)
+            trips_and_codes =  {
+                "trips": result,
+                "discount_codes": discount_codes
+            }
+
+            return jsonpickle.encode(trips_and_codes)
 
 def get_all(date, dep_loc, arr_loc):
     # Call each service
-    trips = []
     try:
-        get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
-        get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
-        get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, return_to=trips, all_or_single=True)
+        flix_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        our_bus_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
     except Exception as e:
         raise e
     else:
+        # Combining Three Lists Into A Single list Using '+'
+        trips = flix_trips['trips'] + mega_trips['trips'] + our_bus_trips['trips']
         trips.sort(key=lambda x: x.price)
+
+        discount_codes = flix_trips['discount_codes'] + mega_trips['discount_codes'] + our_bus_trips['discount_codes']
+        
         print(f"Total Options: {len(trips)}")
         print(f"Cheapest Trip: {trips[0]}")
-        return jsonpickle.encode(trips)
+        
+        trips_and_codes =  {
+            "trips": trips,
+            "discount_codes": discount_codes
+        }
+
+        return jsonpickle.encode(trips_and_codes)
 

@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+struct TripWrapper: Codable {
+    let trips: [Trip]
+}
 
 struct Trip: Hashable, Codable {
     let randomNum: Int

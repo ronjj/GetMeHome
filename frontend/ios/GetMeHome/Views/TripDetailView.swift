@@ -10,11 +10,13 @@ import SwiftUI
 struct TripDetailView: View {
     
     var trip: Trip
+    var discountCodes: [Discount]
     var viewModel = ViewModel()
+    
     @State private var date = Date()
+    @State private var discountCodesFiltered = [Discount]()
     
     var body: some View {
-        
         List {
             Section("Date") {
                 Text(date, style: .date)
@@ -44,6 +46,16 @@ struct TripDetailView: View {
                 }
             }
             
+            if !discountCodes.isEmpty {
+                Section("Discount Codes") {
+                    VStack(alignment: .leading) {
+                        ForEach(discountCodesFiltered) { discountCode in
+                            Text("- \(discountCode.code)")
+                        }
+                    }
+                }
+            }
+            
             Section("Bus Service") {
                 Text("\(trip.busService)")
             }
@@ -57,15 +69,21 @@ struct TripDetailView: View {
                 dateFormatter.dateFormat = "MMMM d, yyyy"
                 let dateString = dateFormatter.string(from: dateDate)
                 date = dateFormatter.date(from: dateString)!
+                
+                let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
+                discountCodesFiltered = filteredCodesForService
             })
-            .listStyle(.plain)
             
-            Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-                .buttonStyle(.bordered)
-                .tint(.indigo)
+            HStack {
+                Spacer()
+                Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                    .buttonStyle(.bordered)
+                    .tint(.indigo)
+                Spacer()
+            }
         }
+        .listStyle(.plain)
     }
 }
-
 
 
