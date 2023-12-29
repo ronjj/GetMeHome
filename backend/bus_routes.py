@@ -325,6 +325,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 result.append(newTrip)
             
         # Dont want to wrap in json if its in the get all function
+        # Also don't want to sort it since it will be sorted again with the other services
         if all_or_single:
             return {
                 "trips": result,
