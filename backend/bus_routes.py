@@ -27,7 +27,7 @@ Returns a list of Trip objects in ascending order of price
 """
 
 class Trip:
-    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_count=0, intermediate_stations = []):
+    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_count=0, intermediate_stations = [], discount_codes = []):
         self.random_num = random_num
         self.date = date
         self.price = price
@@ -40,6 +40,7 @@ class Trip:
         self.ticket_link = ticket_link
         self.intermediate_count = intermediate_count
         self.intermediate_stations = intermediate_stations
+        self.discount_codes = discount_codes
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
@@ -108,11 +109,23 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                         if "var defaultSearch" in str(line):
                             parsed_trips = line[21:-2]
                             break
-        # Need to ignore first half of JSON which is promotional codes and just get trips
+        # Trip List Data
         loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
+
+        # Discount Code Loaded Data
+        discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
+
     except Exception as e:
         raise e
     else:
+        # Discount Codes
+        discount_codes = []
+        for index in range(len(discount_code_loaded_data)):
+            discount_code = discount_code_loaded_data[index]
+            discount_code_name = discount_code['voucher_name']
+            discount_codes.append(discount_code_name)
+
+        # Basic Trip Information
         for index in range(len(loaded_data)):
             journey = loaded_data[index]
             # skip sold out bus or non direct buses
@@ -134,6 +147,7 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                 random_num = randrange(10000)
                 route_id = journey['route_id']
                 try:
+                    # Intermediate Stations Request and Information
                     intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
                     intermediate_stations_request = requests.get(intermediate_stations_link)
                     intermediate_stations_response = json.loads(intermediate_stations_request.text)
@@ -144,11 +158,12 @@ def get_our_bus(date,dep_loc,arr_loc, return_to, all_or_single):
                     for index in range(0,intermediate_count):
                         city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
                         intermediate_stations_names.append(city_and_location)
+            
                 except:
                     intermediate_count = 0
                     intermediate_stations_names = []
 
-                newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count, ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+                newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count, ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop, discount_codes=discount_codes)
                 return_to.append(newTrip)
                 return_to.sort(key=lambda x: x.price)
             
@@ -281,7 +296,7 @@ def get_flix_bus(date, dep_loc, arr_loc, return_to, all_or_single):
                     intermediate_count = len(intermediate_stations_info)
                     intermediate_stations_names = []
                     for index in range(0,intermediate_count):
-                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']} "
+                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
                         intermediate_stations_names.append(city_name)
 
                 except:
