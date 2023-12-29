@@ -15,7 +15,6 @@ struct TripListView: View {
     @Binding var clickedSearch: Bool
     
     var body: some View {
-            
 // If Able to Unwrap trips
         if let trips {
             if trips.count > 2 {

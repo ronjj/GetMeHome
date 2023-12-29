@@ -74,10 +74,15 @@ struct TripDetailView: View {
                 discountCodesFiltered = filteredCodesForService
             })
             
-            Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-                .buttonStyle(.bordered)
-                .tint(.indigo)
+            HStack {
+                Spacer()
+                Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                    .buttonStyle(.bordered)
+                    .tint(.indigo)
+                Spacer()
+            }
         }
+        .listStyle(.plain)
     }
 }
 
