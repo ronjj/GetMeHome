@@ -27,6 +27,8 @@ struct ContentView: View {
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
+    @State private var discountCodes: [Discount]?
+    
     var viewModel = ViewModel()
     
     var body: some View {
@@ -56,7 +58,7 @@ struct ContentView: View {
             if isLoading {
                 LoadingView()
             } else {
-                TripListView(trips: trips, clickedSearch: $clickedSearch)
+                TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
                 
             }
         }
@@ -87,6 +89,8 @@ extension ContentView {
                     isLoading = true
                     do {
                         trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                        discountCodes = try await viewModel.getDiscountCodes(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                        print(discountCodes)
                         isLoading = false
                         clickedSearch = true
                     } catch TripError.invalidURL {

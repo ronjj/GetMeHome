@@ -123,7 +123,14 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         for index in range(len(discount_code_loaded_data)):
             discount_code = discount_code_loaded_data[index]
             discount_code_name = discount_code['voucher_name']
-            discount_codes.append(f"OurBus: {discount_code_name}")
+            random_num_id = randrange(10000)
+            discount_codes.append(
+                {
+                    "id": random_num_id,
+                    "service": "OurBus",
+                    "code": f"{discount_code_name}"
+                }
+            )
 
         # Basic Trip Information
         for index in range(len(loaded_data)):

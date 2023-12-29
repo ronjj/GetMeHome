@@ -10,9 +10,12 @@ import SwiftUI
 struct TripListView: View {
     
     var trips: [Trip]?
+    var discountCodes: [Discount]?
+
     @Binding var clickedSearch: Bool
     
     var body: some View {
+            
 // If Able to Unwrap trips
         if let trips {
             if trips.count > 2 {
@@ -61,7 +64,7 @@ extension TripListView {
         }
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip)
+            TripDetailView(trip: trip, discountCodes: discountCodes ?? [])
         }
     }
     
@@ -74,7 +77,7 @@ extension TripListView {
         
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip)
+            TripDetailView(trip: trip, discountCodes: discountCodes ?? [])
         }
     }
     
