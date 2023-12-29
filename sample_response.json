@@ -2,7 +2,7 @@
     "trips": [
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 5378,
+            "random_num": 4772,
             "date": "2024-01-18",
             "price": 30.99,
             "arrival_time": "12:00 PM",
@@ -21,7 +21,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 1750,
+            "random_num": 4845,
             "date": "2024-01-18",
             "price": 30.99,
             "arrival_time": "02:15 PM",
@@ -41,7 +41,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 5383,
+            "random_num": 3,
             "date": "2024-01-18",
             "price": 30.99,
             "arrival_time": "10:15 PM",
@@ -60,7 +60,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 6353,
+            "random_num": 4715,
             "date": "2024-01-18",
             "price": 34.99,
             "arrival_time": "12:40 PM",
@@ -80,7 +80,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 7197,
+            "random_num": 467,
             "date": "2024-01-18",
             "price": 39.99,
             "arrival_time": "12:30 PM",
@@ -98,7 +98,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 1620,
+            "random_num": 9430,
             "date": "2024-01-18",
             "price": 39.99,
             "arrival_time": "12:50 PM",
@@ -119,7 +119,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 9841,
+            "random_num": 172,
             "date": "2024-01-18",
             "price": 40.99,
             "arrival_time": "06:25 PM",
@@ -138,7 +138,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 9795,
+            "random_num": 8565,
             "date": "2024-01-18",
             "price": 42.5,
             "arrival_time": "10:30 PM",
@@ -156,7 +156,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 2278,
+            "random_num": 8408,
             "date": "2024-01-18",
             "price": 42.5,
             "arrival_time": "10:40 PM",
@@ -176,7 +176,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 9273,
+            "random_num": 4487,
             "date": "2024-01-18",
             "price": 42.5,
             "arrival_time": "10:50 PM",
@@ -197,7 +197,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 6099,
+            "random_num": 6006,
             "date": "2024-01-18",
             "price": 46.0,
             "arrival_time": "03:00 PM",
@@ -217,7 +217,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 5937,
+            "random_num": 2517,
             "date": "2024-01-18",
             "price": 47.0,
             "arrival_time": "10:50 AM",
@@ -235,7 +235,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 3928,
+            "random_num": 936,
             "date": "2024-01-18",
             "price": 57.5,
             "arrival_time": "10:45 AM",
@@ -255,7 +255,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 3325,
+            "random_num": 1402,
             "date": "2024-01-18",
             "price": 59.0,
             "arrival_time": "04:30 PM",
@@ -275,7 +275,7 @@
         },
         {
             "py/object": "bus_routes.Trip",
-            "random_num": 4355,
+            "random_num": 9642,
             "date": "2024-01-18",
             "price": 69.0,
             "arrival_time": "07:30 PM",
@@ -295,9 +295,25 @@
         }
     ],
     "discount_codes": [
-        "OurBus: SUPERSAVER45",
-        "OurBus: SUPERSAVER75",
-        "OurBus: SUPERSAVER150",
-        "OurBus: SUPERSAVERSTUDENT75"
+        {
+            "id": 8322,
+            "service": "OurBus",
+            "code": "SUPERSAVER45"
+        },
+        {
+            "id": 8677,
+            "service": "OurBus",
+            "code": "SUPERSAVER75"
+        },
+        {
+            "id": 5420,
+            "service": "OurBus",
+            "code": "SUPERSAVER150"
+        },
+        {
+            "id": 3627,
+            "service": "OurBus",
+            "code": "SUPERSAVERSTUDENT75"
+        }
     ]
 }
