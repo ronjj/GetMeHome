@@ -2,7 +2,7 @@
 
 To make it easier to get home on school breaks, I developed GetMeHome, a fullstack iOS project that aggregates trip information across MegaBus, FlixBus, and OurBus. Users enter in a travel date, departure city, and destination city and are returned a list of trips from each service sorted in increasing order of price. Users can further refine their search by selecting the earliest departure time, latest arrival time, or neither.
 
-- A sample response can be found in the file sample_response_v1.json
+- A sample response can be found in the file sample_response.json
 
 **Backend**:
 
@@ -20,6 +20,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
   - Filter based on earliest departure, latest arrival, or neither
   - View intermediate stops and full route the bus will take (Mega and FlixBus) currently
   - Get link to buy ticket from respective services website
+  - Get discount codes (OurBus only at the moment)
 
   - \*Trips that involve transferring buses are automatically skipped (FlixBus)
   - \*Trips that are not direct from city to city are automatically skipped (OurBus)
