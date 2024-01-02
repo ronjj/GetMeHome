@@ -18,16 +18,22 @@ struct SettingsView: View {
     
     var body: some View {
         VStack{
+            VStack(alignment: .leading) {
+                Section("Choose A Bus Service") {
+                    Picker("Choose A Bus Service", selection: $busService) {
+                        ForEach(viewModel.services, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.palette)
+                    
+                }
+            }
             Toggle("Set Earliest Departure Time", isOn: $minTimeToggle)
                 .tint(.purple)
             Toggle("Set Latest Arrival Time", isOn: $latestArrivalTimeToggle)
                 .tint(.purple)
-            Picker("Choose A Bus Service", selection: $busService) {
-                ForEach(viewModel.services, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
+           
             Spacer()
         }
         .padding()
