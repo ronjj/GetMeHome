@@ -42,7 +42,7 @@ struct ContentView: View {
                         print("Sheet dismissed!")
                     } content: {
                         NavigationStack{
-                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
+                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle, busService: $selectedService)
                         }
                     }
                     .toolbar {
@@ -71,12 +71,7 @@ struct ContentView: View {
 extension ContentView {
     private var searchAndBusPicker: some View {
         HStack {
-            Picker("Choose A Bus Service", selection: $selectedService) {
-                ForEach(viewModel.services, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
+            
             
             Button("Search") {
 //           Converting Date From:  2023-11-24 21:51:35 +0000

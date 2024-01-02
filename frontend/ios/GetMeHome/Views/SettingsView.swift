@@ -12,6 +12,9 @@ struct SettingsView: View {
     @Binding var minTimeToggle: Bool
     @Binding var presentSheet: Bool
     @Binding var latestArrivalTimeToggle: Bool
+    @Binding var busService: String
+    
+    var viewModel = ViewModel()
     
     var body: some View {
         VStack{
@@ -19,6 +22,12 @@ struct SettingsView: View {
                 .tint(.purple)
             Toggle("Set Latest Arrival Time", isOn: $latestArrivalTimeToggle)
                 .tint(.purple)
+            Picker("Choose A Bus Service", selection: $busService) {
+                ForEach(viewModel.services, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(.segmented)
             Spacer()
         }
         .padding()
