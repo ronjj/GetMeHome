@@ -13,7 +13,7 @@ struct ContentView: View {
     
 //    User Selections
     @State private var selectedDate = Date()
-    @State private var selectedService = ""
+    @State private var selectedService = "All"
     @State private var selectedDeparture = "Ithaca"
     @State private var earliestDepartureTime = Date()
     @State private var earliestDepartureTimeToggle = false
@@ -42,7 +42,7 @@ struct ContentView: View {
                         print("Sheet dismissed!")
                     } content: {
                         NavigationStack{
-                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle)
+                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle, busService: $selectedService)
                         }
                     }
                     .toolbar {
@@ -70,48 +70,47 @@ struct ContentView: View {
 
 extension ContentView {
     private var searchAndBusPicker: some View {
-        HStack {
-            Picker("Choose A Bus Service", selection: $selectedService) {
-                ForEach(viewModel.services, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(.segmented)
+        
+        
+        Button {
+            //           Converting Date From:  2023-11-24 21:51:35 +0000
+            //           To: 11-24-2023
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM-dd-yyyy"
+            let newDateString = formatter.string(from: selectedDate)
             
-            Button("Search") {
-//           Converting Date From:  2023-11-24 21:51:35 +0000
-//           To: 11-24-2023
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MM-dd-yyyy"
-                let newDateString = formatter.string(from: selectedDate)
-                
-                Task {
-                    isLoading = true
-                    do {
-                        trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
-                        discountCodes = try await viewModel.getDiscountCodes(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
-                        print(discountCodes)
-                        isLoading = false
-                        clickedSearch = true
-                    } catch TripError.invalidURL {
-                        print("invalid url")
-                        isLoading = false
-                    } catch TripError.invalidReponse {
-                        print("invalid response")
-                        isLoading = false
-                    } catch TripError.invalidData {
-                        print("invalid data")
-                        isLoading = false
-                    } catch {
-                        print("unexpected erorr")
-                        isLoading = false
-                    }
+            Task {
+                isLoading = true
+                do {
+                    trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                    discountCodes = try await viewModel.getDiscountCodes(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                    isLoading = false
+                    clickedSearch = true
+                } catch TripError.invalidURL {
+                    print("invalid url")
+                    isLoading = false
+                } catch TripError.invalidReponse {
+                    print("invalid response")
+                    isLoading = false
+                } catch TripError.invalidData {
+                    print("invalid data")
+                    isLoading = false
+                } catch {
+                    print("unexpected erorr")
+                    isLoading = false
                 }
             }
-            .buttonStyle(.bordered)
-            .tint(.indigo)
-            .disabled(selectedDeparture == selectedArrival || selectedService == "" || isLoading)
+        } label: {
+            Text("Search")
+                .frame(maxWidth: .infinity)
         }
+        .buttonStyle(.bordered)
+        .padding(.horizontal)
+        .tint(.indigo)
+        .disabled(selectedDeparture == selectedArrival || selectedService == "" || isLoading)
+           
+           
+        
     }
     
     private var dateAndLocationPickers: some View {
