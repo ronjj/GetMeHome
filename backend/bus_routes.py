@@ -312,8 +312,15 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         for uid in flix_info:
             status = flix_info[uid]['status']
             transfer_type = flix_info[uid]['transfer_type']
+
+            non_stop = "N/A"
+            if transfer_type == "Direct":
+                non_stop = "True"
+            else:
+                non_stop = "False"
+
         #    don't care abt the posting if it's not available or not Direct
-            if status != 'available' or transfer_type != "Direct":
+            if status != 'available':
                 continue
             else:
                 departure_string = flix_info[uid]['departure']['date'].split("T")
@@ -332,24 +339,30 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 random_num = randrange(10000)
 
                 # Make request to get intermediate stop information
-                try:
-                    intermediate_count = flix_info[uid]['intermediate_stations_count']
-                    flix_id_parts = uid.split(":")
-                    intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
-                    intermediate_stations_request = requests.get(intermediate_stations_link)
-                    intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                    intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
-                    intermediate_count = len(intermediate_stations_info)
-                    intermediate_stations_names = []
-                    for index in range(0,intermediate_count):
-                        city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
-                        intermediate_stations_names.append(city_name)
+                # There is only intermediate stop information for Direct Trips
+                if transfer_type == "Direct":
+                    try:
+                        intermediate_count = flix_info[uid]['intermediate_stations_count']
+                        flix_id_parts = uid.split(":")
+                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+                        intermediate_stations_request = requests.get(intermediate_stations_link)
+                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                        intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
+                        intermediate_count = len(intermediate_stations_info)
+                        intermediate_stations_names = []
+                        for index in range(0,intermediate_count):
+                            city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
+                            intermediate_stations_names.append(city_name)
 
-                except:
+                    except:
+                        intermediate_stations_names = []
+                        intermediate_count = 0
+                else:
+                    # Number of transfers / number of intermediate stations
+                    intermediate_count = len(flix_info[uid]['legs']) - 1
                     intermediate_stations_names = []
-                    intermediate_count = 0
 
-                newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+                newTrip = Trip(non_stop=non_stop,intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
                 result.append(newTrip)
             
         # Dont want to wrap in json if its in the get all function
