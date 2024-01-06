@@ -27,7 +27,21 @@ Returns a list of Trip objects in ascending order of price
 """
 
 class Trip:
-    def __init__(self, random_num, date, price, arr_time, arr_location, dep_time, dep_location, bus_serivce, ticket_link, non_stop="N/A", intermediate_count=0, intermediate_stations = []):
+    def __init__(
+            self, 
+            random_num, 
+            date, price, 
+            arr_time, 
+            arr_location, 
+            dep_time, 
+            dep_location, 
+            bus_serivce, 
+            ticket_link, 
+            non_stop="N/A", 
+            intermediate_count=0, 
+            intermediate_stations = [],
+            ):
+        
         self.random_num = random_num
         self.date = date
         self.price = price
@@ -227,6 +241,13 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             random_num = randrange(10000)
             journey_id = journey["journeyId"]
 
+            non_stop = "N/A"
+            leg_information = journey['legs']
+            if len(leg_information) > 1:
+                non_stop = "False"
+            else:
+                non_stop = "True"
+
             # Make request to get intermediate stop information
             try:
                 intermediate_stations_link = f"https://us.megabus.com/journey-planner/api/itinerary?journeyId={journey_id}"
@@ -243,7 +264,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 intermediate_count = 0
                 intermediate_stations_names = []
 
-            newTrip = Trip(intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+            newTrip = Trip(non_stop=non_stop,intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
             result.append(newTrip)
 
         if all_or_single:
