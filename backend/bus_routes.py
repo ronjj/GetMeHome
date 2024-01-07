@@ -150,7 +150,8 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         for index in range(len(loaded_data)):
             journey = loaded_data[index]
             # skip sold out bus or non direct buses
-            if journey['trip_status'] == "STOP_SALES" or str(journey['non_stop']) == "False":
+
+            if journey['trip_status'] == "STOP_SALES":
                 continue
             else:
                 trip_date = journey['travel_date']
@@ -167,6 +168,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 non_stop = str(journey['non_stop'])
                 random_num = randrange(10000)
                 route_id = journey['route_id']
+                non_stop = "N/A"
                 try:
                     # Intermediate Stations Request and Information
                     intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"

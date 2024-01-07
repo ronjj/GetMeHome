@@ -1,3 +1,5 @@
 .DS_Store
 .gitignore
 Pipfile.lock
+flix_bus_transfer_details.json
+sample_our_response.json
