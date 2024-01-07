@@ -39,7 +39,7 @@ struct ContentView: View {
                     .navigationTitle("GetMeHome")
                     .navigationBarTitleDisplayMode(.inline)
                     .sheet(isPresented:  $presentSheet) {
-                        print("Sheet dismissed!")
+                        //
                     } content: {
                         NavigationStack{
                             SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle, busService: $selectedService)

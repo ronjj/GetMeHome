@@ -59,21 +59,7 @@ struct TripDetailView: View {
             Section("Bus Service") {
                 Text("\(trip.busService)")
             }
-            .listStyle(.plain)
-            .onAppear(perform: {
-                let dateFormatter = DateFormatter()
-                //               Get a Date type from trip.date string
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let dateDate = dateFormatter.date(from:trip.date)!
-                //               Convert date to a Date object with a more readable format
-                dateFormatter.dateFormat = "MMMM d, yyyy"
-                let dateString = dateFormatter.string(from: dateDate)
-                date = dateFormatter.date(from: dateString)!
-                
-                let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
-                discountCodesFiltered = filteredCodesForService
-            })
-            
+        
             HStack {
                 Spacer()
                 Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
@@ -82,6 +68,20 @@ struct TripDetailView: View {
                 Spacer()
             }
         }
+        .onAppear(perform: {
+            let dateFormatter = DateFormatter()
+            //               Get a Date type from trip.date string
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateDate = dateFormatter.date(from:trip.date)!
+            //               Convert date to a Date object with a more readable format
+            dateFormatter.dateFormat = "MMMM d, yyyy"
+            let dateString = dateFormatter.string(from: dateDate)
+            date = dateFormatter.date(from: dateString)!
+            print(date)
+            
+            let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
+            discountCodesFiltered = filteredCodesForService
+        })
         .listStyle(.plain)
     }
 }
