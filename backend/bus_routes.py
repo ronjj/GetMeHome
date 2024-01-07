@@ -30,7 +30,8 @@ class Trip:
     def __init__(
             self, 
             random_num, 
-            date, price, 
+            date, 
+            price, 
             arr_time, 
             arr_location, 
             dep_time, 
@@ -81,8 +82,8 @@ def format_date(search_date, bus_service):
     current_date_month = datetime.now().month
     current_date_year = datetime.now().year
     current_date_string = datetime(current_date_year, current_date_month, current_date_day)
-
-    if not current_date_string <= search_date_string:
+    
+    if search_date_string < current_date_string and search_date_string != current_date_string:
         raise exceptions.PastDateException
     
     if bus_service == "flix":

@@ -107,12 +107,14 @@ import SwiftUI
 //        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
+            print("from discount codes")
             throw TripError.invalidURL
         }
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            print("from discount codes")
             throw TripError.invalidReponse
         }
         
@@ -122,6 +124,7 @@ import SwiftUI
             let discounts =  try decoder.decode(DiscountWrapper.self, from: data)
             return discounts.discountCodes
         } catch {
+            print("from discount codes")
             throw TripError.invalidData
         }
     }
