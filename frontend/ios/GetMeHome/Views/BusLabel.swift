@@ -24,6 +24,14 @@ struct BusLabel: View {
             Button("MegaBus") {}
                 .buttonStyle(.bordered)
                 .tint(.red)
+        case "indirect":
+            Button {} label: {
+                Image(systemName: "exclamationmark.triangle")
+                Text("Transfer")
+            }
+            .buttonStyle(.bordered)
+            .tint(.yellow)
+
         default:
             Text("No Bus Service")
         }

@@ -30,7 +30,16 @@ struct TripRowView: View {
                 Image(systemName: "arrow.forward")
                 Text(arrivalLocation)
             }
-            BusLabel(busService: busService)
+            
+            if nonStop == "False" {
+                HStack {
+                    BusLabel(busService: busService)
+                    BusLabel(busService: "indirect")
+                }
+            }
+            else {
+                BusLabel(busService: busService)
+            }
         }
     }
 }
