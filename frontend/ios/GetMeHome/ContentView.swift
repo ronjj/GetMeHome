@@ -13,17 +13,20 @@ struct ContentView: View {
     
 //    User Selections
     @State private var selectedDate = Date()
-    @State private var selectedService = "All"
     @State private var selectedDeparture = "Ithaca"
-    @State private var earliestDepartureTime = Date()
-    @State private var earliestDepartureTimeToggle = false
     @State private var selectedArrival = "New York"
-    @State private var latestArrivalTime = Date()
-    @State private var latestArrivalTimeToggle = false
     @State private var switchOriginAndDestinationButtonClicked = false
     @State private var clickedSearch = false
     @State private var isLoading = false
-    @State private var presentSheet = false
+    
+//    Filtering
+    @State private var earliestDepartureTime: Date? = nil
+    @State private var earliestDepartureTimeToggle = false
+    @State private var latestArrivalTime: Date? = nil
+    @State private var latestArrivalTimeToggle = false
+    @State private var selectedService = "All"
+    @State private var selectServiceToggle = false
+    @State private var removeTransfersToggle = false
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -38,19 +41,9 @@ struct ContentView: View {
                     .padding(.bottom, 10)
                     .navigationTitle("GetMeHome")
                     .navigationBarTitleDisplayMode(.inline)
-                    .sheet(isPresented:  $presentSheet) {
-                        //
-                    } content: {
-                        NavigationStack{
-                            SettingsView(minTimeToggle: $earliestDepartureTimeToggle, presentSheet: $presentSheet, latestArrivalTimeToggle: $latestArrivalTimeToggle, busService: $selectedService)
-                        }
-                    }
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             toolBarHeader
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            toolBarSettingsIcon
                         }
                     }
             }
@@ -70,20 +63,47 @@ struct ContentView: View {
 
 extension ContentView {
     private var searchAndBusPicker: some View {
-        
-        
         Button {
             //           Converting Date From:  2023-11-24 21:51:35 +0000
             //           To: 11-24-2023
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd-yyyy"
             let newDateString = formatter.string(from: selectedDate)
+            print(selectedService)
+            print(selectServiceToggle)
             
             Task {
                 isLoading = true
                 do {
-                    trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
-                    discountCodes = try await viewModel.getDiscountCodes(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                    
+                    if !selectServiceToggle {
+                        selectedService = "All"
+                    }
+                    
+                    trips = try await viewModel.getTrips(
+                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
+                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
+                        on: newDateString,
+                        bus: viewModel.convertForQuery(value: selectedService))
+                    
+                    if earliestDepartureTimeToggle {
+                        trips = viewModel.filterMinDepartureTime(tripsArray: trips ?? [], minTime: earliestDepartureTime!)
+                    }
+                    
+                    if latestArrivalTimeToggle {
+                        trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime!)
+                    }
+                    
+                    if removeTransfersToggle {
+                        trips = viewModel.filterTransfer(tripsArray: trips ?? [], includeTransfers: false)
+                    }
+                    
+                    discountCodes = try await viewModel.getDiscountCodes(
+                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
+                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
+                        on: newDateString,
+                        bus: viewModel.convertForQuery(value: selectedService))
+                    
                     isLoading = false
                     clickedSearch = true
                 } catch TripError.invalidURL {
@@ -108,9 +128,6 @@ extension ContentView {
         .padding(.horizontal)
         .tint(.indigo)
         .disabled(selectedDeparture == selectedArrival || selectedService == "" || isLoading)
-           
-           
-        
     }
     
     private var dateAndLocationPickers: some View {
@@ -155,15 +172,34 @@ extension ContentView {
             }
             .padding()
             searchAndBusPicker
-            
+           
+            FilterRowView(
+                minDepartureTimeSelected: $earliestDepartureTimeToggle, 
+                latestArrivalTimeSelected: $latestArrivalTimeToggle,
+                chooseBusServiceSelected: $selectServiceToggle, 
+                includeTransfersSelected: $removeTransfersToggle)
+           
             if earliestDepartureTimeToggle {
-                DatePicker("Earilest Departure Time", selection: $earliestDepartureTime, displayedComponents: .hourAndMinute)
+                DatePicker("Earliest Departure Time", 
+                           selection: Binding<Date>(get: {self.earliestDepartureTime ?? Date()}, set: {self.earliestDepartureTime = $0}),
+                           displayedComponents: .hourAndMinute)
                     .tint(.purple)
             }
             
             if latestArrivalTimeToggle {
-                DatePicker("Latest Arrival Time", selection: $latestArrivalTime, displayedComponents: .hourAndMinute)
+                DatePicker("Latest Arrival Time", 
+                           selection: Binding<Date>(get: {self.latestArrivalTime ?? Date()}, set: {self.latestArrivalTime = $0}),
+                           displayedComponents: .hourAndMinute)
                     .tint(.purple)
+            }
+            
+            if selectServiceToggle {
+                Picker("Choose A Bus Service", selection: $selectedService) {
+                    ForEach(viewModel.services, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.palette)
             }
         }
     }
@@ -172,15 +208,6 @@ extension ContentView {
         Text("GetMeHome")
             .font(.largeTitle)
             .fontWeight(.heavy)
-    }
-    
-    private var toolBarSettingsIcon: some View {
-        Button {
-            presentSheet = true
-        } label: {
-            Image(systemName: "gear")
-        }
-        .tint(.purple)
     }
 }
 

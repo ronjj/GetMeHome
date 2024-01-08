@@ -29,9 +29,9 @@ import SwiftUI
         return queryMap[string] ?? "all"
     }
     
-    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String, minTime: Date, latestArrival: Date) async throws -> [Trip] {
-                let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
+//                let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
@@ -47,53 +47,9 @@ import SwiftUI
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-            
-            //          MARK: User Selected A Min Time and Latest Arrival Time
-            if latestArrival != Date.init(timeIntervalSince1970: 0) && minTime != Date.init(timeIntervalSince1970: 0) {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "hh:mma"
-                
-                let results = try decoder.decode(TripWrapper.self, from: data)
-                print("results before: \(results.trips.count)")
-                
-                let minTimeString = formatter.string(from: minTime)
-                results_list = results.trips.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
-                
-                let latestArrivalTimeString = formatter.string(from: latestArrival)
-                results_list = results_list.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
-                print("results after: \(results_list.count)")
-                
-            }
-            
-            //          MARK: User Selected A Latest Arrival Time
-            else if latestArrival != Date.init(timeIntervalSince1970: 0) {
-                let formatter = DateFormatter()
-                let results = try decoder.decode(TripWrapper.self, from: data)
-                formatter.dateFormat = "hh:mma"
-                print("results before: \(results.trips.count)")
-                let latestArrivalTimeString = formatter.string(from: latestArrival)
-                results_list = results.trips.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
-                print("results after: \(results_list.count)")
-            }
-            
-            //          MARK: User Selected A Min Time Departure Time
-            //            TimeIntervalSince1970 = 0 is basically the only way to set a date = 0
-            //            If a min time was selected, filter results
-            else if minTime != Date.init(timeIntervalSince1970: 0) {
-                let formatter = DateFormatter()
-                let results = try decoder.decode(TripWrapper.self, from: data)
-                formatter.dateFormat = "hh:mma"
-                print("results before: \(results.trips.count)")
-                let minTimeString = formatter.string(from: minTime)
-                results_list = results.trips.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
-                print("results after: \(results_list.count)")
-                
-                //          MARK: User Selected Neither Min Dep or Latest Arrival
-            } else {
-                let results = try decoder.decode(TripWrapper.self, from: data)
-                results_list = results.trips
-            }
-            
+    
+            let results = try decoder.decode(TripWrapper.self, from: data)
+            results_list = results.trips
             return results_list
         } catch {
             print(error.localizedDescription)
@@ -101,10 +57,39 @@ import SwiftUI
         }
     }
     
-    func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String, minTime: Date, latestArrival: Date) async throws -> [Discount] {
+    func filterMinDepartureTime(tripsArray: [Trip], minTime: Date) -> [Trip] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mma"
+        print("results before: \(tripsArray.count)")
+        let minTimeString = formatter.string(from: minTime)
+        let newTripsArray = tripsArray.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
+        print("results after: \(newTripsArray.count)")
         
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        return newTripsArray
+    }
+    
+    func filterLatestArrivalTime(tripsArray: [Trip], latestArrival: Date) -> [Trip] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mma"
+        print("results before: \(tripsArray.count)")
+        let latestArrivalTimeString = formatter.string(from: latestArrival)
+        let newTripsArray = tripsArray.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
+        print("results after: \(newTripsArray.count)")
+        
+        return newTripsArray
+    }
+    
+    func filterTransfer(tripsArray: [Trip], includeTransfers: Bool) -> [Trip] {
+        print("results before: \(tripsArray.count)")
+        let newTripsArray = tripsArray.filter{ $0.nonStop == "True"}
+        print("results after: \(newTripsArray.count)")
+        return newTripsArray
+    }
+    
+    func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
+        
+//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             print("from discount codes")
@@ -136,3 +121,4 @@ enum TripError: Error {
     case invalidReponse
     case invalidData
 }
+
