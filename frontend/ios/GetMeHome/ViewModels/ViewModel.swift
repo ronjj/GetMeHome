@@ -60,10 +60,10 @@ import SwiftUI
     func filterMinDepartureTime(tripsArray: [Trip], minTime: Date) -> [Trip] {
         let formatter = DateFormatter()
         formatter.dateFormat = "hh:mma"
-        print("results before: \(tripsArray.count)")
+        print("results before min time filter: \(tripsArray.count)")
         let minTimeString = formatter.string(from: minTime)
         let newTripsArray = tripsArray.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
-        print("results after: \(newTripsArray.count)")
+        print("results after min time filter: \(newTripsArray.count)")
         
         return newTripsArray
     }
@@ -71,19 +71,19 @@ import SwiftUI
     func filterLatestArrivalTime(tripsArray: [Trip], latestArrival: Date) -> [Trip] {
         let formatter = DateFormatter()
         formatter.dateFormat = "hh:mma"
-        print("results before: \(tripsArray.count)")
+        print("results before latest arrival filter: \(tripsArray.count)")
         let latestArrivalTimeString = formatter.string(from: latestArrival)
         let newTripsArray = tripsArray.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
-        print("results after: \(newTripsArray.count)")
+        print("results after latest arrival filter: \(newTripsArray.count)")
         
         return newTripsArray
     }
     
 //   includeTransfers parameter is included as inline documentation + additional clarity when calling function
     func filterTransfer(tripsArray: [Trip], includeTransfers: Bool) -> [Trip] {
-        print("results before: \(tripsArray.count)")
+        print("results before no transfer: \(tripsArray.count)")
         let newTripsArray = tripsArray.filter{ $0.nonStop == "True"}
-        print("results after: \(newTripsArray.count)")
+        print("results after no transfer: \(newTripsArray.count)")
         return newTripsArray
     }
     
@@ -115,7 +115,6 @@ import SwiftUI
         }
     }
 }
-
 
 enum TripError: Error {
     case invalidURL

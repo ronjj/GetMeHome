@@ -175,7 +175,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                     intermediate_stations_request = requests.get(intermediate_stations_link)
                     intermediate_stations_response = json.loads(intermediate_stations_request.text)
                     intermediate_stations_info = intermediate_stations_response["stopList"]
-                    intermediate_count = len(intermediate_stations_info)
+                    intermediate_count = len(intermediate_stations_info) 
                 
                     intermediate_stations_names = []
                     for index in range(0,intermediate_count):
@@ -186,7 +186,16 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                     intermediate_count = 0
                     intermediate_stations_names = []
 
-                newTrip = Trip(intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count, ticket_link=api_and_ticket_link, random_num=random_num,date=trip_date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus, non_stop=non_stop)
+                newTrip = Trip(intermediate_stations=intermediate_stations_names, 
+                               intermediate_count=intermediate_count - 2, 
+                               ticket_link=api_and_ticket_link, 
+                               random_num=random_num,date=trip_date, 
+                               price=price, arr_time=arr_time_12h, 
+                               arr_location=arr_location, 
+                               dep_time=dep_time_12h, 
+                               dep_location=departure_location, 
+                               bus_serivce=bus, 
+                               non_stop=non_stop)
                 result.append(newTrip)
           
         if all_or_single:
@@ -256,7 +265,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 intermediate_stations_request = requests.get(intermediate_stations_link)
                 intermediate_stations_response = json.loads(intermediate_stations_request.text)
                 intermediate_stations_info = intermediate_stations_response["scheduledStops"]
-                intermediate_count = len(intermediate_stations_info)
+                intermediate_count = len(intermediate_stations_info) - 2
                 
                 intermediate_stations_names = []
                 for index in range(0,intermediate_count):
@@ -266,7 +275,17 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 intermediate_count = 0
                 intermediate_stations_names = []
 
-            newTrip = Trip(non_stop=non_stop,intermediate_stations=intermediate_stations_names,intermediate_count=intermediate_count,ticket_link=ticket_link, random_num=random_num, date=date, price=price, arr_time=arr_time_12h, arr_location=arr_location, dep_time=dep_time_12h, dep_location=departure_location, bus_serivce=bus)
+            newTrip = Trip(non_stop=non_stop,
+                           intermediate_stations=intermediate_stations_names,
+                           intermediate_count=intermediate_count,
+                           ticket_link=ticket_link, 
+                           random_num=random_num, 
+                           date=date, price=price, 
+                           arr_time=arr_time_12h, 
+                           arr_location=arr_location, 
+                           dep_time=dep_time_12h, 
+                           dep_location=departure_location, 
+                           bus_serivce=bus)
             result.append(newTrip)
 
         if all_or_single:
@@ -321,7 +340,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
             else:
                 non_stop = "False"
 
-        #    don't care abt the posting if it's not available or not Direct
+        #    don't care abt the posting if it's not available 
             if status != 'available':
                 continue
             else:
@@ -344,27 +363,54 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 # There is only intermediate stop information for Direct Trips
                 if transfer_type == "Direct":
                     try:
-                        intermediate_count = flix_info[uid]['intermediate_stations_count']
-                        flix_id_parts = uid.split(":")
-                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
-                        intermediate_stations_request = requests.get(intermediate_stations_link)
-                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                        intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
-                        intermediate_count = len(intermediate_stations_info)
-                        intermediate_stations_names = []
-                        for index in range(0,intermediate_count):
-                            city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
-                            intermediate_stations_names.append(city_name)
-
+                            intermediate_count = flix_info[uid]['intermediate_stations_count']
+                            flix_id_parts = uid.split(":")
+                            intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+                            intermediate_stations_request = requests.get(intermediate_stations_link)
+                            intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                            intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
+                            intermediate_count = len(intermediate_stations_info) - 2
+                            intermediate_stations_names = []
+                            for index in range(0,intermediate_count):
+                                city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
+                                intermediate_stations_names.append(city_name)
                     except:
                         intermediate_stations_names = []
                         intermediate_count = 0
                 else:
-                    # Number of transfers / number of intermediate stations
-                    intermediate_count = len(flix_info[uid]['legs']) - 1
-                    intermediate_stations_names = []
+                    try:
+                        uid_string = flix_info[uid]['uid']
+                        uid_string_replace_colons = uid_string.replace(":","%3A")
+                        uid_string_final = uid_string_replace_colons.replace("/", "%2F")
+                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip={uid_string_final}"
+                        intermediate_stations_request = requests.get(intermediate_stations_link)
+                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
 
-                newTrip = Trip(non_stop=non_stop,intermediate_stations=intermediate_stations_names, intermediate_count=intermediate_count,ticket_link=ticket_link,random_num=random_num, date=departure_date, price=price, arr_time=arr_time_12h, arr_location=arrival_city, dep_time=dep_time_12h, dep_location=departure_city, bus_serivce=bus_service)
+                        # iterate through transfers and add that to intermediate stations names
+                        intermediate_count = 0 
+                        intermediate_stations_names = []
+                        for item in intermediate_stations_response['itinerary']:
+                            if item['type'] == 'transfer':
+                                time = f"{item['duration']['hours']} hr {item['duration']['minutes']} m"
+                                transfer_city = item['station']['city_name']
+                                intermediate_stations_names.append(f"Transfer @ {transfer_city} for {time}")
+                                intermediate_count += 1
+                    except:
+                            intermediate_stations_names = []
+                            intermediate_count = 0
+                
+
+                newTrip = Trip(non_stop=non_stop,
+                               intermediate_stations=intermediate_stations_names, 
+                               intermediate_count=intermediate_count,
+                               ticket_link=ticket_link,
+                               random_num=random_num,
+                                date=departure_date, 
+                                price=price, arr_time=arr_time_12h, 
+                                arr_location=arrival_city,
+                                dep_time=dep_time_12h, 
+                                dep_location=departure_city, 
+                                bus_serivce=bus_service)
                 result.append(newTrip)
             
         # Dont want to wrap in json if its in the get all function

@@ -35,7 +35,7 @@ struct TripDetailView: View {
             }
             
             Section("Intermediate Stops") {
-                Text("\(trip.intermediateCount - 2)")
+                Text("\(trip.intermediateCount)")
             }
             
             Section("Bus Destinations") {

@@ -17,10 +17,9 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 - Technologies: Swift, SwiftUI
 - Features:
 
-  - Select date of trip, origin, and destination
-  - Select a bus service: MegaBus, OurBus, FlixBus, or all
-  - Filter based on earliest departure, latest arrival, or neither
-  - View intermediate stops and full route the bus will take (Mega and FlixBus) currently
+  - Select date of trip, origin, and destination and search for corresponding trips
+  - Filter based on earliest departure, latest arrival, bus service, bus transferring or none
+  - View intermediate stops and full route the bus will take
   - Get link to buy ticket from respective services website
   - Get discount codes (OurBus only at the moment)
 
@@ -30,6 +29,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 - Processing JSON information
 - Making a REST API with Flask
 - Connecting iOS app to an API and dynamically populating views from JSON response
+  - Filtering data from JSON response
 
 **Challenges**:
 
