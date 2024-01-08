@@ -364,8 +364,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 if transfer_type == "Direct":
                     try:
                         intermediate_count = flix_info[uid]['intermediate_stations_count']
-                        flix_id_parts = uid.split(":")
-                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+                        uid_string_replace_colons = uid_string.replace(":","%3A")
+                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip={uid_string_replace_colons}"
                         intermediate_stations_request = requests.get(intermediate_stations_link)
                         intermediate_stations_response = json.loads(intermediate_stations_request.text)
                         intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
@@ -389,17 +389,23 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                         # iterate through transfers and add that to intermediate stations names
                         intermediate_count = 0 
                         intermediate_stations_names = []
+                        
                         for item in intermediate_stations_response['itinerary']:
+                            if item['type'] == "ride":
+                                for segment in item['segments']:
+                                    city_name = f"{segment['name']}"
+                                    intermediate_stations_names.append(city_name)
                             if item['type'] == 'transfer':
                                 time = f"{item['duration']['hours']} hr {item['duration']['minutes']} m"
                                 transfer_city = item['station']['city_name']
                                 intermediate_stations_names.append(f"Transfer @ {transfer_city} for {time}")
                                 intermediate_count += 1
+                        # Subtract 2 when I create the trip so I add back to here
+                        intermediate_count += 2
                     except:
                             intermediate_stations_names = []
                             intermediate_count = 0
                 
-
                 newTrip = Trip(non_stop=non_stop,
                                intermediate_stations=intermediate_stations_names, 
                                intermediate_count=intermediate_count - 2,
