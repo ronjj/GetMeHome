@@ -26,6 +26,7 @@ struct ContentView: View {
     @State private var latestArrivalTimeToggle = false
     @State private var selectedService = "All"
     @State private var selectServiceToggle = false
+    @State private var removeTransfersToggle = false
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -91,6 +92,10 @@ extension ContentView {
                     
                     if latestArrivalTimeToggle {
                         trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime!)
+                    }
+                    
+                    if removeTransfersToggle {
+                        trips = viewModel.filterTransfer(tripsArray: trips ?? [], includeTransfers: false)
                     }
                     
                     discountCodes = try await viewModel.getDiscountCodes(
@@ -171,7 +176,8 @@ extension ContentView {
             FilterRowView(
                 minDepartureTimeSelected: $earliestDepartureTimeToggle, 
                 latestArrivalTimeSelected: $latestArrivalTimeToggle,
-                chooseBusServiceSelected: $selectServiceToggle)
+                chooseBusServiceSelected: $selectServiceToggle, 
+                includeTransfersSelected: $removeTransfersToggle)
            
             if earliestDepartureTimeToggle {
                 DatePicker("Earliest Departure Time", 

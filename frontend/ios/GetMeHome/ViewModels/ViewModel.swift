@@ -79,6 +79,13 @@ import SwiftUI
         return newTripsArray
     }
     
+    func filterTransfer(tripsArray: [Trip], includeTransfers: Bool) -> [Trip] {
+        print("results before: \(tripsArray.count)")
+        let newTripsArray = tripsArray.filter{ $0.nonStop == "True"}
+        print("results after: \(newTripsArray.count)")
+        return newTripsArray
+    }
+    
     func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
         
 //        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"

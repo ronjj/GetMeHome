@@ -12,6 +12,7 @@ struct FilterRowView: View {
     @Binding var minDepartureTimeSelected: Bool
     @Binding var latestArrivalTimeSelected: Bool
     @Binding var chooseBusServiceSelected: Bool
+    @Binding var includeTransfersSelected: Bool
     
     var body: some View {
         ScrollView(.horizontal) {
@@ -30,6 +31,11 @@ struct FilterRowView: View {
                     chooseBusServiceSelected.toggle()
                 } label: {
                     FilterButton(buttonTitle: "Bus Service", isSelected: $chooseBusServiceSelected)
+                }
+                Button {
+                    includeTransfersSelected.toggle()
+                } label: {
+                    FilterButton(buttonTitle: "Remove Transfers", isSelected: $includeTransfersSelected)
                 }
             }
         }
