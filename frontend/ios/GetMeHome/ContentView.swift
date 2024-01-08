@@ -86,6 +86,14 @@ extension ContentView {
                         on: newDateString,
                         bus: viewModel.convertForQuery(value: selectedService))
                     
+                    if earliestDepartureTimeToggle {
+                        trips = viewModel.filterMinDepartureTime(tripsArray: trips ?? [], minTime: earliestDepartureTime)
+                    }
+                    
+                    if latestArrivalTimeToggle {
+                        trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime)
+                    }
+                    
                     discountCodes = try await viewModel.getDiscountCodes(
                         from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
                         to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
@@ -160,6 +168,7 @@ extension ContentView {
             }
             .padding()
             searchAndBusPicker
+//            FilterRowView()
             
             if earliestDepartureTimeToggle {
                 DatePicker("Earilest Departure Time", selection: $earliestDepartureTime, displayedComponents: .hourAndMinute)
