@@ -265,7 +265,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 intermediate_stations_request = requests.get(intermediate_stations_link)
                 intermediate_stations_response = json.loads(intermediate_stations_request.text)
                 intermediate_stations_info = intermediate_stations_response["scheduledStops"]
-                intermediate_count = len(intermediate_stations_info) - 2
+                intermediate_count = len(intermediate_stations_info) 
                 
                 intermediate_stations_names = []
                 for index in range(0,intermediate_count):
@@ -277,7 +277,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
 
             newTrip = Trip(non_stop=non_stop,
                            intermediate_stations=intermediate_stations_names,
-                           intermediate_count=intermediate_count,
+                           intermediate_count=intermediate_count - 2,
                            ticket_link=ticket_link, 
                            random_num=random_num, 
                            date=date, price=price, 
@@ -363,17 +363,17 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 # There is only intermediate stop information for Direct Trips
                 if transfer_type == "Direct":
                     try:
-                            intermediate_count = flix_info[uid]['intermediate_stations_count']
-                            flix_id_parts = uid.split(":")
-                            intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
-                            intermediate_stations_request = requests.get(intermediate_stations_link)
-                            intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                            intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
-                            intermediate_count = len(intermediate_stations_info) - 2
-                            intermediate_stations_names = []
-                            for index in range(0,intermediate_count):
-                                city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
-                                intermediate_stations_names.append(city_name)
+                        intermediate_count = flix_info[uid]['intermediate_stations_count']
+                        flix_id_parts = uid.split(":")
+                        intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip=direct%3A{flix_id_parts[1]}%3A{flix_id_parts[2]}%3A{flix_id_parts[3]}"
+                        intermediate_stations_request = requests.get(intermediate_stations_link)
+                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                        intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
+                        intermediate_count = len(intermediate_stations_info) 
+                        intermediate_stations_names = []
+                        for index in range(0,intermediate_count):
+                            city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
+                            intermediate_stations_names.append(city_name)
                     except:
                         intermediate_stations_names = []
                         intermediate_count = 0
@@ -402,7 +402,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 
                 newTrip = Trip(non_stop=non_stop,
                                intermediate_stations=intermediate_stations_names, 
-                               intermediate_count=intermediate_count,
+                               intermediate_count=intermediate_count - 2,
                                ticket_link=ticket_link,
                                random_num=random_num,
                                 date=departure_date, 
