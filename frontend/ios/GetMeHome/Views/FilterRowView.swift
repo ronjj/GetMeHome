@@ -9,18 +9,31 @@ import SwiftUI
 
 struct FilterRowView: View {
     
-    @State var departureTimeSelected: Bool = false
+    @Binding var minDepartureTimeSelected: Bool
+    @Binding var latestArrivalTimeSelected: Bool
+    @Binding var chooseBusServiceSelected: Bool
     
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
                 Button {
-                    departureTimeSelected.toggle()
+                    minDepartureTimeSelected.toggle()
                 } label: {
-                    FilterButton(buttonTitle: "Departure Time", isSelected: $departureTimeSelected)
+                    FilterButton(buttonTitle: "Departure Time", isSelected: $minDepartureTimeSelected)
+                }
+                Button {
+                    latestArrivalTimeSelected.toggle()
+                } label: {
+                    FilterButton(buttonTitle: "Arrival Time", isSelected: $latestArrivalTimeSelected)
+                }
+                Button {
+                    chooseBusServiceSelected.toggle()
+                } label: {
+                    FilterButton(buttonTitle: "Bus Service", isSelected: $chooseBusServiceSelected)
                 }
             }
         }
+        .scrollIndicators(.hidden)
     }
 }
 
@@ -36,6 +49,5 @@ struct FilterButton: View {
             .foregroundColor(isSelected ? .white : .black)
             .background(isSelected ? .purple : .gray.opacity(0.5))
             .cornerRadius(10)
-           
     }
 }
