@@ -70,8 +70,6 @@ struct ContentView: View {
 
 extension ContentView {
     private var searchAndBusPicker: some View {
-        
-        
         Button {
             //           Converting Date From:  2023-11-24 21:51:35 +0000
             //           To: 11-24-2023
@@ -118,9 +116,6 @@ extension ContentView {
         .padding(.horizontal)
         .tint(.indigo)
         .disabled(selectedDeparture == selectedArrival || selectedService == "" || isLoading)
-           
-           
-        
     }
     
     private var dateAndLocationPickers: some View {
