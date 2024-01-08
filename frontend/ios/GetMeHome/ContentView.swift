@@ -82,8 +82,18 @@ extension ContentView {
             Task {
                 isLoading = true
                 do {
-                    trips = try await viewModel.getTrips(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
-                    discountCodes = try await viewModel.getDiscountCodes(from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york", to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca", on: newDateString, bus: viewModel.convertForQuery(value: selectedService), minTime: (earliestDepartureTimeToggle ? earliestDepartureTime : Date.init(timeIntervalSince1970: 0)), latestArrival: (latestArrivalTimeToggle ? latestArrivalTime : Date.init(timeIntervalSince1970: 0)))
+                    trips = try await viewModel.getTrips(
+                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
+                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
+                        on: newDateString,
+                        bus: viewModel.convertForQuery(value: selectedService))
+                    
+                    discountCodes = try await viewModel.getDiscountCodes(
+                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
+                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
+                        on: newDateString,
+                        bus: viewModel.convertForQuery(value: selectedService))
+                    
                     isLoading = false
                     clickedSearch = true
                 } catch TripError.invalidURL {
