@@ -79,6 +79,7 @@ import SwiftUI
         return newTripsArray
     }
     
+//   includeTransfers parameter is included as inline documentation + additional clarity when calling function
     func filterTransfer(tripsArray: [Trip], includeTransfers: Bool) -> [Trip] {
         print("results before: \(tripsArray.count)")
         let newTripsArray = tripsArray.filter{ $0.nonStop == "True"}

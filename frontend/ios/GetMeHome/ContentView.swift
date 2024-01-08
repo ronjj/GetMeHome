@@ -69,8 +69,6 @@ extension ContentView {
             let formatter = DateFormatter()
             formatter.dateFormat = "MM-dd-yyyy"
             let newDateString = formatter.string(from: selectedDate)
-            print(selectedService)
-            print(selectServiceToggle)
             
             Task {
                 isLoading = true
@@ -178,6 +176,8 @@ extension ContentView {
                 latestArrivalTimeSelected: $latestArrivalTimeToggle,
                 chooseBusServiceSelected: $selectServiceToggle, 
                 includeTransfersSelected: $removeTransfersToggle)
+            
+                .padding(.top)
            
             if earliestDepartureTimeToggle {
                 DatePicker("Earliest Departure Time", 
