@@ -100,6 +100,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
         "new_york":"New%20York,%20NY",
+        "syracuse": "Syracuse,%20NY"
     }
 
     try:
@@ -217,8 +218,11 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
 
     mega_location_id = {
         "511":"Ithaca",
-        "ithaca":"511",
         "123":"New York",
+        "139":"Syracuse",
+
+        "syracuse":"139",
+        "ithaca":"511",
         "new_york": "123"
     }
     proper_date = format_date(search_date=date, bus_service="mega")
@@ -308,7 +312,9 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
+        "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
 
+        "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
         "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
         "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
         "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
