@@ -12,8 +12,8 @@ struct TripWrapper: Codable {
 }
 
 struct LocationCoords: Codable, Hashable {
-    let longitude: Float
-    let latitude: Float
+    let longitude: Double
+    let latitude: Double
 }
 
 struct Trip: Hashable, Codable {

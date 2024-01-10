@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct TripDetailView: View {
     
@@ -16,57 +17,78 @@ struct TripDetailView: View {
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
     
+    
+    @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
+    @State private var mapDetailSelected = false
+    
     var body: some View {
-        List {
-            Section("Date") {
-                Text(date, style: .date)
-            }
-            Section("Time") {
-                Text("\(trip.departureTime) - \(trip.arrivalTime)")
-            }
-            Section("Price") {
-                Text("$\(trip.price, specifier: "%.2f")")
-            }
-            Section("Departure") {
-                Text("\(trip.departureLocation)")
-            }
-            Section("Destination") {
-                Text("\(trip.arrivalLocation)")
-            }
-            
-            Section("Intermediate Stops") {
-                Text("\(trip.intermediateCount)")
-            }
-            
-            Section("Bus Destinations") {
-                VStack(alignment: .leading) {
-                    ForEach(trip.intermediateStations, id: \.self) { station in
-                        Text(station)
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                CustomSection(sectionTitle: "Date", sectionText: Text(date, style: .date))
+                
+                CustomSection(sectionTitle: "Time", sectionText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
+                
+                CustomSection(sectionTitle: "Price", sectionText: Text("$\(trip.price, specifier: "%.2f")"))
+
+                CustomSection(sectionTitle: "Departure", sectionText: Text("\(trip.departureLocation)"))
+                
+                CustomSection(sectionTitle: "Destination", sectionText:  Text("\(trip.arrivalLocation)"))
+                
+                CustomSection(sectionTitle: "Intermediate Stops", sectionText: Text("\(trip.intermediateCount)"))
+                
+                CustomSection(sectionTitle: "Bus Destinations", sectionListType: .tripLocations, trip: trip)
+                
+                if !discountCodes.isEmpty {
+                    CustomSection(sectionTitle: "Discount Codes", sectionListType: .discountCodes, discountCodes: discountCodesFiltered)
                 }
-            }
-            
-            if !discountCodes.isEmpty {
-                Section("Discount Codes") {
-                    VStack(alignment: .leading) {
-                        ForEach(discountCodesFiltered) { discountCode in
-                            Text("- \(discountCode.code)")
+                
+                CustomSection(sectionTitle: "Bus Service", sectionText: Text("\(trip.busService)"))
+                
+                HStack {
+                    Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                        .buttonStyle(.bordered)
+                        .tint(.indigo)
+                        .frame(maxWidth: .infinity)
+                }
+                
+                HStack {
+                    if trip.arrivalLocationCoords.latitude != 0.0 {
+                        Map(position: $location) {
+                            Marker("Departure Location",coordinate: CLLocationCoordinate2D(latitude: trip.departureLocationCoords.latitude, longitude: trip.departureLocationCoords.longitude))
+                                .tint(.purple)
+                            
+                            Marker("Arrival Location",coordinate: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude))
+                                .tint(.purple)
+                        }
+
+                        .frame(maxWidth: .infinity)
+                        .aspectRatio(1, contentMode: .fill)
+                        
+                        .onTapGesture {
+                            mapDetailSelected.toggle()
+                        }
+                        .cornerRadius(30)
+                        .overlay(alignment: .topTrailing) {
+                            Button {
+                                mapDetailSelected.toggle()
+                            } label: {
+                                Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle.fill")
+                                    .font(.headline)
+                                    .padding(16)
+                                    .foregroundColor(.primary)
+                                    .background(.thickMaterial)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 4)
+                                    .padding()
+                                    .rotationEffect(Angle(degrees: 270))
+                            }
                         }
                     }
                 }
             }
-            
-            Section("Bus Service") {
-                Text("\(trip.busService)")
-            }
-        
-            HStack {
-                Spacer()
-                Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-                    .buttonStyle(.bordered)
-                    .tint(.indigo)
-                Spacer()
-            }
+        }
+        .sheet(isPresented: $mapDetailSelected) {
+            MapDetailView(trip: trip, mapDetailSelected: $mapDetailSelected)
         }
         .onAppear(perform: {
             let dateFormatter = DateFormatter()
@@ -81,9 +103,13 @@ struct TripDetailView: View {
             
             let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
             discountCodesFiltered = filteredCodesForService
+            
+            let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
+            location = MapCameraPosition.region(coordinates)
         })
         .listStyle(.plain)
     }
 }
+
 
 

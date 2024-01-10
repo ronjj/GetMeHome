@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581342B3F54E90068B6F0 /* Discount Code.swift */; };
 		540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581362B3F5EF60068B6F0 /* BusLabel.swift */; };
+		5410CA2A2B4EECA700828BCB /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410CA292B4EECA700828BCB /* MapDetailView.swift */; };
+		5410CA2C2B4EEEB900828BCB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410CA2B2B4EEEB900828BCB /* MapView.swift */; };
+		5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410CA2D2B4EF2D400828BCB /* CustomSection.swift */; };
 		543928832B10EDA400C5E609 /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928822B10EDA400C5E609 /* TripRowView.swift */; };
 		543928852B10EDD200C5E609 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928842B10EDD200C5E609 /* Trip.swift */; };
 		543928872B1100B100C5E609 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928862B1100B100C5E609 /* TripDetailView.swift */; };
@@ -28,6 +31,9 @@
 /* Begin PBXFileReference section */
 		540581342B3F54E90068B6F0 /* Discount Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Discount Code.swift"; sourceTree = "<group>"; };
 		540581362B3F5EF60068B6F0 /* BusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusLabel.swift; sourceTree = "<group>"; };
+		5410CA292B4EECA700828BCB /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
+		5410CA2B2B4EEEB900828BCB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		5410CA2D2B4EF2D400828BCB /* CustomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSection.swift; sourceTree = "<group>"; };
 		543928822B10EDA400C5E609 /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		543928842B10EDD200C5E609 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		543928862B1100B100C5E609 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
@@ -59,6 +65,8 @@
 		5439287F2B10ED7C00C5E609 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5410CA292B4EECA700828BCB /* MapDetailView.swift */,
+				5410CA2B2B4EEEB900828BCB /* MapView.swift */,
 				543928822B10EDA400C5E609 /* TripRowView.swift */,
 				548D3CFF2B12460300E9067F /* TripListView.swift */,
 				548D3D012B124DAC00E9067F /* LoadingView.swift */,
@@ -66,6 +74,7 @@
 				54B617142B4C7DAA00657D6F /* SearchButton.swift */,
 				54B617102B4C611D00657D6F /* FilterRowView.swift */,
 				54B617162B4C805A00657D6F /* DateAndLocationPickerView.swift */,
+				5410CA2D2B4EF2D400828BCB /* CustomSection.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,15 +215,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				548D3D002B12460300E9067F /* TripListView.swift in Sources */,
+				5410CA2C2B4EEEB900828BCB /* MapView.swift in Sources */,
 				543928872B1100B100C5E609 /* TripDetailView.swift in Sources */,
 				543928892B11199B00C5E609 /* MockData.swift in Sources */,
 				54B617112B4C611D00657D6F /* FilterRowView.swift in Sources */,
 				543928852B10EDD200C5E609 /* Trip.swift in Sources */,
 				543928832B10EDA400C5E609 /* TripRowView.swift in Sources */,
 				540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */,
+				5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
 				547AB0112B0FE14400F7C539 /* ContentView.swift in Sources */,
 				547AB00F2B0FE14400F7C539 /* GetMeHomeApp.swift in Sources */,
+				5410CA2A2B4EECA700828BCB /* MapDetailView.swift in Sources */,
 				54B0DF562B113421006263DF /* ViewModel.swift in Sources */,
 				54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */,
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
