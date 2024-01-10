@@ -38,8 +38,10 @@ class Trip:
             dep_location, 
             bus_serivce, 
             ticket_link, 
-            non_stop="N/A", 
-            intermediate_count=0, 
+            non_stop, 
+            arr_location_coords = {"longitude": 0.0, "latitude": 0.0},
+            dep_location_coords = {"longitude": 0.0, "latitude": 0.0},
+            intermediate_count = 0, 
             intermediate_stations = [],
             ):
         
@@ -55,6 +57,8 @@ class Trip:
         self.ticket_link = ticket_link
         self.intermediate_count = intermediate_count
         self.intermediate_stations = intermediate_stations
+        self.arrival_location_coords = arr_location_coords
+        self.departure_location_coords = dep_location_coords
     
     def __str__(self) -> str:
         return f"date: {self.date}, price: {self.price}, dep: {self.departure_time} @ {self.departure_location}, arr:{self.arrival_time} @ {self.arrival_location}, bus: {self.bus_service}, non-stop:{self.non_stop}"
@@ -394,19 +398,36 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 bus_service = 'FlixBus'
                 price = flix_info[uid]['price']['total']
                 random_num = randrange(10000)
+                dep_coords = {}
+                arrival_coords = {}
 
                 # Make request to get intermediate stop information
                 # There is only intermediate stop information for Direct Trips
                 if transfer_type == "Direct":
                     try:
-                        intermediate_count = flix_info[uid]['intermediate_stations_count']
                         uid_string = flix_info[uid]['uid']
+                        intermediate_count = flix_info[uid]['intermediate_stations_count']
                         uid_string_replace_colons = uid_string.replace(":","%3A")
                         intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip={uid_string_replace_colons}"
                         intermediate_stations_request = requests.get(intermediate_stations_link)
                         intermediate_stations_response = json.loads(intermediate_stations_request.text)
                         intermediate_stations_info = intermediate_stations_response["itinerary"][0]["segments"]
                         intermediate_count = len(intermediate_stations_info) 
+
+                        arrival_longitude = intermediate_stations_response['arrival']['coordinates']['longitude']
+                        arrival_latitude = intermediate_stations_response['arrival']['coordinates']['latitude']
+                        arrival_coords = {
+                            "longitude": arrival_longitude,
+                            "latitude": arrival_latitude
+                        }
+                        
+                        dep_long = intermediate_stations_response['departure']['coordinates']['longitude']
+                        dep_lat = intermediate_stations_response['departure']['coordinates']['latitude']
+                        dep_coords = {
+                             "longitude": dep_long,
+                             "latitude": dep_lat
+                        }
+
                         intermediate_stations_names = []
                         for index in range(0,intermediate_count):
                             city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
@@ -427,6 +448,20 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                         # iterate through transfers and add that to intermediate stations names
                         intermediate_count = 0 
                         intermediate_stations_names = []
+
+                        arrival_longitude = intermediate_stations_response['arrival']['coordinates']['longitude']
+                        arrival_latitude = intermediate_stations_response['arrival']['coordinates']['latitude']
+                        arrival_coords = {
+                                "longitude": arrival_longitude,
+                                "latitude": arrival_latitude
+                        }
+
+                        dep_long = intermediate_stations_response['departure']['coordinates']['longitude']
+                        dep_lat = intermediate_stations_response['departure']['coordinates']['latitude']
+                        dep_coords = {
+                             "longitude": dep_long,
+                             "latitude": dep_lat
+                        }
                         
                         for item in intermediate_stations_response['itinerary']:
                             if item['type'] == "ride":
@@ -455,7 +490,9 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                                 arr_location=arrival_city,
                                 dep_time=dep_time_12h, 
                                 dep_location=departure_city, 
-                                bus_serivce=bus_service)
+                                bus_serivce=bus_service,
+                                dep_location_coords=dep_coords,
+                                arr_location_coords=arrival_coords)
                 result.append(newTrip)
             
         # Dont want to wrap in json if its in the get all function
