@@ -14,7 +14,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 **Frontend**:
 
-- Technologies: Swift, SwiftUI
+- Technologies: Swift, SwiftUI, MapKit
 - Features:
 
   - Select date of trip, origin, and destination and search for corresponding trips
@@ -22,6 +22,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
   - View intermediate stops and full route the bus will take
   - Get link to buy ticket from respective services website
   - Get discount codes (OurBus only at the moment)
+  - See trip departure and destination location on map (FlixBus only at the moment)
 
 **What I Learned**:
 
@@ -29,7 +30,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 - Processing JSON information
 - Making a REST API with Flask
 - Connecting iOS app to an API and dynamically populating views from JSON response
-  - Filtering data from JSON response
+- Filtering data from JSON response in Swift
 
 **Challenges**:
 

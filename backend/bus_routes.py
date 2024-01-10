@@ -210,7 +210,9 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                                dep_time=dep_time_12h, 
                                dep_location=departure_location, 
                                bus_serivce=bus, 
-                               non_stop=non_stop)
+                               non_stop=non_stop,
+                               arr_location_coords={"longitude": 0.0, "latitude": 0.0},
+                               dep_location_coords={"longitude": 0.0, "latitude": 0.0})
                 result.append(newTrip)
           
         if all_or_single:
@@ -312,7 +314,9 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                            arr_location=arr_location, 
                            dep_time=dep_time_12h, 
                            dep_location=departure_location, 
-                           bus_serivce=bus)
+                           bus_serivce=bus,
+                           arr_location_coords={"longitude": 0.0, "latitude": 0.0},
+                           dep_location_coords={"longitude": 0.0, "latitude": 0.0})
             result.append(newTrip)
 
         if all_or_single:
