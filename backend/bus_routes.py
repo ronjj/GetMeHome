@@ -6,6 +6,7 @@ import jsonpickle
 from datetime import datetime
 from random import randrange
 import exceptions
+import regions
 
 """
 Bus Routes:
@@ -92,6 +93,70 @@ def format_date(search_date, bus_service):
         return f"{year}-{month}-{day}"
     if bus_service == "our":
         return f"{month}/{day}/{year}"
+
+
+# Region Request
+def check_for_region_search(dep_loc, arr_loc, bus_service):
+    if arr_loc in str(regions.regions):
+        service_locations_in_region = bus_service[arr_loc]
+        for location in service_locations_in_region:
+            group_search(bus_service=bus_service, dep_loc=dep_loc, arr_loc=location)
+
+    else:
+        service_locations_in_region = bus_service[dep_loc]
+        for location in service_locations_in_region:
+            group_search(bus_service=bus_service, dep_loc=location, arr_loc=arr_loc)
+
+
+def group_search(bus_service, dep_loc, arr_loc, date, all_or_single):
+    if bus_service == "all":
+        trips = []
+        discount_codes = []
+
+        our_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += our_trips
+        discount_codes += our_trips['discount_codes']
+
+        flix_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += flix_trips
+        discount_codes += flix_trips['discount_codes']
+
+        mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += mega_trips
+        discount_codes += mega_trips['discount_codes']
+
+    elif bus_service == "flix":
+        trips = []
+        discount_codes = []
+       
+        new_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += new_trips
+        discount_codes += new_trips['discount_codes']
+
+    elif bus_service == "mega":
+        trips = []
+        discount_codes = []
+
+        new_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += new_trips
+        discount_codes += new_trips['discount_codes']
+
+    else:
+        trips = []
+        discount_codes = []
+
+        new_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=all_or_single)
+        trips += new_trips
+        discount_codes += new_trips['discount_codes']
+
+    trips.sort(key=lambda x: x.price)
+
+    trips_and_codes =  {
+    "trips": trips,
+    "discount_codes": discount_codes
+    }
+
+    return jsonpickle.encode(trips_and_codes)
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, all_or_single):
@@ -330,6 +395,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
         "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
+        "hempstead": "5d1d4fc4-00f0-4538-a8f6-90c90ab8f469",
+        "queens": "f972cfaf-0f9b-4567-90a7-a2e8b4b1f141",
 
         # Station IDs
         "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
@@ -340,6 +407,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
         "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
         "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
+        "5d1d4fc4-00f0-4538-a8f6-90c90ab8f469": "Hempstead",
+        "f972cfaf-0f9b-4567-90a7-a2e8b4b1f141": "Queens",
     }
     
     # Added for future routes where Flixbus is not supported
