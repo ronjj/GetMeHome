@@ -14,7 +14,7 @@ struct ContentView: View {
 //    User Selections
     @State private var selectedDate = Date()
     @State private var selectedDeparture = "Ithaca"
-    @State private var selectedArrival = "New York"
+    @State private var selectedArrival = "NYC"
     @State private var switchOriginAndDestinationButtonClicked = false
     @State private var clickedSearch = false
     @State private var isLoading = false
@@ -78,6 +78,7 @@ struct ContentView: View {
                 
                 if earliestDepartureTimeToggle {
                     DatePicker("Earliest Departure Time",
+//                               Need complicated binding so I can make earliestDeparture nil
                                selection: Binding<Date>(get: {self.earliestDepartureTime ?? Date()}, set: {self.earliestDepartureTime = $0}),
                                displayedComponents: .hourAndMinute)
                         .tint(.purple)

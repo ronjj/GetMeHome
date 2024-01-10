@@ -100,8 +100,18 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     ourbus_location_id = {
         "ithaca":"Ithaca,%20NY",
         "new_york":"New%20York,%20NY",
+        "syracuse": "Syracuse,%20NY",
+        "syr_airport": "Syracuse%20Airport,%20NY",
     }
 
+    # Added for future routes where OurBus is not supported
+    if dep_loc not in ourbus_location_id.keys() or arr_loc not in ourbus_location_id.keys():
+        print("Dep or Arrival Not Supported by Ourbus")
+        return {
+            "trips": [],
+            "discount_codes": []
+        }
+    
     try:
         api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
         web = urllib.request.urlopen(api_and_ticket_link)
@@ -217,12 +227,23 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
 
     mega_location_id = {
         "511":"Ithaca",
-        "ithaca":"511",
         "123":"New York",
+        "139":"Syracuse",
+
+        "syracuse":"139",
+        "ithaca":"511",
         "new_york": "123"
     }
     proper_date = format_date(search_date=date, bus_service="mega")
 
+    # Added for future routes where Megabus is not supported
+    if dep_loc not in mega_location_id.keys() or arr_loc not in mega_location_id.keys():
+        print("Dep or Arrival Not Supported by Megabus")
+        return {
+            "trips": [],
+            "discount_codes": []
+        } 
+    
     ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={mega_location_id[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={mega_location_id[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
     try:
         mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
@@ -308,23 +329,37 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     flix_location_id = {
         "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
+        "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
 
+        # Station IDs
+        "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
         "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
         "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
-        "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
         "e204bb66-8ab9-4437-8d0d-2b603cdf0c43": "New York Port Authority",
         "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
         "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
+        "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
+        "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
     }
-   
+    
+    # Added for future routes where Flixbus is not supported
+    if dep_loc not in flix_location_id.keys() or arr_loc not in flix_location_id.keys():
+        print("Dep or Arrival Not Supported by Flixbus")
+        return {
+            "trips": [],
+            "discount_codes": []
+        }
+
     proper_date = format_date(search_date=date, bus_service="flix")
     link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
     try:
         flix_request = requests.get(link)
         flix_response = json.loads(flix_request.text)
         flix_info = flix_response['trips'][0]['results']
+        print(flix_info)
 
     except Exception as e:
+        print("raisedd exception here for some reason")
         raise e
     
     else:
