@@ -101,13 +101,16 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         "ithaca":"Ithaca,%20NY",
         "new_york":"New%20York,%20NY",
         "syracuse": "Syracuse,%20NY",
-        "syr_airport": "Syracuse%20Airport",
+        "syr_airport": "Syracuse%20Airport,%20NY",
     }
 
     # Added for future routes where OurBus is not supported
     if dep_loc not in ourbus_location_id.keys() or arr_loc not in ourbus_location_id.keys():
         print("Dep or Arrival Not Supported by Ourbus")
-        return
+        return {
+            "trips": [],
+            "discount_codes": []
+        }
     
     try:
         api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
@@ -236,7 +239,10 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     # Added for future routes where Megabus is not supported
     if dep_loc not in mega_location_id.keys() or arr_loc not in mega_location_id.keys():
         print("Dep or Arrival Not Supported by Megabus")
-        return
+        return {
+            "trips": [],
+            "discount_codes": []
+        } 
     
     ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={mega_location_id[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={mega_location_id[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
     try:
@@ -339,7 +345,10 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     # Added for future routes where Flixbus is not supported
     if dep_loc not in flix_location_id.keys() or arr_loc not in flix_location_id.keys():
         print("Dep or Arrival Not Supported by Flixbus")
-        return
+        return {
+            "trips": [],
+            "discount_codes": []
+        }
 
     proper_date = format_date(search_date=date, bus_service="flix")
     link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"

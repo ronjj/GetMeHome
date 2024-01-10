@@ -12,7 +12,7 @@ import SwiftUI
 @Observable class ViewModel {
     var trips: [Trip] = []
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
-    let locationQueryMap = ["NYC":"new_york", "Ithaca": "ithaca", "Syracuse": "syracuse"]
+    let locationQueryMap = ["NYC":"new_york", "Ithaca": "ithaca", "Syracuse": "syracuse", "SYR Airport": "syr_airport"]
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
     
     func calculateDateRange() -> Date {
