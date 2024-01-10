@@ -11,6 +11,11 @@ struct TripWrapper: Codable {
     let trips: [Trip]
 }
 
+struct LocationCoords: Codable, Hashable {
+    let longitude: Float
+    let latitude: Float
+}
+
 struct Trip: Hashable, Codable {
     let randomNum: Int
     let date: String
@@ -24,6 +29,6 @@ struct Trip: Hashable, Codable {
     let ticketLink: String
     let intermediateCount: Int
     let intermediateStations: [String]
+    let arrivalLocationCoords: LocationCoords
+    let departureLocationCoords: LocationCoords
 }
-
-
