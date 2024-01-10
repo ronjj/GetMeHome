@@ -192,7 +192,8 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                         city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
                         intermediate_stations_names.append(city_and_location)
             
-                except:
+                except Exception as e:
+                    print(e)
                     intermediate_count = 0
                     intermediate_stations_names = []
 
@@ -292,7 +293,8 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 for index in range(0,intermediate_count):
                     city_and_location = f"{index+1}. {intermediate_stations_info[index]['cityName']} \n{intermediate_stations_info[index]['location']}"
                     intermediate_stations_names.append(city_and_location)
-            except:
+            except Exception as e:
+                print(e)
                 intermediate_count = 0
                 intermediate_stations_names = []
 
@@ -356,7 +358,6 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         flix_request = requests.get(link)
         flix_response = json.loads(flix_request.text)
         flix_info = flix_response['trips'][0]['results']
-        print(flix_info)
 
     except Exception as e:
         print("raisedd exception here for some reason")
@@ -399,6 +400,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 if transfer_type == "Direct":
                     try:
                         intermediate_count = flix_info[uid]['intermediate_stations_count']
+                        uid_string = flix_info[uid]['uid']
                         uid_string_replace_colons = uid_string.replace(":","%3A")
                         intermediate_stations_link = f"https://global.api.flixbus.com/search/service/v2/trip/details?locale=en_US&trip={uid_string_replace_colons}"
                         intermediate_stations_request = requests.get(intermediate_stations_link)
@@ -409,7 +411,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                         for index in range(0,intermediate_count):
                             city_name = f"{index + 1}. {intermediate_stations_info[index]['name']}"
                             intermediate_stations_names.append(city_name)
-                    except:
+                    except Exception as e:
+                        print(e)
                         intermediate_stations_names = []
                         intermediate_count = 0
                 else:
@@ -437,9 +440,10 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                                 intermediate_count += 1
                         # Subtract 2 when I create the trip so I add back to here
                         intermediate_count += 2
-                    except:
-                            intermediate_stations_names = []
-                            intermediate_count = 0
+                    except Exception as e:
+                        print(e)   
+                        intermediate_stations_names = []
+                        intermediate_count = 0
                 
                 newTrip = Trip(non_stop=non_stop,
                                intermediate_stations=intermediate_stations_names, 
