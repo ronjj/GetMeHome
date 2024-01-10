@@ -314,6 +314,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
         "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
 
+        # Station IDs
         "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
         "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
         "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
@@ -321,6 +322,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         "e204bb66-8ab9-4437-8d0d-2b603cdf0c43": "New York Port Authority",
         "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
         "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
+        "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
+        "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
     }
    
     proper_date = format_date(search_date=date, bus_service="flix")
@@ -329,8 +332,11 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         flix_request = requests.get(link)
         flix_response = json.loads(flix_request.text)
         flix_info = flix_response['trips'][0]['results']
+        print(flix_info)
+
 
     except Exception as e:
+        print("raisedd exception here for some reason")
         raise e
     
     else:

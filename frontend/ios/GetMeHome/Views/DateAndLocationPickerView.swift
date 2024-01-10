@@ -61,7 +61,7 @@ struct DateAndLocationPickerView: View {
                 .tint(.purple)
             }
             .padding()
-            .frame(width: .infinity)
+            .frame(maxWidth: .infinity)
         }
     }
 }
