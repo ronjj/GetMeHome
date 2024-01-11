@@ -39,7 +39,7 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.purple]), startPoint: .leading, endPoint: .trailing)
+            LinearGradient(gradient: Gradient(colors: [.purple, .purple.opacity(0.75)]), startPoint: .bottomLeading, endPoint: .topTrailing)
             VStack {
                 Text("GetMeHome")
                     .fontWeight(.black)
@@ -57,7 +57,6 @@ struct LoginView: View {
                 }
                 .foregroundColor(colorScheme == .dark ? .white : .black)
                 .buttonStyle(.bordered)
-
                 
             }
             .listStyle(.plain)
