@@ -17,8 +17,11 @@ struct TripRowView: View {
     var busService: String
     var nonStop: String
     
+    @State var isFavorite: Bool = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            
             Text("$\(price, specifier: "%.2f")")
                 .fontWeight(.bold)
             
@@ -51,6 +54,13 @@ struct TripRowView: View {
             else {
                 BusLabel(busService: busService)
             }
+            Button {
+                isFavorite.toggle()
+            } label : {
+                Text(isFavorite ? "Saved" : "Save")
+            }
+            .tint(isFavorite ? .purple : .gray)
+            .buttonStyle(.bordered)
         }
     }
 }
