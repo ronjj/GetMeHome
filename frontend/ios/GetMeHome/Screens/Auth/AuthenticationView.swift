@@ -18,8 +18,7 @@ struct AuthenticationView: View {
         LoginView()
           .environmentObject(viewModel)
       case .signUp:
-        SignupView()
-          .environmentObject(viewModel)
+        EmptyView()
       }
     }
     .onAppear {
@@ -27,3 +26,5 @@ struct AuthenticationView: View {
     }
   }
 }
+
+
