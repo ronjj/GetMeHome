@@ -106,8 +106,11 @@ struct ContentView: View {
             } else {
                 TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
             }
+               
         }
         .ignoresSafeArea()
         .padding()
+        
     }
 }
+
