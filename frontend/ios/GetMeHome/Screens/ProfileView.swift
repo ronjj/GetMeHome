@@ -12,14 +12,20 @@ struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
 
     var body: some View {
-        VStack{
-            Text("Profile View")
-            Text("You're logged in as \(authViewModel.displayName).")
-            Button {
-                authViewModel.signOut()
-            } label: {
-                Text("Sign Out")
+        NavigationStack {
+            VStack{
+                Text("Profile View")
+                Text("You're logged in as \(authViewModel.displayName).")
+                Button {
+                    authViewModel.signOut()
+                } label: {
+                    Text("Sign Out")
+                }
+                
+                Text("Saved Tickets")
             }
+            
+            .navigationTitle("Profile View")
         }
     }
 }

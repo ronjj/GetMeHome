@@ -37,6 +37,15 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
+                
+                VStack(alignment: .center) {
+                    Text("GetMeHome")
+                        .font(.title)
+                        .fontWeight(.black)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 0)
+             
                 DateAndLocationPickerView(
                     selectedDeparture: $selectedDeparture,
                     selectedArrival: $selectedArrival,
@@ -110,6 +119,7 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
         .padding()
+        .navigationTitle("GetMeHome")
         
     }
 }
