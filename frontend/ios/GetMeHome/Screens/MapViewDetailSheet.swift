@@ -28,6 +28,10 @@ struct MapViewDetailSheet: View {
                 .tint(.purple)
             Marker("Departure Location", coordinate: departureCoordinates)
                 .tint(.purple)
+            MapPolyline(coordinates: [arrivalCoordinates, departureCoordinates],  contourStyle: MapPolyline.ContourStyle.geodesic)
+                .stroke(lineWidth: 5)
+                .tint(.purple)
+                .mapOverlayLevel(level: .aboveLabels)
         }
         .mapStyle(switchMapType ? .hybrid : .standard)
         .mapControls {
