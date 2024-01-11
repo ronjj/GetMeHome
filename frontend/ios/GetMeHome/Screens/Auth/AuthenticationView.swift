@@ -22,5 +22,8 @@ struct AuthenticationView: View {
           .environmentObject(viewModel)
       }
     }
+    .onAppear {
+        viewModel.reset()
+    }
   }
 }

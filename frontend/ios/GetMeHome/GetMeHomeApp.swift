@@ -36,26 +36,8 @@ struct GetMeHomeApp: App {
                 
                 switch viewModel.authenticationState {
                 case .unauthenticated, .authenticating:
-                    VStack {
-                        ZStack {
-                            LinearGradient(gradient: Gradient(colors: [.purple]), startPoint: .leading, endPoint: .trailing)
-                            VStack {
-                                Text("GetMeHome")
-                                      .fontWeight(.black)
-                                      .font(.title)
-                                      .foregroundStyle(.white)
-                                Button("Tap here to log in") {
-                                    viewModel.reset()
-                                    presentingLoginScreen.toggle()
-                                }
-                            }
-                        }
-                        .ignoresSafeArea(edges: .all)
-                    }
-                    .sheet(isPresented: $presentingLoginScreen) {
-                        AuthenticationView()
-                            .environmentObject(viewModel)
-                    }
+                    AuthenticationView()
+                        .environmentObject(viewModel)
                 case .authenticated:
                     VStack {
                         ContentView()
@@ -70,3 +52,4 @@ struct GetMeHomeApp: App {
         }
     }
 }
+
