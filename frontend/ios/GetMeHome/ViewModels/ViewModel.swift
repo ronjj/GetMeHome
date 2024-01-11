@@ -30,8 +30,8 @@ import SwiftUI
     }
     
     func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
-//                let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+          let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
@@ -89,8 +89,8 @@ import SwiftUI
     
     func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
         
-//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             print("from discount codes")
