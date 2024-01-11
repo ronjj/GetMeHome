@@ -17,6 +17,7 @@ struct MapViewDetailSheet: View {
     @State var mapType: MKMapType = .standard
     @State var switchMapType: Bool = false
     @State var mapDetailSelected: Bool = false
+    @Namespace var mapScope
     
     var arrivalCoordinates: CLLocationCoordinate2D
     var departureCoordinates: CLLocationCoordinate2D
@@ -29,10 +30,12 @@ struct MapViewDetailSheet: View {
                 .tint(.purple)
         }
         .mapStyle(switchMapType ? .hybrid : .standard)
-        .overlay(alignment: .topTrailing) {
+        .mapControls {
+            MapCompass()
+        }
+        .overlay(alignment: .topLeading) {
             VStack{
                 closeButton
-                
                 switchMapButton
             }
         }
@@ -62,9 +65,7 @@ extension MapViewDetailSheet {
             
             if switchMapType {
                 mapType = .hybrid
-            }
-//            TODO: try to use else here
-            if !switchMapType{
+            } else {
                 mapType = .standard
             }
         } label : {
