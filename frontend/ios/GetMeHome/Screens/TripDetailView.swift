@@ -87,7 +87,14 @@ struct TripDetailView: View {
             }
         }
         .sheet(isPresented: $mapDetailSelected) {
-            MapDetailView(trip: trip, mapDetailSelected: $mapDetailSelected)
+            MapViewDetailSheet(arrivalCoordinates:
+                                CLLocationCoordinate2D(
+                                    latitude: trip.arrivalLocationCoords.latitude,
+                                    longitude:  trip.arrivalLocationCoords.longitude) ,
+                               departureCoordinates:
+                                CLLocationCoordinate2D(
+                                    latitude: trip.departureLocationCoords.latitude,
+                                    longitude:  trip.departureLocationCoords.longitude))
         }
         .onAppear(perform: {
             let dateFormatter = DateFormatter()
