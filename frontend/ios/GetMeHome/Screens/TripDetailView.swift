@@ -17,7 +17,6 @@ struct TripDetailView: View {
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
     
-    
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
     

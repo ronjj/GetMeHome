@@ -17,20 +17,34 @@ struct TripRowView: View {
     var busService: String
     var nonStop: String
     
+    @State var isFavorite: Bool = false
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
+        VStack(alignment: .leading, spacing: 5) {
+            
+            Text("$\(price, specifier: "%.2f")")
+                .fontWeight(.bold)
+            
+            HStack (spacing: 2) {
+                Image(systemName: "clock")
                 Text(departureTime)
-                Image(systemName: "arrow.forward")
+                Image(systemName: "arrow.right")
                 Text(arrivalTime)
             }
-            Text("$\(price, specifier: "%.2f")")
-            HStack{
-                Text(departureLocation)
-                Image(systemName: "arrow.forward")
-                Text(arrivalLocation)
-            }
             
+            HStack (spacing:  2) {
+                Image(systemName: "building")
+                Text(departureLocation.prefix(20))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .multilineTextAlignment(.trailing)
+                Image(systemName: "arrow.right")
+                Text(arrivalLocation.prefix(20))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .multilineTextAlignment(.trailing)
+            }
+           
             if nonStop == "False" {
                 HStack {
                     BusLabel(busService: busService)
@@ -40,6 +54,13 @@ struct TripRowView: View {
             else {
                 BusLabel(busService: busService)
             }
+            Button {
+                isFavorite.toggle()
+            } label : {
+                Text(isFavorite ? "Saved" : "Save")
+            }
+            .tint(isFavorite ? .purple : .gray)
+            .buttonStyle(.bordered)
         }
     }
 }
