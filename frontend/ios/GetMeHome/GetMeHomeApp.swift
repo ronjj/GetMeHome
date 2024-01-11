@@ -40,12 +40,9 @@ struct GetMeHomeApp: App {
                         .environmentObject(viewModel)
                 case .authenticated:
                     VStack {
-                        ContentView()
-                        Text("You're logged in as \(viewModel.displayName).")
-                        Button("Tap here to sign out") {
-                            viewModel.signOut()
-                            //          presentingProfileScreen.toggle()
-                        }
+                        TabBarView()
+                            .environmentObject(viewModel)
+                        
                     }
                 }
             }
@@ -53,3 +50,22 @@ struct GetMeHomeApp: App {
     }
 }
 
+struct TabBarView: View {
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    var body: some View {
+        TabView {
+            ContentView()
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("House")
+                }
+            
+            ProfileView()
+                .tabItem {
+                    Image(systemName: "person")
+                    Text("Profile")
+                }
+                .environmentObject(authViewModel)
+        }
+    }
+}

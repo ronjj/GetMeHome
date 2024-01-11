@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct ProfileView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
 
-#Preview {
-    ProfileView()
+    var body: some View {
+        VStack{
+            Text("Profile View")
+            Text("You're logged in as \(authViewModel.displayName).")
+            Button {
+                authViewModel.signOut()
+            } label: {
+                Text("Sign Out")
+            }
+        }
+    }
 }

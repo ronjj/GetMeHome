@@ -31,6 +31,7 @@
 		547DB76F2B5078E800FF2F1C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB76E2B5078E800FF2F1C /* LoginView.swift */; };
 		547DB7712B507A9700FF2F1C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB7702B507A9700FF2F1C /* AuthenticationViewModel.swift */; };
 		547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB7752B50821100FF2F1C /* AuthenticationView.swift */; };
+		547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB77B2B508F3700FF2F1C /* ProfileView.swift */; };
 		548D3D002B12460300E9067F /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3CFF2B12460300E9067F /* TripListView.swift */; };
 		548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3D012B124DAC00E9067F /* LoadingView.swift */; };
 		54B0DF562B113421006263DF /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B0DF552B113421006263DF /* ViewModel.swift */; };
@@ -59,6 +60,7 @@
 		547DB76E2B5078E800FF2F1C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		547DB7702B507A9700FF2F1C /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		547DB7752B50821100FF2F1C /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		547DB77B2B508F3700FF2F1C /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		548D3CFF2B12460300E9067F /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
 		548D3D012B124DAC00E9067F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		54B0DF552B113421006263DF /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		54B617132B4C7D7D00657D6F /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				547DB77B2B508F3700FF2F1C /* ProfileView.swift */,
 				547DB7722B5080FD00FF2F1C /* Auth */,
 				547AB0102B0FE14400F7C539 /* ContentView.swift */,
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
@@ -283,6 +286,7 @@
 				547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */,
 				54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */,
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
+				547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */,
 				540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
