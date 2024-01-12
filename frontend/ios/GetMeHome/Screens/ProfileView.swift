@@ -35,11 +35,11 @@ struct ProfileView: View {
             }
             
             List {
-                Section ("Search Defaults") {
-                    Toggle("Earliest Departure On", isOn: $earliestDepartureOnToggle)
+                Section ("Set Search Defaults") {
+                    Toggle("Earliest Departure", isOn: $earliestDepartureOnToggle)
                         .tint(.purple)
                     if earliestDepartureOnToggle {
-                        DatePicker("Earliest Departure Time",
+                        DatePicker("Earliest Departure",
                                    selection: $earliestDepartureTime,
                                    displayedComponents: .hourAndMinute)
                         .tint(.purple)
@@ -47,7 +47,7 @@ struct ProfileView: View {
                     Toggle("Latest Arrival", isOn: $latestArrivalOnToggle)
                         .tint(.purple)
                     if latestArrivalOnToggle {
-                        DatePicker("Latest Arrival Time",
+                        DatePicker("Latest Arrival",
                                    selection: $latestArrivalTime,
                                    displayedComponents: .hourAndMinute)
                         .tint(.purple)
@@ -58,7 +58,7 @@ struct ProfileView: View {
                     Toggle("Bus Service", isOn: $setDefaultBusToggle)
                         .tint(.purple)
                     if setDefaultBusToggle {
-                        Picker("Choose A Bus Service", selection: $selectedService) {
+                        Picker("Bus Service", selection: $selectedService) {
                             ForEach(viewModel.services, id: \.self) {
                                 Text($0)
                             }

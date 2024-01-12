@@ -24,16 +24,16 @@ struct MapViewDetailSheet: View {
    
     var body: some View {
         Map(position: $location) {
-            Marker("Arrival Location", coordinate: arrivalCoordinates)
+            Marker("Arrival Location", systemImage: "bus.fill", coordinate: arrivalCoordinates)
                 .tint(.purple)
-            Marker("Departure Location", coordinate: departureCoordinates)
+            Marker("Departure Location", systemImage: "star", coordinate: departureCoordinates)
                 .tint(.purple)
             MapPolyline(coordinates: [arrivalCoordinates, departureCoordinates],  contourStyle: MapPolyline.ContourStyle.geodesic)
                 .stroke(lineWidth: 5)
                 .tint(.purple)
                 .mapOverlayLevel(level: .aboveLabels)
         }
-        .mapStyle(switchMapType ? .hybrid : .standard)
+        .mapStyle(switchMapType ? .hybrid(elevation:.realistic) : .standard(elevation:.realistic))
         .mapControls {
             MapCompass()
         }
