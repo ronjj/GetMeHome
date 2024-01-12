@@ -20,8 +20,7 @@ struct ProfileView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
-    @AppStorage("setDefaults") private var setDefaults = false
-
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -35,7 +34,7 @@ struct ProfileView: View {
                     Text("Sign Out")
                 }
             }
-           
+            
             List {
                 Section ("Search Defaults") {
                     Toggle("Earliest Departure On", isOn: $earliestDepartureOnToggle)
@@ -56,7 +55,7 @@ struct ProfileView: View {
                     }
                     Toggle("Remove Transfers", isOn: $removeTransfers)
                         .tint(.purple)
-
+                    
                     Toggle("Bus Service", isOn: $setDefaultBusToggle)
                         .tint(.purple)
                     if setDefaultBusToggle {
@@ -69,26 +68,17 @@ struct ProfileView: View {
                     }
                     
                     if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
-                        VStack {
-                            Button {
-                                setDefaults = true
-                            } label: {
-                                Text("Save")
-                            }
-                            .tint(.purple)
+                        Button {
+                            setDefaults = false
+                            earliestDepartureOnToggle = false
+                            latestArrivalOnToggle = false
+                            setDefaultBusToggle = false
+                            removeTransfers = false
                             
-                            Button {
-                                setDefaults = false
-                                earliestDepartureOnToggle = false
-                                latestArrivalOnToggle = false
-                                setDefaultBusToggle = false
-                                removeTransfers = false
-                                
-                            } label: {
-                                Text("Reset")
-                            }
-                            .tint(.red)
+                        } label: {
+                            Text("Reset")
                         }
+                        .tint(.red)
                     }
                 }
             }

@@ -11,7 +11,7 @@ struct ContentView: View {
     
     @State private var path = NavigationPath()
     
-//    User Selections
+    //    User Selections
     @State private var selectedDate = Date()
     @State private var selectedDeparture = "Ithaca"
     @State private var selectedArrival = "NYC"
@@ -19,7 +19,7 @@ struct ContentView: View {
     @State private var clickedSearch = false
     @State private var isLoading = false
     
-//    Filtering
+    //    Filtering
     @State private var earliestDepartureTimeLocal: Date? = nil
     @State private var earliestDepartureTimeToggle = false
     @State private var latestArrivalTimeLocal: Date? = nil
@@ -28,7 +28,7 @@ struct ContentView: View {
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
     
-//    AppStorage
+    //    AppStorage
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
     @AppStorage("latestArrivalOnToggle") private var latestArrivalOnToggle: Bool = false
     @AppStorage("setDefaultBusToggle") private var setDefaultBusToggle: Bool = false
@@ -36,15 +36,13 @@ struct ContentView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
-    @AppStorage("setDefaults") private var setDefaults = false
-
+    
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
     @State private var discountCodes: [Discount]?
     var viewModel = ViewModel()
     
-//    App Storage
-
+    //    App Storage
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -56,14 +54,14 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 0)
-             
+                
                 DateAndLocationPickerView(
                     selectedDeparture: $selectedDeparture,
                     selectedArrival: $selectedArrival,
                     switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked,
                     selectedDate: $selectedDate)
-                    .padding(.bottom, 10)
-                   
+                .padding(.bottom, 10)
+                
                 SearchButton(trips: $trips,
                              discountCodes: $discountCodes,
                              selectedDate: $selectedDate,
@@ -84,21 +82,21 @@ struct ContentView: View {
                     latestArrivalTimeSelected: $latestArrivalTimeToggle,
                     chooseBusServiceSelected: $selectServiceToggle,
                     includeTransfersSelected: $removeTransfersToggle)
-                    .padding(.top)
+                .padding(.top)
                 
                 if earliestDepartureTimeToggle {
                     DatePicker("Earliest Departure Time",
-//                               Need complicated binding so I can make earliestDeparture nil
+                               //                               Need complicated binding so I can make earliestDeparture nil
                                selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
-                        .tint(.purple)
+                    .tint(.purple)
                 }
                 
                 if latestArrivalTimeToggle {
                     DatePicker("Latest Arrival Time",
                                selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
-                        .tint(.purple)
+                    .tint(.purple)
                 }
                 
                 if selectServiceToggle {
@@ -110,7 +108,7 @@ struct ContentView: View {
                     .pickerStyle(.palette)
                 }
             }
-                
+            
             if isLoading {
                 LoadingView()
             } else {
@@ -121,11 +119,32 @@ struct ContentView: View {
         .padding()
         .navigationTitle("GetMeHome")
         .onAppear {
-            if setDefaults {
+            if earliestDepartureOnToggle {
+                earliestDepartureTimeToggle = true
                 earliestDepartureTimeLocal = earliestDepartureTime
+            } else {
+                earliestDepartureTimeToggle = false
+            }
+            
+            if latestArrivalOnToggle {
+                latestArrivalTimeToggle = true
                 latestArrivalTimeLocal = latestArrivalTime
+            } else {
+                latestArrivalTimeToggle = false
+            }
+            
+            if setDefaultBusToggle {
+                selectServiceToggle = true
                 selectedServiceLocal = selectedService
+            } else {
+                selectServiceToggle = false
+            }
+            
+            if removeTransfers {
+                removeTransfersToggle = true
                 removeTransfersToggle = removeTransfers
+            } else {
+                removeTransfersToggle = false
             }
         }
     }
