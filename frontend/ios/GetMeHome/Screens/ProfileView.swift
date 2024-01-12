@@ -69,7 +69,6 @@ struct ProfileView: View {
                     
                     if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
                         Button {
-                            setDefaults = false
                             earliestDepartureOnToggle = false
                             latestArrivalOnToggle = false
                             setDefaultBusToggle = false
