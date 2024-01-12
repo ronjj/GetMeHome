@@ -20,7 +20,7 @@ struct DateAndLocationPickerView: View {
     var body: some View {
         VStack {
             HStack{
-                DatePicker("Trip  Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
+                DatePicker("Trip Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
                     .labelsHidden()
                     .tint(.purple)
                 Menu(selectedDeparture) {
@@ -42,11 +42,12 @@ struct DateAndLocationPickerView: View {
                     switchOriginAndDestinationButtonClicked.toggle()
                     
                 } label: {
-                    Image(systemName: "arrow.left.arrow.right")
+                    Image(systemName: "arrow.right")
                         .scaleEffect(0.8)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.bordered)
                 .tint(.purple)
+                
                 
                 Menu(selectedArrival) {
                     ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
