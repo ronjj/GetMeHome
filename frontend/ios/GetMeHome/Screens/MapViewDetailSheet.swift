@@ -8,6 +8,9 @@
 import SwiftUI
 import MapKit
 
+
+
+
 struct MapViewDetailSheet: View {
     
     @Environment(\.dismiss) var dismiss
@@ -19,29 +22,39 @@ struct MapViewDetailSheet: View {
     @State var mapDetailSelected: Bool = false
     @Namespace var mapScope
     
+    @State private var selectedMarker: Int?
+    
     var arrivalCoordinates: CLLocationCoordinate2D
     var departureCoordinates: CLLocationCoordinate2D
    
     var body: some View {
-        Map(position: $location) {
-            Marker("Arrival Location", coordinate: arrivalCoordinates)
+        Map(position: $location, selection: $selectedMarker) {
+            Marker("Arrival Location", systemImage: "star.fill", coordinate: arrivalCoordinates)
                 .tint(.purple)
-            Marker("Departure Location", coordinate: departureCoordinates)
+                .tag(1)
+            Marker("Departure Location", systemImage: "bus.fill", coordinate: departureCoordinates)
                 .tint(.purple)
-            MapPolyline(coordinates: [arrivalCoordinates, departureCoordinates],  contourStyle: MapPolyline.ContourStyle.geodesic)
-                .stroke(lineWidth: 5)
-                .tint(.purple)
-                .mapOverlayLevel(level: .aboveLabels)
+                .tag(2)
+            
+            UserAnnotation()
         }
-        .mapStyle(switchMapType ? .hybrid : .standard)
-        .mapControls {
-            MapCompass()
-        }
-        .overlay(alignment: .topLeading) {
-            VStack{
+        .mapStyle(switchMapType ? .hybrid(elevation:.realistic) : .standard(elevation:.realistic))
+        .overlay(alignment: .bottomTrailing) {
+            HStack{
                 closeButton
                 switchMapButton
+                MapUserLocationButton(scope: mapScope)
             }
+            .padding()
+            .mapScope(mapScope)
+        }
+        .overlay(alignment: .topLeading) {
+            VStack (spacing: 10) {
+                MapPitchToggle(scope: mapScope)
+            }
+            .padding()
+            .mapScope(mapScope)
+            
         }
         .onAppear {
                 let mapSpan = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
@@ -50,6 +63,7 @@ struct MapViewDetailSheet: View {
         }
     }
 }
+
 
 extension MapViewDetailSheet {
     private var closeButton: some View {

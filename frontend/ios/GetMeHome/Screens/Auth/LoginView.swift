@@ -11,7 +11,7 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-        
+    
     private func signInWithGoogle() {
         Task {
             if await viewModel.signInWithGoogle() == true {
@@ -35,7 +35,10 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity)
                         .background(alignment: .leading) {
                             Image("Google")
-                                .frame(width: 30, alignment: .center)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                                .frame(height: 45)
                         }
                 }
                 .foregroundColor(colorScheme == .dark ? .white : .black)

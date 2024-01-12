@@ -53,16 +53,24 @@ struct TripDetailView: View {
                 HStack {
                     if trip.arrivalLocationCoords.latitude != 0.0 {
                         Map(position: $location) {
-                            Marker("Departure Location",coordinate: CLLocationCoordinate2D(latitude: trip.departureLocationCoords.latitude, longitude: trip.departureLocationCoords.longitude))
+                            Marker("Departure Location",
+                                   systemImage: "bus.fill",
+                                   coordinate: CLLocationCoordinate2D(
+                                    latitude: trip.departureLocationCoords.latitude,
+                                    longitude: trip.departureLocationCoords.longitude))
                                 .tint(.purple)
                             
-                            Marker("Arrival Location",coordinate: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude))
+                            Marker("Arrival Location",
+                                   systemImage: "star.fill",
+                                   coordinate: CLLocationCoordinate2D(
+                                    latitude: trip.arrivalLocationCoords.latitude,
+                                    longitude: trip.arrivalLocationCoords.longitude))
                                 .tint(.purple)
                         }
 
                         .frame(maxWidth: .infinity)
                         .aspectRatio(1, contentMode: .fill)
-                        
+                        .ignoresSafeArea()
                         .onTapGesture {
                             mapDetailSelected.toggle()
                         }
@@ -105,7 +113,6 @@ struct TripDetailView: View {
             dateFormatter.dateFormat = "MMMM d, yyyy"
             let dateString = dateFormatter.string(from: dateDate)
             date = dateFormatter.date(from: dateString)!
-            print(date)
             
             let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
             discountCodesFiltered = filteredCodesForService
