@@ -20,6 +20,7 @@ struct ProfileView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
+    @AppStorage("setDefaults") private var setDefaults = false
 
     var body: some View {
         NavigationStack {
@@ -65,6 +66,14 @@ struct ProfileView: View {
                             }
                         }
                         .pickerStyle(.palette)
+                    }
+                    
+                    if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
+                        Button {
+                            setDefaults = true
+                        } label: {
+                            Text("Save")
+                        }
                     }
                 }
             }

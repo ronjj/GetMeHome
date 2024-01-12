@@ -20,19 +20,22 @@ struct ContentView: View {
     @State private var isLoading = false
     
 //    Filtering
-    @State private var earliestDepartureTime: Date? = nil
+    @State private var earliestDepartureTimeLocal: Date? = nil
     @State private var earliestDepartureTimeToggle = false
-    @State private var latestArrivalTime: Date? = nil
+    @State private var latestArrivalTimeLocal: Date? = nil
     @State private var latestArrivalTimeToggle = false
-    @State private var selectedService = "All"
+    @State private var selectedServiceLocal = "All"
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
-    
+
+
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
     @State private var discountCodes: [Discount]?
-    
     var viewModel = ViewModel()
+    
+//    App Storage
+
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -55,9 +58,9 @@ struct ContentView: View {
                 SearchButton(trips: $trips,
                              discountCodes: $discountCodes,
                              selectedDate: $selectedDate,
-                             earliestDepartureTime: $earliestDepartureTime,
-                             latestArrivalTime: $latestArrivalTime,
-                             selectedService: $selectedService,
+                             earliestDepartureTime: $earliestDepartureTimeLocal,
+                             latestArrivalTime: $latestArrivalTimeLocal,
+                             selectedService: $selectedServiceLocal,
                              selectedDeparture: $selectedDeparture,
                              selectedArrival: $selectedArrival,
                              selectServiceToggle: $selectServiceToggle,
@@ -77,20 +80,20 @@ struct ContentView: View {
                 if earliestDepartureTimeToggle {
                     DatePicker("Earliest Departure Time",
 //                               Need complicated binding so I can make earliestDeparture nil
-                               selection: Binding<Date>(get: {self.earliestDepartureTime ?? Date()}, set: {self.earliestDepartureTime = $0}),
+                               selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
                         .tint(.purple)
                 }
                 
                 if latestArrivalTimeToggle {
                     DatePicker("Latest Arrival Time",
-                               selection: Binding<Date>(get: {self.latestArrivalTime ?? Date()}, set: {self.latestArrivalTime = $0}),
+                               selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
                         .tint(.purple)
                 }
                 
                 if selectServiceToggle {
-                    Picker("Choose A Bus Service", selection: $selectedService) {
+                    Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
                         ForEach(viewModel.services, id: \.self) {
                             Text($0)
                         }
@@ -108,7 +111,9 @@ struct ContentView: View {
         .ignoresSafeArea()
         .padding()
         .navigationTitle("GetMeHome")
-        
+        .onAppear {
+            
+        }
     }
 }
 
