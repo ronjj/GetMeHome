@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct ProfileView: View {
-    
-    
-    var viewModel = ViewModel()
-    @EnvironmentObject var authViewModel: AuthenticationViewModel
+
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
     @AppStorage("latestArrivalOnToggle") private var latestArrivalOnToggle: Bool = false
     @AppStorage("setDefaultBusToggle") private var setDefaultBusToggle: Bool = false
-    
     @AppStorage("earliestDepartureTime") private var earliestDepartureTime: Date = Date()
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
+    
+    @EnvironmentObject var authViewModel: AuthenticationViewModel
+    var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack {

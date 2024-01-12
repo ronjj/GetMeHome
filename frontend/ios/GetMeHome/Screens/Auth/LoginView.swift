@@ -6,13 +6,6 @@
 //
 
 import SwiftUI
-import Combine
-import FirebaseAnalyticsSwift
-
-private enum FocusableField: Hashable {
-    case email
-    case password
-}
 
 struct LoginView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel

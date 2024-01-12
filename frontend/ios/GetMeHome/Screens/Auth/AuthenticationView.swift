@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 struct AuthenticationView: View {
   @EnvironmentObject var viewModel: AuthenticationViewModel

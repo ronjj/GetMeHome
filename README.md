@@ -24,6 +24,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
   - Get link to buy ticket from respective services website
   - Get discount codes (OurBus only at the moment)
   - See trip departure and destination location on map (FlixBus only at the moment)
+  - Set default search settings in the profile view
 
 **What I Learned**:
 

@@ -42,8 +42,6 @@ struct ContentView: View {
     @State private var discountCodes: [Discount]?
     var viewModel = ViewModel()
     
-    //    App Storage
-    
     var body: some View {
         NavigationStack(path: $path) {
             VStack {

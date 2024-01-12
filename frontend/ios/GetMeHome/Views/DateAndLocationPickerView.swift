@@ -14,7 +14,6 @@ struct DateAndLocationPickerView: View {
     @Binding var switchOriginAndDestinationButtonClicked: Bool
     @Binding var selectedDate: Date
     
-    
     var viewModel = ViewModel()
     
     var body: some View {
