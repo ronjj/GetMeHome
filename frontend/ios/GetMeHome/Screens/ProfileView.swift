@@ -35,25 +35,24 @@ struct ProfileView: View {
            
             List {
                 Section ("Search Defaults") {
-                    
                     Toggle("Earliest Departure On", isOn: $earliestDepartureOnToggle)
                         .tint(.purple)
                     if earliestDepartureOnToggle {
-                        DatePicker("Earliest Departure Time",
-    //                               Need complicated binding so I can make earliestDeparture nil
+                        DatePicker("Default Earliest Departure Time",
+                                   //                               Need complicated binding so I can make earliestDeparture nil
                                    selection: Binding<Date>(get: {self.earliestDepartureTime ?? Date()}, set: {self.earliestDepartureTime = $0}),
                                    displayedComponents: .hourAndMinute)
-                            .tint(.purple)
+                        .tint(.purple)
                     }
-                    Toggle("Latest Arrival On", isOn: $latestArrivalOnToggle)
+                    Toggle("Default Latest Arrival On", isOn: $latestArrivalOnToggle)
                         .tint(.purple)
                     if latestArrivalOnToggle {
                         DatePicker("Latest Arrival Time",
                                    selection: Binding<Date>(get: {self.latestArrivalTime ?? Date()}, set: {self.latestArrivalTime = $0}),
                                    displayedComponents: .hourAndMinute)
-                            .tint(.purple)
+                        .tint(.purple)
                     }
-                    Toggle("Set Default Bus Service", isOn: $setDefaultBusToggle)
+                    Toggle("Default Bus Service", isOn: $setDefaultBusToggle)
                         .tint(.purple)
                     if setDefaultBusToggle {
                         Picker("Choose A Bus Service", selection: $selectedService) {
@@ -62,6 +61,14 @@ struct ProfileView: View {
                             }
                         }
                         .pickerStyle(.palette)
+                    }
+                    if earliestDepartureOnToggle || latestArrivalOnToggle || setDefaultBusToggle {
+                        Button {
+                            
+                        } label: {
+                            Text("Save Settings")
+                        }
+                        .tint(.purple)
                     }
                 }
             }

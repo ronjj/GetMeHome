@@ -37,7 +37,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                
                 VStack(alignment: .center) {
                     Text("GetMeHome")
                         .font(.title)
@@ -52,8 +51,6 @@ struct ContentView: View {
                     switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked,
                     selectedDate: $selectedDate)
                     .padding(.bottom, 10)
-                    .navigationTitle("GetMeHome")
-                    .navigationBarTitleDisplayMode(.inline)
                    
                 SearchButton(trips: $trips,
                              discountCodes: $discountCodes,
@@ -77,13 +74,6 @@ struct ContentView: View {
                     includeTransfersSelected: $removeTransfersToggle)
                 
                     .padding(.top)
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text("GetMeHome")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                        }
-                    }
                 
                 if earliestDepartureTimeToggle {
                     DatePicker("Earliest Departure Time",
