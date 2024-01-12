@@ -94,9 +94,8 @@ extension TripListView {
             Text("Search For Trips")
                 .bold()
                 .font(.headline)
-            Text("Select A Date, Bus Service, Origin, and Destination")
+            Text("Select A Date, Departure Location, and Destination")
                 .multilineTextAlignment(.center)
         }
     }
 }
-

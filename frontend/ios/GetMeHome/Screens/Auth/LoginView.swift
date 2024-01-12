@@ -18,17 +18,7 @@ struct LoginView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    
-    @FocusState private var focus: FocusableField?
-    
-    private func signInWithEmailPassword() {
-        Task {
-            if await viewModel.signInWithEmailPassword() == true {
-                dismiss()
-            }
-        }
-    }
-    
+        
     private func signInWithGoogle() {
         Task {
             if await viewModel.signInWithGoogle() == true {
@@ -61,7 +51,6 @@ struct LoginView: View {
             }
             .listStyle(.plain)
             .padding()
-            //    .analyticsScreen(name: "\(Self.self)")
         }
         .ignoresSafeArea(edges: .all)
     }

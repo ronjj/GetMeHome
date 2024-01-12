@@ -23,7 +23,3 @@ struct LoadingView: View {
         Spacer()
     }
 }
-
-#Preview {
-    LoadingView()
-}
