@@ -12,7 +12,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        
         return true
     }
 }
@@ -20,22 +19,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct GetMeHomeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
     @StateObject private var viewModel = AuthenticationViewModel()
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                
                 switch viewModel.authenticationState {
                 case .unauthenticated, .authenticating:
                     AuthenticationView()
                         .environmentObject(viewModel)
                 case .authenticated:
-                    VStack {
-                        TabBarView()
-                            .environmentObject(viewModel)
-                    }
+                    TabBarView()
+                        .environmentObject(viewModel)
                 }
             }
         }

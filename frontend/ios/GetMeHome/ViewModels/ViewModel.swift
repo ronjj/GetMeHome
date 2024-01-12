@@ -29,6 +29,8 @@ import SwiftUI
         return queryMap[string] ?? "all"
     }
     
+    
+//    MARK: GET Requests 
     func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
           let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
 //        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
@@ -57,6 +59,36 @@ import SwiftUI
         }
     }
     
+    
+    func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
+        
+        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        
+        guard let url = URL(string: endpoint) else {
+            print("from discount codes")
+            throw TripError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            print("from discount codes")
+            throw TripError.invalidReponse
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let discounts =  try decoder.decode(DiscountWrapper.self, from: data)
+            return discounts.discountCodes
+        } catch {
+            print("from discount codes")
+            throw TripError.invalidData
+        }
+    }
+    
+//    MARK: Filtering Requests
     func filterMinDepartureTime(tripsArray: [Trip], minTime: Date) -> [Trip] {
         let formatter = DateFormatter()
         formatter.dateFormat = "hh:mma"
@@ -85,34 +117,6 @@ import SwiftUI
         let newTripsArray = tripsArray.filter{ $0.nonStop == "True"}
         print("results after no transfer: \(newTripsArray.count)")
         return newTripsArray
-    }
-    
-    func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
-        
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-        
-        guard let url = URL(string: endpoint) else {
-            print("from discount codes")
-            throw TripError.invalidURL
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print("from discount codes")
-            throw TripError.invalidReponse
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let discounts =  try decoder.decode(DiscountWrapper.self, from: data)
-            return discounts.discountCodes
-        } catch {
-            print("from discount codes")
-            throw TripError.invalidData
-        }
     }
 }
 

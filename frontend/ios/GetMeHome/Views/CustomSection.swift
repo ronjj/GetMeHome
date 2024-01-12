@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 enum ListType {
     case tripLocations
     case discountCodes
@@ -20,7 +19,6 @@ struct CustomSection: View {
     var sectionListType: ListType?
     var discountCodes: [Discount]?
     var trip: Trip?
-    
     
     var body: some View {
         VStack(alignment: .leading) {
