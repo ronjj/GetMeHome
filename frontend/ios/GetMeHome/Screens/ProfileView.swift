@@ -19,6 +19,7 @@ struct ProfileView: View {
     @AppStorage("earliestDepartureTime") private var earliestDepartureTime: Date = Date()
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
+    @AppStorage("removeTransfers") private var removeTransfers = false
 
     var body: some View {
         NavigationStack {
@@ -52,6 +53,9 @@ struct ProfileView: View {
                                    displayedComponents: .hourAndMinute)
                         .tint(.purple)
                     }
+                    Toggle("Remove Transfers", isOn: $removeTransfers)
+                        .tint(.purple)
+
                     Toggle("Bus Service", isOn: $setDefaultBusToggle)
                         .tint(.purple)
                     if setDefaultBusToggle {
