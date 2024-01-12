@@ -69,10 +69,25 @@ struct ProfileView: View {
                     }
                     
                     if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
-                        Button {
-                            setDefaults = true
-                        } label: {
-                            Text("Save")
+                        VStack {
+                            Button {
+                                setDefaults = true
+                            } label: {
+                                Text("Save")
+                            }
+                            .tint(.purple)
+                            
+                            Button {
+                                setDefaults = false
+                                earliestDepartureOnToggle = false
+                                latestArrivalOnToggle = false
+                                setDefaultBusToggle = false
+                                removeTransfers = false
+                                
+                            } label: {
+                                Text("Reset")
+                            }
+                            .tint(.red)
                         }
                     }
                 }
