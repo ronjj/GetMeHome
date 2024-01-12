@@ -27,7 +27,16 @@ struct ContentView: View {
     @State private var selectedServiceLocal = "All"
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
-
+    
+//    AppStorage
+    @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
+    @AppStorage("latestArrivalOnToggle") private var latestArrivalOnToggle: Bool = false
+    @AppStorage("setDefaultBusToggle") private var setDefaultBusToggle: Bool = false
+    @AppStorage("earliestDepartureTime") private var earliestDepartureTime: Date = Date()
+    @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
+    @AppStorage("selectedService") private var selectedService = "All"
+    @AppStorage("removeTransfers") private var removeTransfers = false
+    @AppStorage("setDefaults") private var setDefaults = false
 
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -112,7 +121,12 @@ struct ContentView: View {
         .padding()
         .navigationTitle("GetMeHome")
         .onAppear {
-            
+            if setDefaults {
+                earliestDepartureTimeLocal = earliestDepartureTime
+                latestArrivalTimeLocal = latestArrivalTime
+                selectedServiceLocal = selectedService
+                removeTransfersToggle = removeTransfers
+            }
         }
     }
 }
