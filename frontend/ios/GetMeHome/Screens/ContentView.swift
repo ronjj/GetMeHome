@@ -72,7 +72,6 @@ struct ContentView: View {
                     latestArrivalTimeSelected: $latestArrivalTimeToggle,
                     chooseBusServiceSelected: $selectServiceToggle,
                     includeTransfersSelected: $removeTransfersToggle)
-                
                     .padding(.top)
                 
                 if earliestDepartureTimeToggle {
@@ -105,7 +104,6 @@ struct ContentView: View {
             } else {
                 TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
             }
-               
         }
         .ignoresSafeArea()
         .padding()
