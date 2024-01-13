@@ -31,9 +31,9 @@ import SwiftUI
     
     
 //    MARK: GET Requests 
-    func getTrips(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Trip] {
-          let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+    func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
+//          let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
@@ -45,45 +45,14 @@ import SwiftUI
             throw TripError.invalidReponse
         }
         
-        var results_list = [Trip]()
         do {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
-    
-            let results = try decoder.decode(TripWrapper.self, from: data)
-            results_list = results.trips
-            return results_list
+            let trips = try decoder.decode(TripWrapper.self, from: data)
+            let discountCodes = try decoder.decode(DiscountWrapper.self, from: data)
+            return (trips.trips, discountCodes.discountCodes)
         } catch {
             print(error.localizedDescription)
-            throw TripError.invalidData
-        }
-    }
-    
-    
-    func getDiscountCodes(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> [Discount] {
-        
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-        
-        guard let url = URL(string: endpoint) else {
-            print("from discount codes")
-            throw TripError.invalidURL
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print("from discount codes")
-            throw TripError.invalidReponse
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            let discounts =  try decoder.decode(DiscountWrapper.self, from: data)
-            return discounts.discountCodes
-        } catch {
-            print("from discount codes")
             throw TripError.invalidData
         }
     }
@@ -96,7 +65,6 @@ import SwiftUI
         let minTimeString = formatter.string(from: minTime)
         let newTripsArray = tripsArray.filter { formatter.date(from: $0.departureTime) ?? Date.now >=  formatter.date(from: minTimeString)! }
         print("results after min time filter: \(newTripsArray.count)")
-        
         return newTripsArray
     }
     
@@ -107,7 +75,6 @@ import SwiftUI
         let latestArrivalTimeString = formatter.string(from: latestArrival)
         let newTripsArray = tripsArray.filter { formatter.date(from: $0.arrivalTime) ?? Date.now <=  formatter.date(from: latestArrivalTimeString)! }
         print("results after latest arrival filter: \(newTripsArray.count)")
-        
         return newTripsArray
     }
     

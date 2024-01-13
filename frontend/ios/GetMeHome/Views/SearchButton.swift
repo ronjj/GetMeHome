@@ -45,7 +45,7 @@ struct SearchButton: View {
                         selectedService = "All"
                     }
                     
-                    trips = try await viewModel.getTrips(
+                    (trips, discountCodes) = try await viewModel.getTripsAndDiscounts(
                         from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
                         to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
                         on: newDateString,
@@ -62,12 +62,6 @@ struct SearchButton: View {
                     if removeTransfersToggle {
                         trips = viewModel.filterTransfer(tripsArray: trips ?? [], includeTransfers: false)
                     }
-                    
-                    discountCodes = try await viewModel.getDiscountCodes(
-                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
-                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
-                        on: newDateString,
-                        bus: viewModel.convertForQuery(value: selectedService))
                     
                     isLoading = false
                     clickedSearch = true

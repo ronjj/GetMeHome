@@ -17,6 +17,7 @@ struct ProfileView: View {
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
     
+    
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
     
