@@ -34,6 +34,9 @@
 		547DB7812B50AE5B00FF2F1C /* MapViewDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */; };
 		548D3D002B12460300E9067F /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3CFF2B12460300E9067F /* TripListView.swift */; };
 		548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3D012B124DAC00E9067F /* LoadingView.swift */; };
+		54A2E9D52B52D34D00166062 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9D42B52D34D00166062 /* UIDevice+Extension.swift */; };
+		54A2E9D72B52D37200166062 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9D62B52D37200166062 /* Bundle+Extension.swift */; };
+		54A2E9D92B52D39F00166062 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9D82B52D39F00166062 /* Date+Extension.swift */; };
 		54B0DF562B113421006263DF /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B0DF552B113421006263DF /* ViewModel.swift */; };
 		54B617112B4C611D00657D6F /* FilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617102B4C611D00657D6F /* FilterRowView.swift */; };
 		54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617142B4C7DAA00657D6F /* SearchButton.swift */; };
@@ -63,6 +66,9 @@
 		547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDetailSheet.swift; sourceTree = "<group>"; };
 		548D3CFF2B12460300E9067F /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
 		548D3D012B124DAC00E9067F /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		54A2E9D42B52D34D00166062 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		54A2E9D62B52D37200166062 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		54A2E9D82B52D39F00166062 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		54B0DF552B113421006263DF /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		54B617102B4C611D00657D6F /* FilterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRowView.swift; sourceTree = "<group>"; };
 		54B617142B4C7DAA00657D6F /* SearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchButton.swift; sourceTree = "<group>"; };
@@ -147,6 +153,7 @@
 				543928812B10ED8D00C5E609 /* ViewModels */,
 				543928802B10ED8600C5E609 /* Models */,
 				5439287F2B10ED7C00C5E609 /* Views */,
+				54A2E9DA2B52D44000166062 /* Utilities */,
 				547AB00E2B0FE14400F7C539 /* GetMeHomeApp.swift */,
 				547AB0122B0FE14500F7C539 /* Assets.xcassets */,
 				547AB0142B0FE14500F7C539 /* Preview Content */,
@@ -169,6 +176,24 @@
 				547DB7752B50821100FF2F1C /* AuthenticationView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		54A2E9D32B52D33A00166062 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				54A2E9D42B52D34D00166062 /* UIDevice+Extension.swift */,
+				54A2E9D62B52D37200166062 /* Bundle+Extension.swift */,
+				54A2E9D82B52D39F00166062 /* Date+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		54A2E9DA2B52D44000166062 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				54A2E9D32B52D33A00166062 /* Extensions */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		54B617132B4C7D7D00657D6F /* Screens */ = {
@@ -270,11 +295,14 @@
 				548D3D002B12460300E9067F /* TripListView.swift in Sources */,
 				547DB7712B507A9700FF2F1C /* AuthenticationViewModel.swift in Sources */,
 				543928872B1100B100C5E609 /* TripDetailView.swift in Sources */,
+				54A2E9D52B52D34D00166062 /* UIDevice+Extension.swift in Sources */,
 				543928892B11199B00C5E609 /* MockData.swift in Sources */,
+				54A2E9D92B52D39F00166062 /* Date+Extension.swift in Sources */,
 				54B617112B4C611D00657D6F /* FilterRowView.swift in Sources */,
 				543928852B10EDD200C5E609 /* Trip.swift in Sources */,
 				543928832B10EDA400C5E609 /* TripRowView.swift in Sources */,
 				540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */,
+				54A2E9D72B52D37200166062 /* Bundle+Extension.swift in Sources */,
 				5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
 				547AB0112B0FE14400F7C539 /* ContentView.swift in Sources */,
