@@ -23,7 +23,7 @@ struct ProfileView: View {
     @Environment(\.openURL) var openURL
     private var email = SupportEmail(toAddress: "rj336@cornell.edu",
                                      subject: "Support Email",
-                                     messageHeader: "Please Describe Your Issue")
+                                     messageHeader: "Please Describe Your Issue Below")
     
     var body: some View {
         NavigationStack {
