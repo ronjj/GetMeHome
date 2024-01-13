@@ -17,6 +17,8 @@ struct TripRowView: View {
     var busService: String
     var nonStop: String
     
+   
+    
     @State var isFavorite: Bool = false
     
     var body: some View {
@@ -57,7 +59,7 @@ struct TripRowView: View {
             Button {
                 isFavorite.toggle()
             } label : {
-                Text(isFavorite ? "Saved" : "Save")
+                Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
             }
             .tint(isFavorite ? .purple : .gray)
             .buttonStyle(.bordered)
