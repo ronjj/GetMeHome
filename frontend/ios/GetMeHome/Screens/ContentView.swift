@@ -116,13 +116,7 @@ struct ContentView: View {
         .ignoresSafeArea()
         .padding()
         .navigationTitle("GetMeHome")
-        .onAppear {
-            print(UIDevice.current.modelName)
-            print(UIDevice.current.systemVersion)
-            print(Bundle.main.displayName)
-            print(Bundle.main.appVersion)
-            print(Bundle.main.appBuild)
-            
+        .onAppear {            
             if earliestDepartureOnToggle {
                 earliestDepartureTimeToggle = true
                 earliestDepartureTimeLocal = earliestDepartureTime

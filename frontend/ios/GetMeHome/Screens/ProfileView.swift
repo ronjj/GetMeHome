@@ -85,10 +85,11 @@ struct ProfileView: View {
                     }
                 }
                 Section("Contact") {
+                    Text("Have questions, founds bugs, have a feature suggestion? Send me an email.")
                     Button {
                         email.send(openURL: openURL)
                     } label: {
-                        Text("Contact Developer")
+                        Text("Contact")
                     }
                 }
             }
