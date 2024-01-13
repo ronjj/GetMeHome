@@ -20,6 +20,11 @@ struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
     
+    @Environment(\.openURL) var openURL
+    private var email = SupportEmail(toAddress: "rj336@cornell.edu",
+                                     subject: "Support Email",
+                                     messageHeader: "Please Describe Your Issue Below")
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -79,6 +84,13 @@ struct ProfileView: View {
                         .tint(.red)
                     }
                 }
+                Section("Contact") {
+                    Button {
+                        email.send(openURL: openURL)
+                    } label: {
+                        Text("Contact Developer")
+                    }
+                }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Profile View")
@@ -86,19 +98,3 @@ struct ProfileView: View {
     }
 }
 
-
-//Need this extension to use Dates with AppStorage
-//App Storage doesn't support Date types natively
-//This code uses ISO8601DateFormatter to format a date to String and map it back.
-//That formatter is static because creating and removing DateFormatters is an expensive operation.
-extension Date: RawRepresentable {
-    private static let formatter = ISO8601DateFormatter()
-    
-    public var rawValue: String {
-        Date.formatter.string(from: self)
-    }
-    
-    public init?(rawValue: String) {
-        self = Date.formatter.date(from: rawValue) ?? Date()
-    }
-}
