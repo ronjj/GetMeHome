@@ -20,6 +20,11 @@ struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
     
+    @Environment(\.openURL) var openURL
+    private var email = SupportEmail(toAddress: "rj336@cornell.edu",
+                                     subject: "Support Email",
+                                     messageHeader: "Please Describe Your Issue")
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -81,7 +86,7 @@ struct ProfileView: View {
                 }
                 Section("Contact") {
                     Button {
-                        
+                        email.send(openURL: openURL)
                     } label: {
                         Text("Contact Developer")
                     }

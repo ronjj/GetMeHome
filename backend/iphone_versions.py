@@ -3,6 +3,8 @@ This file gets the Apple Device Model based on the identifier
 Input: .txt file with list of identifiers and corresponding Device Names
 Output: JSON file with same information
 
+List From: https://gist.github.com/adamawolf/3048717
+
 """
 
 import json
@@ -21,7 +23,7 @@ def txt_to_json(input_file):
           "model": model
         })
 
-  with open('iphone_identifiers.txt', 'w') as new_file:
+  with open('DeviceModels.json', 'w') as new_file:
     new_file.write(json.dumps(result))
   
   text_file.close()
