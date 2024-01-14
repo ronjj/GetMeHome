@@ -104,6 +104,14 @@ def trips_and_discount_response(trips: list, discount_code: list):
         "discount_codes": discount_code
     }
 
+def create_discount_code(service: str, discount_code: str):
+    random_num_id = randrange(10000)
+    return {
+            "id": random_num_id,
+            "service": service,
+            "code": f"{discount_code}"
+        }
+
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
@@ -148,16 +156,9 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         # Discount Codes
         discount_codes = []
         for index in range(len(discount_code_loaded_data)):
-            discount_code = discount_code_loaded_data[index]
-            discount_code_name = discount_code['voucher_name']
-            random_num_id = randrange(10000)
-            discount_codes.append(
-                {
-                    "id": random_num_id,
-                    "service": "OurBus",
-                    "code": f"{discount_code_name}"
-                }
-            )
+            discount_code_string = discount_code_loaded_data[index]['voucher_name']
+            discount_code = create_discount_code(service=constants.OUR_BUS_FULL, discount_code=discount_code_string)
+            discount_codes.append(discount_code)
 
         # Basic Trip Information
         for index in range(len(loaded_data)):
