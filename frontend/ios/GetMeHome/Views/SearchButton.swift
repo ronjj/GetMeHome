@@ -27,6 +27,10 @@ struct SearchButton: View {
     @Binding var latestArrivalTimeToggle: Bool
     @Binding var clickedSearch: Bool
     
+    @State var lastSearch = ["from" : "", "to": "", "on": "", "bus": ""]
+    @State var localSavedTrips: [Trip] = []
+    @State var localSavedDiscountCodes: [Discount] = []
+    
     var viewModel = ViewModel()
 
     var body: some View {
@@ -45,24 +49,53 @@ struct SearchButton: View {
                         selectedService = "All"
                     }
                     
-                    (trips, discountCodes) = try await viewModel.getTripsAndDiscounts(
-                        from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
-                        to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
-                        on: newDateString,
-                        bus: viewModel.convertForQuery(value: selectedService))
+                    if viewModel.sameSearchParams(lastSearch: lastSearch,
+                                                  newSearch: ["from": viewModel.locationQueryMap[selectedDeparture]!,
+                                                              "to": viewModel.locationQueryMap[selectedArrival]!,
+                                                              "on": newDateString,
+                                                              "bus": selectedService]){
+                                                                  
+                        trips = localSavedTrips
+                        discountCodes = localSavedDiscountCodes
+                        print("Same search params")
+                        
+                    } else {
+                        print("new search params")
+                        
+                        (trips, discountCodes) = try await viewModel.getTripsAndDiscounts(
+                            from: viewModel.locationQueryMap[selectedDeparture] ?? "new_york",
+                            to: viewModel.locationQueryMap[selectedArrival] ?? "ithaca",
+                            on: newDateString,
+                            bus: viewModel.convertForQuery(value: selectedService))
+                        
+                        if let trips {
+                            localSavedTrips = trips
+                        }
+                        if let discountCodes {
+                            localSavedDiscountCodes = discountCodes
+                        }
+                    }
                     
                     if earliestDepartureTimeToggle {
-                        trips = viewModel.filterMinDepartureTime(tripsArray: trips ?? [], minTime: earliestDepartureTime!)
+                        if let earliestDepartureTime {
+                            trips = viewModel.filterMinDepartureTime(tripsArray: trips ?? [], minTime: earliestDepartureTime)
+                        }
                     }
                     
                     if latestArrivalTimeToggle {
-                        trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime!)
+                        if let latestArrivalTime {
+                            trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime)
+                        }
                     }
                     
                     if removeTransfersToggle {
                         trips = viewModel.filterTransfer(tripsArray: trips ?? [], includeTransfers: false)
                     }
                     
+                    lastSearch =            ["from": viewModel.locationQueryMap[selectedDeparture]!,
+                                            "to": viewModel.locationQueryMap[selectedArrival]!,
+                                            "on": newDateString,
+                                            "bus": selectedService]
                     isLoading = false
                     clickedSearch = true
                 } catch TripError.invalidURL {

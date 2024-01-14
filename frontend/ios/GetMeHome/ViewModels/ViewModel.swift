@@ -10,10 +10,11 @@ import Observation
 import SwiftUI
 
 @Observable class ViewModel {
-    var trips: [Trip] = []
+
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["NYC":"new_york", "Ithaca": "ithaca", "Syracuse": "syracuse", "SYR Airport": "syr_airport"]
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
+   
     
     func calculateDateRange() -> Date {
         let currentDate = Date()
@@ -22,6 +23,19 @@ import SwiftUI
         dateComponent.day = 7
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
         return futureDate!
+    }
+    
+    func sameSearchParams(lastSearch: Dictionary<String,String>,
+                          newSearch: Dictionary<String,String>) -> Bool {
+        
+        if lastSearch["from"] == newSearch["from"] &&
+            lastSearch["to"] == newSearch["to"] &&
+            lastSearch["on"] == newSearch["on"] &&
+            lastSearch["bus"] == newSearch["bus"]{
+            return true
+        } else {
+            return false
+        }
     }
     
     func convertForQuery(value string: String) -> String {
