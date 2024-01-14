@@ -112,6 +112,12 @@ def create_discount_code(service: str, discount_code: str):
             "code": f"{discount_code}"
         }
 
+def create_coordinates(longitude: float, latitude: float):
+    return {
+        "longitude": longitude, 
+        "latitude": latitude
+    }
+
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
@@ -210,8 +216,8 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                                dep_location=departure_location, 
                                bus_serivce=bus, 
                                non_stop=non_stop,
-                               arr_location_coords={"longitude": 0.0, "latitude": 0.0},
-                               dep_location_coords={"longitude": 0.0, "latitude": 0.0})
+                               arr_location_coords = create_coordinates(longitude=0.0, latitude=0.0),
+                               dep_location_coords = create_coordinates(longitude=0.0, latitude=0.0))
                 result.append(newTrip)
           
         if all_or_single:
@@ -296,8 +302,8 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                            dep_time=dep_time_12h, 
                            dep_location=departure_location, 
                            bus_serivce=bus,
-                           arr_location_coords={"longitude": 0.0, "latitude": 0.0},
-                           dep_location_coords={"longitude": 0.0, "latitude": 0.0})
+                           arr_location_coords=create_coordinates(longitude=0.0, latitude=0.0),
+                           dep_location_coords=create_coordinates(longitude=0.0, latitude=0.0))
             result.append(newTrip)
 
         if all_or_single:
@@ -412,17 +418,11 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 
                         arrival_longitude = intermediate_stations_response['arrival']['coordinates']['longitude']
                         arrival_latitude = intermediate_stations_response['arrival']['coordinates']['latitude']
-                        arrival_coords = {
-                                "longitude": arrival_longitude,
-                                "latitude": arrival_latitude
-                        }
+                        arrival_coords = create_coordinates(longitude=arrival_longitude, latitude=arrival_latitude)
 
                         dep_long = intermediate_stations_response['departure']['coordinates']['longitude']
                         dep_lat = intermediate_stations_response['departure']['coordinates']['latitude']
-                        dep_coords = {
-                             "longitude": dep_long,
-                             "latitude": dep_lat
-                        }
+                        dep_coords = create_coordinates(longitude=dep_long, latitude=dep_lat)
                         
                         for item in intermediate_stations_response['itinerary']:
                             if item['type'] == "ride":
