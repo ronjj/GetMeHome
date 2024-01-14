@@ -12,8 +12,7 @@ struct TabBarView: View {
     var body: some View {
         TabView {
             NavigationStack {
-                ContentView()
-                    
+                    ContentView()
             }
             .tabItem {
                 Image(systemName: "magnifyingglass")

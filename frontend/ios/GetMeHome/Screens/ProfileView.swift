@@ -17,7 +17,6 @@ struct ProfileView: View {
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
     
-    
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
     
@@ -86,7 +85,7 @@ struct ProfileView: View {
                     }
                 }
                 Section("Contact") {
-                    Text("Have questions, founds bugs, have a feature suggestion? Send me an email.")
+                    Text("Have questions? Found bugs? Have a feature suggestion? Send me an email.")
                     Button {
                         email.send(openURL: openURL)
                     } label: {
