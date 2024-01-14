@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-
+    
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
     @AppStorage("latestArrivalOnToggle") private var latestArrivalOnToggle: Bool = false
     @AppStorage("setDefaultBusToggle") private var setDefaultBusToggle: Bool = false
@@ -38,25 +38,48 @@ struct ProfileView: View {
                     Text("Sign Out")
                 }
             }
-            
             List {
                 Section ("Set Search Defaults") {
-                    Toggle("Earliest Departure", isOn: $earliestDepartureOnToggle)
-                        .tint(.purple)
                     if earliestDepartureOnToggle {
-                        DatePicker("Earliest Departure",
-                                   selection: $earliestDepartureTime,
-                                   displayedComponents: .hourAndMinute)
-                        .tint(.purple)
+                        HStack {
+                            DatePicker("Earliest Departure",
+                                       selection: $earliestDepartureTime,
+                                       displayedComponents: .hourAndMinute)
+                            .tint(.purple)
+                            Toggle("", isOn: $earliestDepartureOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    }   else {
+                        HStack {
+                            Text("Earliest Departure")
+                            Spacer()
+                            Toggle("", isOn: $earliestDepartureOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
                     }
-                    Toggle("Latest Arrival", isOn: $latestArrivalOnToggle)
-                        .tint(.purple)
+                    
                     if latestArrivalOnToggle {
-                        DatePicker("Latest Arrival",
-                                   selection: $latestArrivalTime,
-                                   displayedComponents: .hourAndMinute)
-                        .tint(.purple)
+                        HStack {
+                            DatePicker("Latest Arrival",
+                                       selection: $latestArrivalTime,
+                                       displayedComponents: .hourAndMinute)
+                            .tint(.purple)
+                            Toggle("", isOn: $latestArrivalOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    } else {
+                        HStack {
+                            Text("Latest Arrival")
+                            Spacer()
+                            Toggle("", isOn: $latestArrivalOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
                     }
+                    
                     Toggle("Remove Transfers", isOn: $removeTransfers)
                         .tint(.purple)
                     
@@ -70,18 +93,19 @@ struct ProfileView: View {
                         }
                         .pickerStyle(.palette)
                     }
-                    
                     if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
-                        Button {
-                            earliestDepartureOnToggle = false
-                            latestArrivalOnToggle = false
-                            setDefaultBusToggle = false
-                            removeTransfers = false
-                            
-                        } label: {
-                            Text("Reset")
+                        withAnimation(.easeIn(duration: 1.0)) {
+                            Button {
+                                earliestDepartureOnToggle = false
+                                latestArrivalOnToggle = false
+                                setDefaultBusToggle = false
+                                removeTransfers = false
+                                
+                            } label: {
+                                Text("Reset")
+                            }
+                            .tint(.red)
                         }
-                        .tint(.red)
                     }
                 }
                 Section("Contact") {
