@@ -98,20 +98,22 @@ def format_date(search_date, bus_service):
     if bus_service == constants.OUR_BUS:
         return f"{month}/{day}/{year}"
 
+def trips_and_discount_response(trips: list, discount_code: list):
+    return {
+        "trips": trips,
+        "discount_codes": discount_code
+    }
+
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
     proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
     
-
     # Added for future routes where OurBus is not supported
     if dep_loc not in constants.OURBUS_LOCATION_IDS.keys() or arr_loc not in constants.OURBUS_LOCATION_IDS.keys():
-        print("Dep or Arrival Not Supported by Ourbus")
-        return {
-            "trips": [],
-            "discount_codes": []
-        }
-    
+        print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Ourbus")
+        return trips_and_discount_response(trips=[], discount_code=[])
+
     try:
         api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={constants.OURBUS_LOCATION_IDS[dep_loc]}&destination={constants.OURBUS_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&adult=1"
         web = urllib.request.urlopen(api_and_ticket_link)
@@ -212,16 +214,10 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 result.append(newTrip)
           
         if all_or_single:
-            return {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
+            return trips_and_discount_response(trips=result, discount_code=discount_codes)
         else:
             result.sort(key=lambda x: x.price)
-            trips_and_codes =  {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
+            trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
             return jsonpickle.encode(trips_and_codes)
 # MegaBus
 def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
@@ -232,12 +228,9 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
 
     # Added for future routes where Megabus is not supported
     if dep_loc not in constants.MEGA_LOCATION_IDS.keys() or arr_loc not in constants.MEGA_LOCATION_IDS.keys():
-        print("Dep or Arrival Not Supported by Megabus")
-        return {
-            "trips": [],
-            "discount_codes": []
-        } 
-    
+        print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Megabus")
+        return trips_and_discount_response(trips=[], discount_code=[])
+
     ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={constants.MEGA_LOCATION_IDS[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
     try:
         mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={constants.MEGA_LOCATION_IDS[dep_loc]}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
@@ -307,16 +300,10 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             result.append(newTrip)
 
         if all_or_single:
-            return {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
+            return trips_and_discount_response(trips=result, discount_code=discount_codes)
         else:
             result.sort(key=lambda x: x.price)
-            trips_and_codes =  {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
+            trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
             return jsonpickle.encode(trips_and_codes)
 
 # FlixBus
@@ -326,11 +313,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 
     # Added for future routes where Flixbus is not supported
     if dep_loc not in constants.FLIX_LOCATION_IDS.keys() or arr_loc not in constants.FLIX_LOCATION_IDS.keys():
-        print("Dep or Arrival Not Supported by Flixbus")
-        return {
-            "trips": [],
-            "discount_codes": []
-        }
+        print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Flixbus")
+        return trips_and_discount_response(trips=[], discount_code=[])
 
     proper_date = format_date(search_date=date, bus_service=constants.FLIX_BUS)
     link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={constants.FLIX_LOCATION_IDS[dep_loc]}&to_city_id={constants.FLIX_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
@@ -474,17 +458,10 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         # Dont want to wrap in json if its in the get all function
         # Also don't want to sort it since it will be sorted again with the other services
         if all_or_single:
-            return {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
+            return trips_and_discount_response(trips=result, discount_code=discount_codes)
         else:
             result.sort(key=lambda x: x.price)
-            trips_and_codes =  {
-                "trips": result,
-                "discount_codes": discount_codes
-            }
-
+            trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
             return jsonpickle.encode(trips_and_codes)
 
 # All (OurBus, MegaBus, Flixbus)
@@ -506,10 +483,6 @@ def get_all(date, dep_loc, arr_loc):
         print(f"Total Options: {len(trips)}")
         print(f"Cheapest Trip: {trips[0]}")
         
-        trips_and_codes =  {
-            "trips": trips,
-            "discount_codes": discount_codes
-        }
-
+        trips_and_codes = trips_and_discount_response(trips=trips, discount_code=discount_codes)
         return jsonpickle.encode(trips_and_codes)
 
