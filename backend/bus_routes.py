@@ -6,6 +6,7 @@ import jsonpickle
 from datetime import datetime
 from random import randrange
 import exceptions
+import constants
 
 """
 Bus Routes:
@@ -90,26 +91,21 @@ def format_date(search_date, bus_service):
     if search_date_string < current_date_string and search_date_string != current_date_string:
         raise exceptions.PastDateException
     
-    if bus_service == "flix":
+    if bus_service == constants.FLIX_BUS:
         return f"{day}.{month}.{year}"
-    if bus_service == "mega":
+    if bus_service == constants.MEGA_BUS:
         return f"{year}-{month}-{day}"
-    if bus_service == "our":
+    if bus_service == constants.OUR_BUS:
         return f"{month}/{day}/{year}"
 
 # OurBus
 def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
-    proper_date = format_date(search_date=date, bus_service="our")
-    ourbus_location_id = {
-        "ithaca":"Ithaca,%20NY",
-        "new_york":"New%20York,%20NY",
-        "syracuse": "Syracuse,%20NY",
-        "syr_airport": "Syracuse%20Airport,%20NY",
-    }
+    proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
+    
 
     # Added for future routes where OurBus is not supported
-    if dep_loc not in ourbus_location_id.keys() or arr_loc not in ourbus_location_id.keys():
+    if dep_loc not in constants.OURBUS_LOCATION_IDS.keys() or arr_loc not in constants.OURBUS_LOCATION_IDS.keys():
         print("Dep or Arrival Not Supported by Ourbus")
         return {
             "trips": [],
@@ -117,7 +113,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         }
     
     try:
-        api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={ourbus_location_id[dep_loc]}&destination={ourbus_location_id[arr_loc]}&departure_date={proper_date}&adult=1"
+        api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={constants.OURBUS_LOCATION_IDS[dep_loc]}&destination={constants.OURBUS_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&adult=1"
         web = urllib.request.urlopen(api_and_ticket_link)
         soup = BeautifulSoup(web.read(), 'lxml')
 
@@ -179,7 +175,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
                 dep_time_12h = dep_time_12h.strftime("%I:%M %p")
                 departure_location = journey['src_landmark']
-                bus = "OurBus"
+                bus = constants.OUR_BUS_FULL
                 non_stop = str(journey['non_stop'])
                 random_num = randrange(10000)
                 route_id = journey['route_id']
@@ -232,28 +228,19 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
     discount_codes = []
 
-    mega_location_id = {
-        "511":"Ithaca",
-        "123":"New York",
-        "139":"Syracuse",
-
-        "syracuse":"139",
-        "ithaca":"511",
-        "new_york": "123"
-    }
-    proper_date = format_date(search_date=date, bus_service="mega")
+    proper_date = format_date(search_date=date, bus_service=constants.MEGA_BUS)
 
     # Added for future routes where Megabus is not supported
-    if dep_loc not in mega_location_id.keys() or arr_loc not in mega_location_id.keys():
+    if dep_loc not in constants.MEGA_LOCATION_IDS.keys() or arr_loc not in constants.MEGA_LOCATION_IDS.keys():
         print("Dep or Arrival Not Supported by Megabus")
         return {
             "trips": [],
             "discount_codes": []
         } 
     
-    ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={mega_location_id[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={mega_location_id[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
+    ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={constants.MEGA_LOCATION_IDS[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
     try:
-        mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={mega_location_id[dep_loc]}&destinationId={mega_location_id[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
+        mega_request = requests.get(f"https://us.megabus.com/journey-planner/api/journeys?originId={constants.MEGA_LOCATION_IDS[dep_loc]}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1")
         mega_response = json.loads(mega_request.text)
         mega_info = mega_response['journeys']
     
@@ -276,7 +263,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
             dep_time_12h = dep_time_12h.strftime("%I:%M %p")
             departure_location = journey['origin']['stopName']
-            bus = "MegaBus"
+            bus = constants.MEGA_BUS_FULL
             random_num = randrange(10000)
             journey_id = journey["journeyId"]
 
@@ -336,32 +323,17 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
 def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
     discount_codes = []
-    flix_location_id = {
-        "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
-        "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
-        "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
 
-        # Station IDs
-        "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
-        "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
-        "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
-        "e204bb66-8ab9-4437-8d0d-2b603cdf0c43": "New York Port Authority",
-        "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
-        "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
-        "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
-        "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
-    }
-    
     # Added for future routes where Flixbus is not supported
-    if dep_loc not in flix_location_id.keys() or arr_loc not in flix_location_id.keys():
+    if dep_loc not in constants.FLIX_LOCATION_IDS.keys() or arr_loc not in constants.FLIX_LOCATION_IDS.keys():
         print("Dep or Arrival Not Supported by Flixbus")
         return {
             "trips": [],
             "discount_codes": []
         }
 
-    proper_date = format_date(search_date=date, bus_service="flix")
-    link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={flix_location_id[dep_loc]}&to_city_id={flix_location_id[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
+    proper_date = format_date(search_date=date, bus_service=constants.FLIX_BUS)
+    link = f"https://global.api.flixbus.com/search/service/v4/search?from_city_id={constants.FLIX_LOCATION_IDS[dep_loc]}&to_city_id={constants.FLIX_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&products=%7B%22adult%22%3A1%7D&currency=USD&locale=en_US&search_by=cities&include_after_midnight_rides=1"
     try:
         flix_request = requests.get(link)
         flix_response = json.loads(flix_request.text)
@@ -372,7 +344,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         raise e
     
     else:
-        ticket_link = f"https://shop.flixbus.com/search?departureCity={flix_location_id[dep_loc]}&arrivalCity={flix_location_id[arr_loc]}&rideDate={proper_date}&adult=1&_locale=en_US&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.auto_update_disabled%5D=0&features%5Bfeature.webc_search_station_suggestions_enabled%5D=0&features%5Bfeature.darken_page%5D=1"
+        ticket_link = f"https://shop.flixbus.com/search?departureCity={constants.FLIX_LOCATION_IDS[dep_loc]}&arrivalCity={constants.FLIX_LOCATION_IDS[arr_loc]}&rideDate={proper_date}&adult=1&_locale=en_US&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.auto_update_disabled%5D=0&features%5Bfeature.webc_search_station_suggestions_enabled%5D=0&features%5Bfeature.darken_page%5D=1"
 
         for uid in flix_info:
             status = flix_info[uid]['status']
@@ -389,17 +361,17 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 continue
             else:
                 departure_string = flix_info[uid]['departure']['date'].split("T")
-                departure_city = flix_location_id[flix_info[uid]['departure']['station_id']]
+                departure_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['departure']['station_id']]
                 departure_date = departure_string[0]
                 departure_time = departure_string[1][:5]
                 dep_time_12h = datetime.strptime(departure_time, "%H:%M")
                 dep_time_12h = dep_time_12h.strftime("%I:%M %p")
                 arrival_string = flix_info[uid]['arrival']['date'].split("T")
-                arrival_city = flix_location_id[flix_info[uid]['arrival']['station_id']]
+                arrival_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['arrival']['station_id']]
                 arrival_time = arrival_string[1][:5]
                 arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
                 arr_time_12h = arr_time_12h.strftime("%I:%M %p")
-                bus_service = 'FlixBus'
+                bus_service = constants.FLIX_BUS_FULL
                 price = flix_info[uid]['price']['total']
                 random_num = randrange(10000)
                 dep_coords = {}
@@ -515,6 +487,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 
             return jsonpickle.encode(trips_and_codes)
 
+# All (OurBus, MegaBus, Flixbus)
 def get_all(date, dep_loc, arr_loc):
     # Call each service
     try:
