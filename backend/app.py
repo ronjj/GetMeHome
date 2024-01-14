@@ -23,10 +23,7 @@ valid_services = ["all", "flix", "mega", "our"]
 @app.route('/<bus_service>/<date>/<origin>/<destination>', methods=["GET"])
 def get_trips(bus_service, date, origin, destination):
     if bus_service not in valid_services:
-        return json.dumps({
-            "message": "Invalid Bus Service",
-            "status": "400"
-        })
+        return error_message("Invalid Bus Service", 400)
     else:
         try:
             if bus_service == "all":
