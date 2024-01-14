@@ -151,7 +151,15 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                             parsed_trips = line[21:-2]
                             break
         # Trip List Data
-        loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
+        # Use similar search as a backup. if both work, use both in response
+        try:
+            loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
+        except:
+            loaded_data = json.loads(parsed_trips)['similarSearch']['list']
+        else:
+            searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
+            similar_search = json.loads(parsed_trips)['similarSearch']['list']
+            loaded_data = searched_route_list + similar_search
 
         # Discount Code Loaded Data
         discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']

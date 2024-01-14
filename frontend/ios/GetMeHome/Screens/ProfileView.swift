@@ -28,15 +28,9 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Text("Profile View")
+                Text("Profile")
                     .font(.title)
                     .fontWeight(.black)
-                Text("Signed in as \(authViewModel.displayName)")
-                Button {
-                    authViewModel.signOut()
-                } label: {
-                    Text("Sign Out")
-                }
             }
             List {
                 Section ("Set Search Defaults") {
@@ -104,9 +98,20 @@ struct ProfileView: View {
                             } label: {
                                 Text("Reset")
                             }
+                            .buttonStyle(.bordered)
                             .tint(.red)
                         }
                     }
+                }
+                Section("Account") {
+                    Text("Email: \(authViewModel.displayName)")
+                    Button {
+                        authViewModel.signOut()
+                    } label: {
+                        Text("Sign Out")
+                    }
+                    .tint(.red)
+                    .buttonStyle(.bordered)
                 }
                 Section("Contact") {
                     Text("Have questions? Found bugs? Have a feature suggestion? Send me an email.")
@@ -115,10 +120,14 @@ struct ProfileView: View {
                     } label: {
                         Text("Contact")
                     }
+                    .tint(.blue)
+                    .buttonStyle(.bordered)
                 }
             }
+            .background(.white)
+            .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
-            .navigationTitle("Profile View")
+            .navigationTitle("Profile")
         }
     }
 }
