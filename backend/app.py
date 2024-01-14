@@ -22,6 +22,8 @@ def error_message(message, code):
 def get_trips(bus_service, date, origin, destination):
     if bus_service not in constants.VALID_BUS_SERVICES:
         return error_message("Invalid Bus Service", constants.INVALID_REQUEST)
+    if origin == destination:
+        return error_message("Origin and Destination Cannot Be The Same", constants.INVALID_REQUEST)
     else:
         try:
             if bus_service == constants.ALL_BUSES:
