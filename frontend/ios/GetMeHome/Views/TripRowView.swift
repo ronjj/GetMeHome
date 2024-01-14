@@ -17,8 +17,6 @@ struct TripRowView: View {
     var busService: String
     var nonStop: String
     
-   
-    
     @State var isFavorite: Bool = false
     
     var body: some View {
@@ -57,6 +55,7 @@ struct TripRowView: View {
                 BusLabel(busService: busService)
             }
             Button {
+                AnalyticsManager.shared.logEvent(name: "TripRowView_FavoriteClicked")
                 isFavorite.toggle()
             } label : {
                 Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")

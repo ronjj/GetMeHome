@@ -73,11 +73,14 @@ struct TripDetailView: View {
                         .ignoresSafeArea()
                         .onTapGesture {
                             mapDetailSelected.toggle()
+                            AnalyticsManager.shared.logEvent(name: "TripDetailView_MapClicked")
                         }
                         .cornerRadius(30)
                         .overlay(alignment: .topTrailing) {
                             Button {
                                 mapDetailSelected.toggle()
+                                AnalyticsManager.shared.logEvent(name: "TripDetailView_ExpandMapButtonClicked")
+
                             } label: {
                                 Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle.fill")
                                     .font(.headline)
@@ -94,6 +97,7 @@ struct TripDetailView: View {
                 }
             }
         }
+        .analyticsScreen(name: "TripDetailView")
         .sheet(isPresented: $mapDetailSelected) {
             MapViewDetailSheet(arrivalCoordinates:
                                 CLLocationCoordinate2D(
@@ -119,10 +123,9 @@ struct TripDetailView: View {
             
             let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
             location = MapCameraPosition.region(coordinates)
+            AnalyticsManager.shared.logEvent(name: "TripDetailView_Appear")
         })
         .listStyle(.plain)
     }
 }
-
-
 

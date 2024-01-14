@@ -48,6 +48,7 @@ struct MapViewDetailSheet: View {
             .padding()
             .mapScope(mapScope)
         }
+        .analyticsScreen(name: "MapViewDetailSheet")
         .overlay(alignment: .topLeading) {
             VStack (spacing: 10) {
                 MapPitchToggle(scope: mapScope)
@@ -80,7 +81,8 @@ extension MapViewDetailSheet {
     private var switchMapButton: some View {
         Button {
             switchMapType.toggle()
-            
+            AnalyticsManager.shared.logEvent(name: "MapViewDetailSheet_SwitchMapClicked")
+
             if switchMapType {
                 mapType = .hybrid
             } else {

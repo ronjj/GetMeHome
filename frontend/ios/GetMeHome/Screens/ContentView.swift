@@ -116,7 +116,8 @@ struct ContentView: View {
         .ignoresSafeArea()
         .padding()
         .navigationTitle("GetMeHome")
-        .onAppear {            
+        .analyticsScreen(name: "ContentView")
+        .onAppear {
             if earliestDepartureOnToggle {
                 earliestDepartureTimeToggle = true
                 earliestDepartureTimeLocal = earliestDepartureTime

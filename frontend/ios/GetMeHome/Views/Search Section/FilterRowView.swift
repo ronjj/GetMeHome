@@ -19,27 +19,32 @@ struct FilterRowView: View {
             HStack {
                 Button {
                     minDepartureTimeSelected.toggle()
+                    AnalyticsManager.shared.logEvent(name: "FilterRowView_MinDepClicked")
                 } label: {
                     FilterButton(buttonTitle: "Departure Time", isSelected: $minDepartureTimeSelected)
                 }
                 Button {
                     latestArrivalTimeSelected.toggle()
+                    AnalyticsManager.shared.logEvent(name: "FilterRowView_LatestArrClicked")
                 } label: {
                     FilterButton(buttonTitle: "Arrival Time", isSelected: $latestArrivalTimeSelected)
                 }
                 Button {
                     chooseBusServiceSelected.toggle()
+                    AnalyticsManager.shared.logEvent(name: "FilterRowView_ChooseBusClicked")
                 } label: {
                     FilterButton(buttonTitle: "Bus Service", isSelected: $chooseBusServiceSelected)
                 }
                 Button {
                     includeTransfersSelected.toggle()
+                    AnalyticsManager.shared.logEvent(name: "FilterRowView_RemoveTransfersClicked")
                 } label: {
                     FilterButton(buttonTitle: "Remove Transfers", isSelected: $includeTransfersSelected)
                 }
             }
         }
         .scrollIndicators(.hidden)
+        .analyticsScreen(name: "FilterRowView")
     }
 }
 
