@@ -52,8 +52,7 @@ struct SearchButton: View {
                     if viewModel.sameSearchParams(lastSearch: lastSearch,
                                                   newSearch: ["from": viewModel.locationQueryMap[selectedDeparture]!,
                                                               "to": viewModel.locationQueryMap[selectedArrival]!,
-                                                              "on": newDateString,
-                                                              "bus": selectedService]){
+                                                              "on": newDateString]) && lastSearch["bus"] == "All"{
                                                                   
                         trips = localSavedTrips
                         discountCodes = localSavedDiscountCodes
@@ -90,6 +89,10 @@ struct SearchButton: View {
                     
                     if removeTransfersToggle {
                         trips = viewModel.filterTransfer(tripsArray: trips ?? [], includeTransfers: false)
+                    }
+                    
+                    if selectServiceToggle {
+                        trips = viewModel.filterBus(tripsArray: trips ?? [], busService: selectedService)
                     }
                     
                     lastSearch =            ["from": viewModel.locationQueryMap[selectedDeparture]!,
