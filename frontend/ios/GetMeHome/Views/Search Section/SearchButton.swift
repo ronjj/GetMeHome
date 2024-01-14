@@ -43,6 +43,7 @@ struct SearchButton: View {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM-dd-yyyy"
                 let newDateString = formatter.string(from: selectedDate)
+                AnalyticsManager.shared.logEvent(name: "SearchButton_SearchClicked")
                 
                 Task {
                     isLoading = true
@@ -134,6 +135,7 @@ struct SearchButton: View {
                 selectedDeparture = selectedArrival
                 selectedArrival = tempLocation
                 switchOriginAndDestinationButtonClicked.toggle()
+                AnalyticsManager.shared.logEvent(name: "SearchButton_SwapClicked")
                 
             } label: {
                 Image(systemName: "arrow.up.arrow.down")
@@ -142,6 +144,13 @@ struct SearchButton: View {
             .buttonStyle(.bordered)
             .tint(.purple)
             
+        }
+        .analyticsScreen(name: "SearchButton")
+        .onAppear {
+            AnalyticsManager.shared.logEvent(name: "SearchButton_Appear")
+        }
+        .onDisappear {
+            AnalyticsManager.shared.logEvent(name: "SearchButton_Disappear")
         }
     }
 }

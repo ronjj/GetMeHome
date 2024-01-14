@@ -94,7 +94,8 @@ struct ProfileView: View {
                                 latestArrivalOnToggle = false
                                 setDefaultBusToggle = false
                                 removeTransfers = false
-                                
+                                AnalyticsManager.shared.logEvent(name: "ProfileView_ResetClicked")
+
                             } label: {
                                 Text("Reset")
                             }
@@ -107,6 +108,7 @@ struct ProfileView: View {
                     Text("Email: \(authViewModel.displayName)")
                     Button {
                         authViewModel.signOut()
+                        AnalyticsManager.shared.logEvent(name: "LoginView_SignoutClicked")
                     } label: {
                         Text("Sign Out")
                     }
@@ -117,6 +119,7 @@ struct ProfileView: View {
                     Text("Have questions? Found bugs? Have a feature suggestion? Send me an email.")
                     Button {
                         email.send(openURL: openURL)
+                        AnalyticsManager.shared.logEvent(name: "LoginView_SendEmailClicked")
                     } label: {
                         Text("Contact")
                     }
@@ -128,6 +131,10 @@ struct ProfileView: View {
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationTitle("Profile")
+        }
+        .analyticsScreen(name: "ProfileView")
+        .onAppear {
+            AnalyticsManager.shared.logEvent(name: "ProfileView_Appear")
         }
     }
 }

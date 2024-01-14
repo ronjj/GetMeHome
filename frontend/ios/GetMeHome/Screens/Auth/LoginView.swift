@@ -36,7 +36,10 @@ struct LoginView: View {
                         .font(.subheadline)
                         .foregroundStyle(.white)
                 }
-                Button(action: signInWithGoogle) {
+                Button {
+                    signInWithGoogle()
+                    AnalyticsManager.shared.logEvent(name: "LoginView_GoogleSignInClicked")
+                } label: {
                     Text("Sign in with Google")
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)
@@ -54,6 +57,10 @@ struct LoginView: View {
             .listStyle(.plain)
             .padding()
         }
+        .analyticsScreen(name: "LoginView")
         .ignoresSafeArea(edges: .all)
+        .onAppear {
+            AnalyticsManager.shared.logEvent(name: "LoginView_Appear")
+        }
     }
 }

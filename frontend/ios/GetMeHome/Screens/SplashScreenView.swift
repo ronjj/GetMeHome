@@ -49,12 +49,15 @@ struct SplashScreenView: View {
                 }
             }
             .ignoresSafeArea(.all)
+            .analyticsScreen(name: "SplashScreen")
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     withAnimation {
                         self.isActive = true
+                        
                     }
                 }
+                AnalyticsManager.shared.logEvent(name: "SplashScreen_Appear")
             }
         }
     }
