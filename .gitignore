@@ -5,6 +5,6 @@ flix_bus_transfer_details.json
 sample_our_response.json
 Pipfile
 Pipfile.lock
-**__pycahce__
-**/backend/__pycahce__
+**__pycache__
+**/backend/__pycache__
 **.plist

@@ -17,61 +17,34 @@ def create_app():
 def error_message(message, code):
     return json.dumps({"message": f"{message}", "code" : f"{code}"})
 
-# Get All Trips for A Date, Origin, and Destination
-@app.route('/all/<date>/<origin>/<destination>', methods=["GET"])
-def get_trips(date, origin, destination):
-    try:
-        trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
-    except exceptions.IncorrectDateFormatException:
-        return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
-    except exceptions.PastDateException:
-        return error_message("Cannot search for past dates. Must search for current or future date", 400)
-    except Exception as e:
-        return error_message(f"{e}", 500)
-    else:
-        return trips
+valid_services = ["all", "flix", "mega", "our"]
 
-# OurBus
-@app.route('/our/<date>/<origin>/<destination>', methods=["GET"])
-def get_our_bus_trips(date, origin, destination):
-    try:
-        trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
-    except exceptions.IncorrectDateFormatException:
-        return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
-    except exceptions.PastDateException:
-        return error_message("Cannot search for past dates. Must search for current or future date", 400)
-    except Exception as e:
-        return error_message(f"{e}", 500)
+# Get All Trips for A Date, Origin, Destination, and Bus Service
+@app.route('/<bus_service>/<date>/<origin>/<destination>', methods=["GET"])
+def get_trips(bus_service, date, origin, destination):
+    if bus_service not in valid_services:
+        return json.dumps({
+            "message": "Invalid Bus Service",
+            "status": "400"
+        })
     else:
-        return trips
-
-# Mega
-@app.route('/mega/<date>/<origin>/<destination>', methods=["GET"])
-def get_mega_trips(date, origin, destination):
-    try:
-        trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
-    except exceptions.IncorrectDateFormatException:
-        return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
-    except exceptions.PastDateException:
-        return error_message("Cannot search for past dates. Must search for current or future date", 400)
-    except Exception as e:
-        return error_message(f"{e}", 500)
-    else:
-        return trips
-
-# Flix
-@app.route('/flix/<date>/<origin>/<destination>', methods=["GET"])
-def get_flix_trips(date, origin, destination):
-    try:
-        trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
-    except exceptions.IncorrectDateFormatException:
-        return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
-    except exceptions.PastDateException:
-        return error_message("Cannot search for past dates. Must search for current or future date", 400)
-    except Exception as e:
-        return error_message(f"{e}", 500)
-    else:
-        return trips
+        try:
+            if bus_service == "all":
+                trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
+            if bus_service == "mega":
+                trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+            if bus_service == "our":
+                trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+            if bus_service == "flix":
+                trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+        except exceptions.IncorrectDateFormatException:
+            return error_message("Date formatting incorrect. Format is MM-DD-YYYY", 400)
+        except exceptions.PastDateException:
+            return error_message("Cannot search for past dates. Must search for current or future date", 400)
+        except Exception as e:
+            return error_message(f"{e}", 500)
+        else:
+            return trips
 
 # Run Server
 if __name__ == '__main__':
