@@ -10,6 +10,8 @@
 		540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581342B3F54E90068B6F0 /* Discount Code.swift */; };
 		540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581362B3F5EF60068B6F0 /* BusLabel.swift */; };
 		5410BA442B536588002C9000 /* DeviceModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 5410BA432B536588002C9000 /* DeviceModels.json */; };
+		5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA472B537803002C9000 /* SplashScreenView.swift */; };
+		5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA492B537A58002C9000 /* Colors+Extension.swift */; };
 		5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410CA2D2B4EF2D400828BCB /* CustomSection.swift */; };
 		543928832B10EDA400C5E609 /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928822B10EDA400C5E609 /* TripRowView.swift */; };
 		543928852B10EDD200C5E609 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928842B10EDD200C5E609 /* Trip.swift */; };
@@ -50,6 +52,8 @@
 		540581342B3F54E90068B6F0 /* Discount Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Discount Code.swift"; sourceTree = "<group>"; };
 		540581362B3F5EF60068B6F0 /* BusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusLabel.swift; sourceTree = "<group>"; };
 		5410BA432B536588002C9000 /* DeviceModels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeviceModels.json; sourceTree = "<group>"; };
+		5410BA472B537803002C9000 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		5410BA492B537A58002C9000 /* Colors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Extension.swift"; sourceTree = "<group>"; };
 		5410CA2D2B4EF2D400828BCB /* CustomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSection.swift; sourceTree = "<group>"; };
 		543928822B10EDA400C5E609 /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		543928842B10EDD200C5E609 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				54A2E9D42B52D34D00166062 /* UIDevice+Extension.swift */,
 				54A2E9D62B52D37200166062 /* Bundle+Extension.swift */,
 				54A2E9D82B52D39F00166062 /* Date+Extension.swift */,
+				5410BA492B537A58002C9000 /* Colors+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				547DB77B2B508F3700FF2F1C /* ProfileView.swift */,
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
 				547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */,
+				5410BA472B537803002C9000 /* SplashScreenView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -317,11 +323,13 @@
 				5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
 				547AB0112B0FE14400F7C539 /* ContentView.swift in Sources */,
+				5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */,
 				547DB77F2B50915200FF2F1C /* TabBarView.swift in Sources */,
 				547DB7812B50AE5B00FF2F1C /* MapViewDetailSheet.swift in Sources */,
 				547AB00F2B0FE14400F7C539 /* GetMeHomeApp.swift in Sources */,
 				547DB76F2B5078E800FF2F1C /* LoginView.swift in Sources */,
 				54B0DF562B113421006263DF /* ViewModel.swift in Sources */,
+				5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */,
 				547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */,
 				54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */,
 				54A2E9DE2B52DCC300166062 /* SupportEmail.swift in Sources */,

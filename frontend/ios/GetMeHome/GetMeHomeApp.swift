@@ -19,20 +19,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct GetMeHomeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var viewModel = AuthenticationViewModel()
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                switch viewModel.authenticationState {
-                case .unauthenticated, .authenticating:
-                    AuthenticationView()
-                        .environmentObject(viewModel)
-                case .authenticated:
-                    TabBarView()
-                        .environmentObject(viewModel)
-                }
-            }
+            SplashScreenView()
         }
     }
 }

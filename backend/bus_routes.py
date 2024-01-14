@@ -486,4 +486,3 @@ def get_all(date, dep_loc, arr_loc):
         
         trips_and_codes = trips_and_discount_response(trips=trips, discount_code=discount_codes)
         return jsonpickle.encode(trips_and_codes)
-

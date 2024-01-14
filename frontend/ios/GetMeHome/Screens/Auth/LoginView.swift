@@ -22,13 +22,20 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.purple, .purple.opacity(0.75)]), startPoint: .bottomLeading, endPoint: .topTrailing)
-            VStack {
-                Text("GetMeHome")
-                    .fontWeight(.black)
-                    .font(.title)
-                    .foregroundStyle(.white)
-                
+            LinearGradient(colors: [Color.lightPurple, Color.darkPurple],
+                           startPoint: .bottomLeading,
+                           endPoint: .topTrailing)
+            VStack(spacing: 20) {
+                VStack(spacing: 2) {
+                    Text("GetMeHome")
+                        .fontWeight(.black)
+                        .font(.title)
+                        .foregroundStyle(.white)
+                    Text("Find Trips Home")
+                        .fontWeight(.medium)
+                        .font(.subheadline)
+                        .foregroundStyle(.white)
+                }
                 Button(action: signInWithGoogle) {
                     Text("Sign in with Google")
                         .padding(.vertical, 8)
@@ -43,7 +50,6 @@ struct LoginView: View {
                 }
                 .foregroundColor(colorScheme == .dark ? .white : .black)
                 .buttonStyle(.bordered)
-                
             }
             .listStyle(.plain)
             .padding()
