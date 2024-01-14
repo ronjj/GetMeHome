@@ -19,13 +19,16 @@ OURBUS_LOCATION_IDS = {
   "new_york":"New%20York,%20NY",
   "syracuse": "Syracuse,%20NY",
   "syr_airport": "Syracuse%20Airport,%20NY",
+  "newark": "Newark%2C%20NJ",
 }
 
 MEGA_LOCATION_IDS = {
   "511":"Ithaca",
   "123":"New York",
   "139":"Syracuse",
+  "610": "Newark, NJ",
 
+  "newark":"610",
   "syracuse":"139",
   "ithaca":"511",
   "new_york": "123"
@@ -35,8 +38,10 @@ FLIX_LOCATION_IDS = {
   "ithaca": "99c4f86c-3ecb-11ea-8017-02437075395e",
   "new_york": "c0a47c54-53ea-46dc-984b-b764fc0b2fa9",
   "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
+  "newark": "f5987d0c-232d-4d9b-8112-4a834d0c7ebd",
 
-  # Station IDs
+  # Arrival Station IDs
+  "f5987d0c-232d-4d9b-8112-4a834d0c7ebd": "Newark, NJ",
   "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
   "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
   "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
