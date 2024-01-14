@@ -56,7 +56,6 @@ struct ContentView: View {
                 DateAndLocationPickerView(
                     selectedDeparture: $selectedDeparture,
                     selectedArrival: $selectedArrival,
-                    switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked,
                     selectedDate: $selectedDate)
                 .padding(.bottom, 10)
                 
@@ -73,7 +72,8 @@ struct ContentView: View {
                              isLoading: $isLoading,
                              removeTransfersToggle: $removeTransfersToggle,
                              latestArrivalTimeToggle: $latestArrivalTimeToggle,
-                             clickedSearch: $clickedSearch)
+                             clickedSearch: $clickedSearch, 
+                             switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked)
                 
                 FilterRowView(
                     minDepartureTimeSelected: $earliestDepartureTimeToggle,

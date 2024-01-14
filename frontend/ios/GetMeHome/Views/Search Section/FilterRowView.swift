@@ -44,7 +44,6 @@ struct FilterRowView: View {
 }
 
 struct FilterButton: View {
-    
     var buttonTitle: String
     @Binding var isSelected: Bool
     
