@@ -155,10 +155,10 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         try:
             loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
         except:
-            loaded_data = json.loads(parsed_trips)['similarSearch']['list']
+            loaded_data = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
         else:
             searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
-            similar_search = json.loads(parsed_trips)['similarSearch']['list']
+            similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
             loaded_data = searched_route_list + similar_search
 
         # Discount Code Loaded Data
