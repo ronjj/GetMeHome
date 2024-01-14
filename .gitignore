@@ -8,3 +8,4 @@ Pipfile.lock
 **__pycache__
 **/backend/__pycache__
 **.plist
+OfflineTrips.json
