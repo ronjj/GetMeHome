@@ -11,57 +11,53 @@ struct DateAndLocationPickerView: View {
     
     @Binding var selectedDeparture: String
     @Binding var selectedArrival: String
-    @Binding var switchOriginAndDestinationButtonClicked: Bool
     @Binding var selectedDate: Date
     
     var viewModel = ViewModel()
     
     var body: some View {
-        VStack {
-            HStack{
-                DatePicker("Trip Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
-                    .labelsHidden()
-                    .tint(.purple)
+        VStack(spacing: 20) {
+           HStack {
+                Text("Departure Location")
+                Spacer()
                 Menu(selectedDeparture) {
-//                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
+                    //                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
                     ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
                         if selectedDeparture != location && selectedArrival != location {
                             Button("\(location)") {
                                 selectedDeparture = location
                             }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }
                 .tint(.purple)
-                Button {
-                    var tempLocation = ""
-                    tempLocation = selectedDeparture
-                    selectedDeparture = selectedArrival
-                    selectedArrival = tempLocation
-                    switchOriginAndDestinationButtonClicked.toggle()
-                    
-                } label: {
-                    Image(systemName: "arrow.right")
-                        .scaleEffect(0.8)
-                }
-                .buttonStyle(.bordered)
-                .tint(.purple)
-                
-                
+            }
+               
+            HStack {
+                Text("Arrival Location")
+                Spacer()
                 Menu(selectedArrival) {
                     ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
                         if selectedArrival != location && selectedDeparture != location {
                             Button("\(location)") {
                                 selectedArrival = location
                             }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }
-                .padding(.horizontal, 0)
                 .tint(.purple)
             }
-            .padding()
-            .frame(maxWidth: .infinity)
+            
+            HStack {
+                Text("Travel Date")
+                Spacer()
+                DatePicker("Trip Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
+                    
+                    .labelsHidden()
+                    .tint(.purple)
+            }
         }
     }
 }
