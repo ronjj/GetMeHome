@@ -4,10 +4,21 @@ import bus_routes
 import json
 import exceptions
 import constants
+from database.db_models import db
 
 # Initialise Flask App
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+db_filename = "stores.db" # TODO: Come back to, change name
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_filename}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ECHO"] = True
+
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 def create_app():
     app = Flask(__name__)
