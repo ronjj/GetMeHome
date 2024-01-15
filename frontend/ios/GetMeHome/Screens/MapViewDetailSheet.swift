@@ -27,10 +27,9 @@ struct MapViewDetailSheet: View {
     
     @State private var selectedMarker: Int?
     
-    var arrivalCoordinates: CLLocationCoordinate2D
-    var departureCoordinates: CLLocationCoordinate2D
+    @State var arrivalCoordinates: CLLocationCoordinate2D
+    @State var departureCoordinates: CLLocationCoordinate2D
     var trip: Trip
-    @State private var results = [MKMapItem]()
     @State private var showDetails = false
     
     
@@ -47,7 +46,7 @@ struct MapViewDetailSheet: View {
                 .tint(.purple)
                 .tag(2)
             
-            UserAnnotation()
+//            UserAnnotation()
             
             if let route {
                 MapPolyline(route.polyline)
@@ -62,7 +61,7 @@ struct MapViewDetailSheet: View {
             HStack{
                 closeButton
                 switchMapButton
-                MapUserLocationButton(scope: mapScope)
+//                MapUserLocationButton(scope: mapScope)
             }
             .padding()
             .mapScope(mapScope)
@@ -80,85 +79,10 @@ struct MapViewDetailSheet: View {
                 let mapSpan = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
                 let coordinates = (MKCoordinateRegion(center: arrivalCoordinates, span: mapSpan))
                 location = MapCameraPosition.region(coordinates)
-            Task {await searchPlaces()}
             fetchRoute()
-            print(results)
-            
-        }
-        .onChange(of: selectedMarker, { oldValue, newValue in
-                showDetails = newValue != nil
-        })
-        .sheet(isPresented: $showDetails, content: {
-            LocationDetailView(show: $showDetails)
-                .presentationDetents([.height(340)])
-                .presentationBackgroundInteraction(.enabled(upThrough: .height(340)))
-                .presentationCornerRadius(12)
-        })
-    }
-}
-
-struct LocationDetailView: View {
-    
-//    @Binding var mapSelection: MKMapItem?
-    @Binding var show: Bool
-    @State private var lookAroundScene: MKLookAroundScene?
-    
-    var body: some View {
-        VStack {
-            HStack {
-                VStack (alignment: .leading) {
-//                    Text(mapSelection?.placemark.name ?? "")
-                    Text("Some text")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-//                    Text(mapSelection?.placemark.title ?? "")
-                    Text("Some text")
-                        .font(.footnote)
-                        .foregroundStyle(.gray)
-                        .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
-                        .padding(.trailing)
-                }
-                
-                Spacer()
-                
-                Button {
-                    show.toggle()
-//                    mapSelection = nil
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(.gray)
-                }
-            }
-            
-            if let scene = lookAroundScene {
-                LookAroundPreview(initialScene: scene)
-                    .frame(height: 200)
-                    .cornerRadius(12)
-                    .padding()
-            } else {
-                ContentUnavailableView("No Preview Available", systemImage: "eye.slash")
-            }
         }
     }
 }
-
-extension LocationDetailView {
-//    func fetchLookAroundPreview() {
-//        if let mapSelection {
-////        if let show {
-//            lookAroundScene = nil
-//            Task {
-//                let request = MKLookAroundSceneRequest(mapItem: mapSelection)
-//                lookAroundScene = try? await request.scene
-//            }
-//        }
-//    }
-}
-
-
 
 extension MapViewDetailSheet {
 
@@ -171,28 +95,9 @@ extension MapViewDetailSheet {
             let result = try? await MKDirections(request: request).calculate()
             route = result?.routes.first
             routeDestination = MKMapItem(placemark: .init(coordinate: departureCoordinates))
-            
-//            withAnimation(.snappy) {
-//                routeDisplaying = true
-//                showDetails = false
-//                
-//                if let rect = route?.polyline.boundingMapRect, routeDisplaying {
-//                    location = .rect(rect)
-//                }
-//            }
         }
     }
-    func searchPlaces() async {
-//        if trip.arrivalLocationCoords.latitude != 0.0 {
-            let request = MKLocalSearch.Request()
-            request.naturalLanguageQuery = trip.arrivalLocation
-            request.region = MKCoordinateRegion(center: arrivalCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
-            
-            let results = try? await MKLocalSearch(request: request).start()
-            self.results = results?.mapItems ?? []
-//        }
-    }
-    
+
     private var closeButton: some View {
         Button {
             dismiss()
