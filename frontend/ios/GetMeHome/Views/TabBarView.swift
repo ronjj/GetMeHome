@@ -17,6 +17,12 @@ struct TabBarView: View {
                 Text("Search")
             }
         
+            SavedTripsView()
+            .tabItem {
+                    Image(systemName: "bookmark")
+                    Text("Saved")
+            }
+            
             ProfileView()
             .tabItem {
                 Image(systemName: "person")
@@ -24,12 +30,7 @@ struct TabBarView: View {
             }
             .environmentObject(authViewModel)
             
-            SavedTripsView()
-            .tabItem {
-                    Image(systemName: "bookmark")
-                    Text("Saved")
-            }
-            .navigationTitle("Saved Trips")
+
         }
     }
 }
