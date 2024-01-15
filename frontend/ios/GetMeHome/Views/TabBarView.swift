@@ -29,8 +29,6 @@ struct TabBarView: View {
                 Text("Profile")
             }
             .environmentObject(authViewModel)
-            
-
         }
     }
 }
