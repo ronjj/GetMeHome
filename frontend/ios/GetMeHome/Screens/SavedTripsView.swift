@@ -64,6 +64,7 @@ struct SavedTripsView: View {
             }
             .navigationTitle("Saved Trips")
         }
+        .analyticsScreen(name: "SavedTripsView")
         .onAppear {
             AnalyticsManager.shared.logEvent(name: "SavedTripsView_Appear")
         }
