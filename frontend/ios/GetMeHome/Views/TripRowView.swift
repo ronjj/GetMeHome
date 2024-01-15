@@ -8,55 +8,53 @@
 import SwiftUI
 
 struct TripRowView: View {
-    var date: String
-    var price: Float
-    var arrivalTime: String
-    var arrivalLocation: String
-    var departureTime: String
-    var departureLocation: String
-    var busService: String
-    var nonStop: String
+    var trip: Trip
     
     @State var isFavorite: Bool = false
+    @Environment (\.managedObjectContext) var managedObjectContext
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             
-            Text("$\(price, specifier: "%.2f")")
+            Text("$\(trip.price, specifier: "%.2f")")
                 .fontWeight(.bold)
             
             HStack (spacing: 2) {
                 Image(systemName: "clock")
-                Text(departureTime)
+                Text(trip.departureTime)
                 Image(systemName: "arrow.right")
-                Text(arrivalTime)
+                Text(trip.arrivalTime)
             }
             
             HStack (spacing:  2) {
                 Image(systemName: "building")
-                Text(departureLocation.prefix(20))
+                Text(trip.departureLocation.prefix(20))
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .multilineTextAlignment(.trailing)
                 Image(systemName: "arrow.right")
-                Text(arrivalLocation.prefix(20))
+                Text(trip.arrivalLocation.prefix(20))
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .multilineTextAlignment(.trailing)
             }
            
-            if nonStop == "False" {
+            if trip.nonStop == "False" {
                 HStack {
-                    BusLabel(busService: busService)
+                    BusLabel(busService: trip.busService)
                     BusLabel(busService: "indirect")
                 }
             }
             else {
-                BusLabel(busService: busService)
+                BusLabel(busService: trip.busService)
             }
             Button {
                 AnalyticsManager.shared.logEvent(name: "TripRowView_FavoriteClicked")
                 isFavorite.toggle()
+                if isFavorite {
+                    DataContrller().addSavedTrip(arrivalLocation: trip.arrivalLocation, arrivalTime: trip.arrivalTime, busService: trip.busService, date: trip.date, departureLocation: trip.departureLocation, departureTime: trip.departureTime, id:trip.randomNum , nonStop: trip.nonStop, price: trip.price, ticketLink: trip.ticketLink, context: managedObjectContext)
+                }
+                
             } label : {
                 Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
             }

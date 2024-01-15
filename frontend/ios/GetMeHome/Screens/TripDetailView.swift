@@ -44,7 +44,8 @@ struct TripDetailView: View {
                 CustomSection(sectionTitle: "Bus Service", sectionText: Text("\(trip.busService)"))
                 
                 HStack {
-                    Link("Buy on \(trip.busService) Website", destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+                    Link("Buy on \(trip.busService) Website", 
+                         destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
                         .buttonStyle(.bordered)
                         .tint(.indigo)
                         .frame(maxWidth: .infinity)
