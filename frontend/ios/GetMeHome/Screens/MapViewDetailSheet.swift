@@ -8,15 +8,18 @@
 import SwiftUI
 import MapKit
 
-
-
-
 struct MapViewDetailSheet: View {
     
     @Environment(\.dismiss) var dismiss
      
     //   TODO: make these the coords for cornell
-    @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
+    @State private var location = MapCameraPosition.region(MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 51.507222,
+            longitude: -0.1275),
+        span: MKCoordinateSpan(
+            latitudeDelta: 0.5,
+            longitudeDelta: 0.5)))
     @State var mapType: MKMapType = .standard
     @State var switchMapType: Bool = false
     @State var mapDetailSelected: Bool = false
@@ -24,8 +27,15 @@ struct MapViewDetailSheet: View {
     
     @State private var selectedMarker: Int?
     
-    var arrivalCoordinates: CLLocationCoordinate2D
-    var departureCoordinates: CLLocationCoordinate2D
+    @State var arrivalCoordinates: CLLocationCoordinate2D
+    @State var departureCoordinates: CLLocationCoordinate2D
+    var trip: Trip
+    @State private var showDetails = false
+    
+    
+    @State private var routeDisplaying = false
+    @State private var route: MKRoute?
+    @State private var routeDestination: MKMapItem?
    
     var body: some View {
         Map(position: $location, selection: $selectedMarker) {
@@ -36,14 +46,22 @@ struct MapViewDetailSheet: View {
                 .tint(.purple)
                 .tag(2)
             
-            UserAnnotation()
+//            UserAnnotation()
+            
+            if let route {
+                MapPolyline(route.polyline)
+                    .stroke(.purple, lineWidth: 6)
+            }
+        }
+        .mapControls {
+            MapPitchToggle()
         }
         .mapStyle(switchMapType ? .hybrid(elevation:.realistic) : .standard(elevation:.realistic))
         .overlay(alignment: .bottomTrailing) {
             HStack{
                 closeButton
                 switchMapButton
-                MapUserLocationButton(scope: mapScope)
+//                MapUserLocationButton(scope: mapScope)
             }
             .padding()
             .mapScope(mapScope)
@@ -61,12 +79,25 @@ struct MapViewDetailSheet: View {
                 let mapSpan = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
                 let coordinates = (MKCoordinateRegion(center: arrivalCoordinates, span: mapSpan))
                 location = MapCameraPosition.region(coordinates)
+            fetchRoute()
         }
     }
 }
 
-
 extension MapViewDetailSheet {
+
+    func fetchRoute() {
+        let request = MKDirections.Request()
+        request.destination = MKMapItem(placemark: .init(coordinate: arrivalCoordinates))
+        request.source = MKMapItem(placemark: .init(coordinate: departureCoordinates))
+        
+        Task {
+            let result = try? await MKDirections(request: request).calculate()
+            route = result?.routes.first
+            routeDestination = MKMapItem(placemark: .init(coordinate: departureCoordinates))
+        }
+    }
+
     private var closeButton: some View {
         Button {
             dismiss()

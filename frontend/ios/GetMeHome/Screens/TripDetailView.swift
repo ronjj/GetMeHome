@@ -106,7 +106,7 @@ struct TripDetailView: View {
                                departureCoordinates:
                                 CLLocationCoordinate2D(
                                     latitude: trip.departureLocationCoords.latitude,
-                                    longitude:  trip.departureLocationCoords.longitude))
+                                    longitude:  trip.departureLocationCoords.longitude), trip: trip)
         }
         .onAppear(perform: {
             let dateFormatter = DateFormatter()
