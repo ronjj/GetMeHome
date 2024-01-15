@@ -12,6 +12,7 @@ struct TripRowView: View {
     
     @State var isFavorite: Bool = false
     @Environment (\.managedObjectContext) var managedObjectContext
+    @FetchRequest(sortDescriptors: []) var savedTrips: FetchedResults<SavedTrip>
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -53,6 +54,11 @@ struct TripRowView: View {
                 isFavorite.toggle()
                 if isFavorite {
                     DataContrller().addSavedTrip(arrivalLocation: trip.arrivalLocation, arrivalTime: trip.arrivalTime, busService: trip.busService, date: trip.date, departureLocation: trip.departureLocation, departureTime: trip.departureTime, id:trip.randomNum , nonStop: trip.nonStop, price: trip.price, ticketLink: trip.ticketLink, context: managedObjectContext)
+                } else {
+//                  NOTE: Find the savedTrips with the same ID as the trip in the row and remove it from the array
+//                    then save the savedTrips array
+                    savedTrips.filter { $0.id == trip.randomNum }.forEach(managedObjectContext.delete)
+                    DataContrller().save(context: managedObjectContext)
                 }
                 
             } label : {
