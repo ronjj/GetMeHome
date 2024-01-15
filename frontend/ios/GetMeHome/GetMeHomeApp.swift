@@ -18,11 +18,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct GetMeHomeApp: App {
+    @StateObject private var dataController = DataContrller()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

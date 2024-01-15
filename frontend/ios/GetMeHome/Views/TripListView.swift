@@ -48,7 +48,7 @@ extension TripListView {
             Section("Cheapest Trip") {
                 ForEach(trips![...0] , id: \.randomNum) { trip in
                     NavigationLink(value: trip) {
-                        TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
+                        TripRowView(trip: trip)
                     }
                 }
             }
@@ -56,7 +56,7 @@ extension TripListView {
             Section("Rest of Trips") {
                 ForEach(trips![1...(trips!.count-1)] , id: \.randomNum) { trip in
                     NavigationLink(value: trip) {
-                        TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
+                        TripRowView(trip: trip)
                     }
                 }
             }
@@ -70,7 +70,7 @@ extension TripListView {
     private var singleResultList: some View {
         List(trips! , id: \.randomNum) { trip in
             NavigationLink(value: trip) {
-                TripRowView(date: trip.date, price: trip.price, arrivalTime: trip.arrivalTime, arrivalLocation: trip.arrivalLocation, departureTime: trip.departureTime, departureLocation: trip.departureLocation, busService: trip.busService, nonStop: trip.nonStop)
+                TripRowView(trip: trip)
             }
         }
         

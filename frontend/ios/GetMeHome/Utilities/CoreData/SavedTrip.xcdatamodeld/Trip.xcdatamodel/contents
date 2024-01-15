@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="SavedTrip" representedClassName="SavedTrip" syncable="YES">
+        <attribute name="arrivalLat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="arrivalLocation" optional="YES" attributeType="String"/>
+        <attribute name="arrivalLongitude" optional="YES" attributeType="String"/>
+        <attribute name="arrivalTime" optional="YES" attributeType="String"/>
+        <attribute name="busService" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="departureLat" optional="YES" attributeType="String"/>
+        <attribute name="departureLocation" optional="YES" attributeType="String"/>
+        <attribute name="departureLongitude" optional="YES" attributeType="String"/>
+        <attribute name="departureTime" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="intermediateCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="intermediateStations" optional="YES" attributeType="String"/>
+        <attribute name="nonStop" optional="YES" attributeType="String"/>
+        <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="ticketLink" optional="YES" attributeType="String"/>
+    </entity>
+</model>

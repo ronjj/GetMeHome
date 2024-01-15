@@ -4,7 +4,7 @@
 
 To make it easier to get home on school breaks, I developed GetMeHome, a fullstack iOS project that aggregates trip information across MegaBus, FlixBus, and OurBus. Users enter in a travel date, departure city, and destination city and are returned a list of trips from each service sorted in increasing order of price. Users can further refine their search by selecting the earliest departure time, latest arrival time, or neither.
 
-- Locations: New York City, Ithaca, Syracuse, Syracuse Airport
+- Current Locations: New York City, Ithaca, Syracuse, Syracuse Airport, Newark
 - A sample response can be found in the file sample_response.json
 
 **Backend**:
@@ -12,10 +12,13 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 - Technologies: Python, Postman
 - Modules and Packages: Flask, Requests, BeautifulSoup, json
 - Hosted API on Render platform
+- Features:
+
+  - Get and aggredate data from OurBus,FlixBus, and MegaBus APIs
 
 **Frontend**:
 
-- Technologies: Swift, SwiftUI, MapKit
+- Technologies: Swift, SwiftUI, MapKit, AppStorage(UserDefaults), CoreData
 - Features:
 
   - Select date of trip, origin, and destination and search for corresponding trips
@@ -23,8 +26,10 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
   - View intermediate stops and full route the bus will take
   - Get link to buy ticket from respective services website
   - Get discount codes (OurBus only at the moment)
+  - Sign in with Google or Apple
   - See trip departure and destination location on map (FlixBus only at the moment)
   - Set default search settings in the profile view
+  - Save trips for later
 
 **What I Learned**:
 
@@ -44,6 +49,6 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 **Current Screenshots of App**
 
-Youtube Video Demo Link: https://youtu.be/nQvyMH7IZIA
+Youtube Video Demo Link: https://youtu.be/gxtlPc_PfLg
 
 <img src="/screenshots/ss_1.png" width="23%"></img> <img src="/screenshots/ss_2.png" width="23%"></img> <img src="/screenshots/ss_3.png" width="23%"></img> <img src="/screenshots/ss_4.png" width="23%"></img> <img src="/screenshots/ss_5.png" width="23%"></img> <img src="/screenshots/ss_6.png" width="23%"></img> <img src="/screenshots/ss_7.png" width="23%"></img> <img src="/screenshots/ss_8.png" width="23%"></img>

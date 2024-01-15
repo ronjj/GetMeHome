@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581342B3F54E90068B6F0 /* Discount Code.swift */; };
 		540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540581362B3F5EF60068B6F0 /* BusLabel.swift */; };
+		540FF2F22B55A5A3000372CD /* SavedTripModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 540FF2F02B55A5A3000372CD /* SavedTripModel.xcdatamodeld */; };
+		540FF2F42B55A647000372CD /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540FF2F32B55A647000372CD /* DataController.swift */; };
+		540FF2F62B55AABC000372CD /* SavedTripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540FF2F52B55AABC000372CD /* SavedTripsView.swift */; };
 		5410BA442B536588002C9000 /* DeviceModels.json in Resources */ = {isa = PBXBuildFile; fileRef = 5410BA432B536588002C9000 /* DeviceModels.json */; };
 		5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA472B537803002C9000 /* SplashScreenView.swift */; };
 		5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA492B537A58002C9000 /* Colors+Extension.swift */; };
@@ -53,6 +56,9 @@
 /* Begin PBXFileReference section */
 		540581342B3F54E90068B6F0 /* Discount Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Discount Code.swift"; sourceTree = "<group>"; };
 		540581362B3F5EF60068B6F0 /* BusLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusLabel.swift; sourceTree = "<group>"; };
+		540FF2F12B55A5A3000372CD /* SavedTripModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedTripModel.xcdatamodel; sourceTree = "<group>"; };
+		540FF2F32B55A647000372CD /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		540FF2F52B55AABC000372CD /* SavedTripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTripsView.swift; sourceTree = "<group>"; };
 		5410BA432B536588002C9000 /* DeviceModels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeviceModels.json; sourceTree = "<group>"; };
 		5410BA472B537803002C9000 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		5410BA492B537A58002C9000 /* Colors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Extension.swift"; sourceTree = "<group>"; };
@@ -107,6 +113,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		540FF2EF2B55A598000372CD /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				540FF2F02B55A5A3000372CD /* SavedTripModel.xcdatamodeld */,
+				540FF2F32B55A647000372CD /* DataController.swift */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
 		5439287F2B10ED7C00C5E609 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +140,7 @@
 		543928802B10ED8600C5E609 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				540FF2EF2B55A598000372CD /* DataModel */,
 				543928842B10EDD200C5E609 /* Trip.swift */,
 				540581342B3F54E90068B6F0 /* Discount Code.swift */,
 				543928882B11199B00C5E609 /* MockData.swift */,
@@ -233,6 +249,7 @@
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
 				547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */,
 				5410BA472B537803002C9000 /* SplashScreenView.swift */,
+				540FF2F52B55AABC000372CD /* SavedTripsView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -338,6 +355,7 @@
 				54A2E9E02B52DF6800166062 /* MailView.swift in Sources */,
 				5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
+				540FF2F62B55AABC000372CD /* SavedTripsView.swift in Sources */,
 				547AB0112B0FE14400F7C539 /* ContentView.swift in Sources */,
 				5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */,
 				547DB77F2B50915200FF2F1C /* TabBarView.swift in Sources */,
@@ -348,9 +366,11 @@
 				5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */,
 				547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */,
 				54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */,
+				540FF2F42B55A647000372CD /* DataController.swift in Sources */,
 				54A2E9DE2B52DCC300166062 /* SupportEmail.swift in Sources */,
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
 				547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */,
+				540FF2F22B55A5A3000372CD /* SavedTripModel.xcdatamodeld in Sources */,
 				540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,6 +637,19 @@
 			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		540FF2F02B55A5A3000372CD /* SavedTripModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				540FF2F12B55A5A3000372CD /* SavedTripModel.xcdatamodel */,
+			);
+			currentVersion = 540FF2F12B55A5A3000372CD /* SavedTripModel.xcdatamodel */;
+			path = SavedTripModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 547AB0032B0FE14400F7C539 /* Project object */;
 }

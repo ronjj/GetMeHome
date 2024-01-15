@@ -99,9 +99,14 @@ import SwiftUI
     
     func filterBus(tripsArray: [Trip], busService: String) -> [Trip] {
         print("results before latest arrival filter: \(tripsArray.count)")
-        let newTripsArray = tripsArray.filter {$0.busService == busService}
-        print("results after latest arrival filter: \(newTripsArray.count)")
-        return newTripsArray
+        var listToReturn = [Trip]()
+        if busService != "All" {
+            listToReturn = tripsArray.filter {$0.busService == busService}
+            print("results after latest arrival filter: \(listToReturn.count)")
+        } else {
+            listToReturn = tripsArray
+        }
+        return listToReturn
     }
 }
 
