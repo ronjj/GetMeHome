@@ -177,8 +177,8 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         # Basic Trip Information
         for index in range(len(loaded_data)):
             journey = loaded_data[index]
-            # skip sold out bus or non direct buses
 
+            # skip sold out bus or non direct buses
             if journey['trip_status'] == "STOP_SALES":
                 continue
             else:
@@ -238,7 +238,6 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
 def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
     discount_codes = []
-
     proper_date = format_date(search_date=date, bus_service=constants.MEGA_BUS)
 
     # Added for future routes where Megabus is not supported

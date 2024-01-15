@@ -52,20 +52,21 @@ struct SavedTripsView: View {
                              destination: (URL(string: savedTrip.ticketLink ?? "") ?? URL(string: viewModel.backupLinkMap[savedTrip.busService ?? ""]!))!)
                             .buttonStyle(.bordered)
                             .tint(.indigo)
-                            
+                            .onTapGesture {
+                                AnalyticsManager.shared.logEvent(name: "SavedTripsView_BuyTicketClicked")
+                        }
                     }
                 }
                 .onDelete(perform: { indexSet in
                     deleteSavedTrip(offsets: indexSet)
     //                analyticsTracking here
                 })
-               
             }
             .navigationTitle("Saved Trips")
-
         }
-        .navigationTitle("Saved Trips")
-
+        .onAppear {
+            AnalyticsManager.shared.logEvent(name: "SavedTripsView_Appear")
+        }
     }
     private func deleteSavedTrip(offsets: IndexSet) {
         withAnimation {
