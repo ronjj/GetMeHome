@@ -11,6 +11,8 @@ struct SavedTripsView: View {
     
     @Environment (\.managedObjectContext) var managedObjectContext
     @FetchRequest(sortDescriptors: []) var savedTrips: FetchedResults<SavedTrip>
+    @State private var showingDeleteAlert = false
+    @State private var selectedSavedTripId: Int?
     
     var viewModel = ViewModel()
     
@@ -65,14 +67,27 @@ struct SavedTripsView: View {
                                         AnalyticsManager.shared.logEvent(name: "SavedTripsView_BuyTicketClicked")
                                 }
                             }
+                            .onTapGesture {
+                               showingDeleteAlert = true
+                                selectedSavedTripId = Int(savedTrip.id)
+                            }
                         }
                         .onDelete(perform: { indexSet in
                             deleteSavedTrip(offsets: indexSet)
-            //                analyticsTracking here
+                            AnalyticsManager.shared.logEvent(name: "SavedTripsView_SwipeToDelete")
                         })
+                        
                     }
                 }
             }
+        }
+        .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
+            Button("Yes", role: .destructive) {
+                if let selectedSavedTripId {
+                    savedTrips.filter { $0.id == selectedSavedTripId }.forEach(managedObjectContext.delete)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
         }
         .analyticsScreen(name: "SavedTripsView")
         .onAppear {

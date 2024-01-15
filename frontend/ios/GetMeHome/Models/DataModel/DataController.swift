@@ -26,22 +26,6 @@ class DataContrller: ObservableObject {
             print("Error saving \(error.localizedDescription)")
         }
     }
-//    func delete(context: NSManagedObjectContext, tripId: Int) {
-//        do {
-//            try context.delete(trip)
-//            print("Data removed")
-//        } catch {
-//            print("Error removing \(error.localizedDescription)")
-//        }
-//    }
-//    
-//    func removeTrip(savedTrip: SavedTrip, context: NSManagedObjectContext) {
-//        delete(context: context, trip: savedTrip)
-//    }
-    
-//    how i deleted with the row swipe
-//    offsets.map { savedTrips[$0] }.forEach(managedObjectContext.delete)
-//    DataContrller().save(context: managedObjectContext)
     
     func addSavedTrip(arrivalLocation: String,
                       arrivalTime: String,

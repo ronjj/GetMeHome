@@ -108,7 +108,7 @@ struct ProfileView: View {
                     Text("Email: \(authViewModel.displayName)")
                     Button {
                         authViewModel.signOut()
-                        AnalyticsManager.shared.logEvent(name: "LoginView_SignoutClicked")
+                        AnalyticsManager.shared.logEvent(name: "ProfileView_SignoutClicked")
                     } label: {
                         Text("Sign Out")
                     }
@@ -118,7 +118,7 @@ struct ProfileView: View {
                     Text("Have questions? Found bugs? Have a feature suggestion? Send me an email.")
                     Button {
                         email.send(openURL: openURL)
-                        AnalyticsManager.shared.logEvent(name: "LoginView_SendEmailClicked")
+                        AnalyticsManager.shared.logEvent(name: "ProfileView_SendEmailClicked")
                     } label: {
                         Text("Contact")
                     }
@@ -128,7 +128,6 @@ struct ProfileView: View {
             .background(colorScheme == .light ? .white : .black)
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
-            .navigationTitle("Profile")
         }
         .analyticsScreen(name: "ProfileView")
         .onAppear {
