@@ -138,6 +138,7 @@
 			children = (
 				54B0DF552B113421006263DF /* ViewModel.swift */,
 				547DB7702B507A9700FF2F1C /* AuthenticationViewModel.swift */,
+				546F4DE92B5481AE0091F0D4 /* AnalyticsManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -219,7 +220,6 @@
 				546F4DE42B54353D0091F0D4 /* OfflineTrips.json */,
 				5410BA432B536588002C9000 /* DeviceModels.json */,
 				54A2E9D32B52D33A00166062 /* Extensions */,
-				546F4DE92B5481AE0091F0D4 /* AnalyticsManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

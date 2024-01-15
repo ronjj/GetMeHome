@@ -21,6 +21,7 @@ struct ProfileView: View {
     var viewModel = ViewModel()
     
     @Environment(\.openURL) var openURL
+    @Environment(\.colorScheme) var colorScheme
     private var email = SupportEmail(toAddress: "rj336@cornell.edu",
                                      subject: "Support Email",
                                      messageHeader: "Please Describe Your Issue Below")
@@ -99,8 +100,7 @@ struct ProfileView: View {
                             } label: {
                                 Text("Reset")
                             }
-                            .buttonStyle(.bordered)
-                            .tint(.red)
+                            .tint(Color.red)
                         }
                     }
                 }
@@ -113,7 +113,6 @@ struct ProfileView: View {
                         Text("Sign Out")
                     }
                     .tint(.red)
-                    .buttonStyle(.bordered)
                 }
                 Section("Contact") {
                     Text("Have questions? Found bugs? Have a feature suggestion? Send me an email.")
@@ -123,11 +122,10 @@ struct ProfileView: View {
                     } label: {
                         Text("Contact")
                     }
-                    .tint(.blue)
-                    .buttonStyle(.bordered)
+                    .tint(.purple)
                 }
             }
-            .background(.white)
+            .background(colorScheme == .light ? .white : .black)
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
             .navigationTitle("Profile")
