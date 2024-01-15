@@ -18,7 +18,7 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 **Frontend**:
 
-- Technologies: Swift, SwiftUI, MapKit, AppStorage(UserDefaults), CoreData
+- Technologies: Swift, SwiftUI, MapKit, AppStorage(UserDefaults), CoreData, Firebase Auth, Firebase Analytics
 - Features:
 
   - Select date of trip, origin, and destination and search for corresponding trips
@@ -51,4 +51,4 @@ To make it easier to get home on school breaks, I developed GetMeHome, a fullsta
 
 Youtube Video Demo Link: https://youtu.be/gxtlPc_PfLg
 
-<img src="/screenshots/ss_1.png" width="23%"></img> <img src="/screenshots/ss_2.png" width="23%"></img> <img src="/screenshots/ss_3.png" width="23%"></img> <img src="/screenshots/ss_4.png" width="23%"></img> <img src="/screenshots/ss_5.png" width="23%"></img> <img src="/screenshots/ss_6.png" width="23%"></img> <img src="/screenshots/ss_7.png" width="23%"></img> <img src="/screenshots/ss_8.png" width="23%"></img>
+<img src="https://github.com/ronjj/GetMeHome/assets/37760008/8d88ee74-d899-41e4-9c89-be5994e5f8cf" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/42d0cd5f-64c4-4f46-8c1b-cb92b511873d" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/52e02d93-dd5c-4391-8977-386eeff4f1d3" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/05892b67-4405-4030-914e-ceab114471a1" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/496998d0-899c-4270-ba58-e973b1be7819" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/f577d913-f65f-4824-b189-bd27d6b5dc1c" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/c7dddf09-bfff-44b3-9001-eec2b33e3949" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/bfcbe8b5-eb0a-42fe-9c84-499c3b97f756" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/bb358828-04df-4514-8c7e-402b392a8ffe" width="23%"></img><img src="https://github.com/ronjj/GetMeHome/assets/37760008/428f4871-3eec-4825-8575-8d95c1d2c923" width="23%"></img>
