@@ -13,7 +13,7 @@ struct LoadingView: View {
         VStack {
             ProgressView()
                 .progressViewStyle(.circular)
-                .tint(.indigo)
+                .tint(.purple)
                 .scaleEffect(2)
                 .padding(.bottom, 10)
             

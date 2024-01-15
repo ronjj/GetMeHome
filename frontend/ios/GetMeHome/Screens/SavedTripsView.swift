@@ -68,8 +68,9 @@ struct SavedTripsView: View {
                                 }
                             }
                             .onTapGesture {
-                               showingDeleteAlert = true
+                                showingDeleteAlert = true
                                 selectedSavedTripId = Int(savedTrip.id)
+                                AnalyticsManager.shared.logEvent(name: "SavedTripsView_SavedTripTapped")
                             }
                         }
                         .onDelete(perform: { indexSet in
@@ -85,9 +86,12 @@ struct SavedTripsView: View {
             Button("Yes", role: .destructive) {
                 if let selectedSavedTripId {
                     savedTrips.filter { $0.id == selectedSavedTripId }.forEach(managedObjectContext.delete)
+                    AnalyticsManager.shared.logEvent(name: "SavedTripsView_ClickConfirmDelete")
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button("Cancel", role: .cancel) {
+                AnalyticsManager.shared.logEvent(name: "SavedTripsView_CancelConfirmDelete")
+            }
         }
         .analyticsScreen(name: "SavedTripsView")
         .onAppear {
