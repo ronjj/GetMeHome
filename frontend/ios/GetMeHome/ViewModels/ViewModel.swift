@@ -36,6 +36,18 @@ import SwiftUI
         }
     }
     
+    func convertToDate(dateString: String) -> Date {
+           let dateFormatter = DateFormatter()
+           //               Get a Date type from trip.date string
+           dateFormatter.dateFormat = "yyyy-MM-dd"
+           let dateDate = dateFormatter.date(from: dateString)!
+           //               Convert date to a Date object with a more readable format
+           dateFormatter.dateFormat = "MMMM d, yyyy"
+           let dateString = dateFormatter.string(from: dateDate)
+           let date = dateFormatter.date(from: dateString)!
+           return date
+   }
+    
     func convertForQuery(value string: String) -> String {
         let queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
         return queryMap[string] ?? "all"

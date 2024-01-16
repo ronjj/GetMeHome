@@ -33,7 +33,7 @@ struct FilteredSavedTripsList: View {
                                 .fontWeight(.bold)
                             HStack {
                                 Image(systemName: "calendar")
-                                Text(savedTrip.date ?? "")
+                                Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
                             }
                             HStack (spacing: 2) {
                                 Image(systemName: "clock")
@@ -80,6 +80,7 @@ struct FilteredSavedTripsList: View {
                 }
             }
         }
+
         
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
             Button("Yes", role: .destructive) {
@@ -103,3 +104,4 @@ struct FilteredSavedTripsList: View {
         }
     }
 }
+
