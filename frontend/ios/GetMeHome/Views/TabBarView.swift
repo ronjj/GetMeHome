@@ -11,19 +11,26 @@ struct TabBarView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var body: some View {
         TabView {
-            ContentView()
+            NavigationStack {
+                ContentView()
+            }
+
             .tabItem {
                 Image(systemName: "magnifyingglass")
                 Text("Search")
             }
-        
-            SavedTripsView()
+            NavigationStack {
+                SavedTripsView()
+            }
+           
             .tabItem {
                     Image(systemName: "bookmark")
                     Text("Saved")
             }
             
-            ProfileView()
+            NavigationStack {
+                ProfileView()
+            }
             .tabItem {
                 Image(systemName: "person")
                 Text("Profile")

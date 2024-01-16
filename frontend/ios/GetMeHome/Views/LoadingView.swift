@@ -14,7 +14,7 @@ struct LoadingView: View {
             ProgressView()
                 .progressViewStyle(.circular)
                 .tint(.purple)
-                .scaleEffect(2)
+                .scaleEffect(1.5)
                 .padding(.bottom, 10)
             
             Text("Loading Trips")

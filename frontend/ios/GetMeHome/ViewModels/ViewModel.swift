@@ -36,6 +36,24 @@ import SwiftUI
         }
     }
     
+    func convertToDate(dateString: String) -> Date {
+           let dateFormatter = DateFormatter()
+           //               Get a Date type from trip.date string
+           dateFormatter.dateFormat = "yyyy-MM-dd"
+           let dateDate = dateFormatter.date(from: dateString)!
+           //               Convert date to a Date object with a more readable format
+           dateFormatter.dateFormat = "MMMM d, yyyy"
+           let dateString = dateFormatter.string(from: dateDate)
+           let date = dateFormatter.date(from: dateString)!
+           return date
+   }
+    
+    func convertDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
+    }
+    
     func convertForQuery(value string: String) -> String {
         let queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
         return queryMap[string] ?? "all"
@@ -43,8 +61,8 @@ import SwiftUI
     
 //    MARK: GET Requests 
     func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
