@@ -13,11 +13,18 @@ struct SavedTripRowView: View {
     @Binding var savedTripId: Int?
     @Binding var showDeleteAlert: Bool
     
+    
     var body: some View {
         if savedTrip.date ?? "" < viewModel.convertDateToString(date: Date()) {
-          
+          SavedTripRowDesign(expired: true,
+                             savedTrip: savedTrip,
+                             savedTripId: $savedTripId,
+                             showDeleteAlert: $showDeleteAlert)
         } else {
-           
+            SavedTripRowDesign(expired: false,
+                               savedTrip: savedTrip,
+                               savedTripId: $savedTripId,
+                               showDeleteAlert: $showDeleteAlert)
         }
     }
 }

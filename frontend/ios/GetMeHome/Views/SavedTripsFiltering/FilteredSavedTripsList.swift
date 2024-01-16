@@ -22,6 +22,7 @@ struct FilteredSavedTripsList: View {
     
     @State private var showingDeleteAlert = false
     @State private var selectedSavedTripId: Int?
+
     
     var body: some View {
         VStack {
@@ -29,13 +30,19 @@ struct FilteredSavedTripsList: View {
                 .font(.title)
                 .fontWeight(.black)
            
-            
             SavedTripsFilterMenu(sortingBy: $sortingBy,
                                  isAscending: $isAscendingBinding,
                                  isSorting: $isSortingBinding,
                                  busService: $busServiceBinding)
             
-           
+            Button {
+                savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
+                DataContrller().save(context: managedObjectContext)
+                print("removed all expired trips")
+            } label: {
+                Text("Remove Expired Trips")
+            }
+            
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
                                        systemImage: "bus.fill",
@@ -65,7 +72,6 @@ struct FilteredSavedTripsList: View {
                 if let selectedSavedTripId {
                     savedTrips.filter { $0.id == selectedSavedTripId }.forEach(managedObjectContext.delete)
                     DataContrller().save(context: managedObjectContext)
-                    print("delete trip")
                     AnalyticsManager.shared.logEvent(name: "SavedTripsView_ClickConfirmDelete")
                 }
             }
