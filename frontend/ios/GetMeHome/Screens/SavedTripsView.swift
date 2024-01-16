@@ -15,16 +15,23 @@ struct SavedTripsView: View {
     @State var busService = "OurBus"
     
     var body: some View {
-        NavigationStack {
-            SavedTripsFilterMenu(sortingBy: $sortingBy, 
-                                 isAscending: $isAscending,
-                                 isSorting: $isSorting,
-                                 busService: $busService)
             FilteredSavedTripsList(sort: sortingBy,
                                    isAscending: isAscending,
                                    isSorting: isSorting,
-                                   busService: busService)
-        }
+                                   busService: busService,
+                                   sortingBy: $sortingBy,
+                                   isAscendingBinding: $isAscending,
+                                   isSortingBinding: $isSorting,
+                                   busServiceBinding: $busService)
+            
+        
+//            SavedTripsFilterMenu(sortingBy: $sortingBy,
+//                                 isAscending: $isAscending,
+//                                 isSorting: $isSorting,
+//                                 busService: $busService)
+                
+            
+        
         .analyticsScreen(name: "SavedTripsView")
         .onAppear {
             AnalyticsManager.shared.logEvent(name: "SavedTripsView_Appear")

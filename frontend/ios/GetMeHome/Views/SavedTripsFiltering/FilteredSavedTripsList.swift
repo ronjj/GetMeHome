@@ -16,12 +16,23 @@ struct FilteredSavedTripsList: View {
     @Environment (\.managedObjectContext) var managedObjectContext
     var viewModel = ViewModel()
     
+    @Binding var sortingBy: String
+    @Binding var isAscendingBinding: Bool
+    @Binding var isSortingBinding: Bool
+    @Binding var busServiceBinding: String
+    
     var body: some View {
         VStack {
             
             Text("Saved Trips")
                 .font(.title)
                 .fontWeight(.black)
+           
+            SavedTripsFilterMenu(sortingBy: $sortingBy,
+                                 isAscending: $isAscendingBinding,
+                                 isSorting: $isSortingBinding,
+                                 busService: $busServiceBinding)
+            
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
                                        systemImage: "bus.fill",
@@ -93,13 +104,22 @@ struct FilteredSavedTripsList: View {
             }
         }
     }
-    init(sort: String, isAscending: Bool, isSorting: Bool, busService: String) {
+    
+    init(sort: String, isAscending: Bool, isSorting: Bool, busService: String, sortingBy: Binding<String>, isAscendingBinding: Binding<Bool>, isSortingBinding: Binding<Bool>, busServiceBinding: Binding<String> ) {
+        
         if isSorting {
             _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)])
+            
         } else {
             _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [],
                                                   predicate: NSPredicate(format: "busService == %@", busService))
         }
+        
+        self._sortingBy = sortingBy
+        self._isAscendingBinding = isAscendingBinding
+        self._isSortingBinding = isSortingBinding
+        self._busServiceBinding = busServiceBinding
+       
     }
     private func deleteSavedTrip(offsets: IndexSet) {
         withAnimation {

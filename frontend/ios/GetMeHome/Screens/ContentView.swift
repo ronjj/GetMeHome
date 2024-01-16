@@ -43,7 +43,6 @@ struct ContentView: View {
     var viewModel = ViewModel()
     
     var body: some View {
-        NavigationStack(path: $path) {
             VStack {
                 VStack(alignment: .center) {
                     Text("GetMeHome")
@@ -106,46 +105,46 @@ struct ContentView: View {
                     .pickerStyle(.palette)
                 }
             }
+            .ignoresSafeArea()
+            .padding()
+            .analyticsScreen(name: "ContentView")
+            .onAppear {
+                if earliestDepartureOnToggle {
+                    earliestDepartureTimeToggle = true
+                    earliestDepartureTimeLocal = earliestDepartureTime
+                } else {
+                    earliestDepartureTimeToggle = false
+                }
+                
+                if latestArrivalOnToggle {
+                    latestArrivalTimeToggle = true
+                    latestArrivalTimeLocal = latestArrivalTime
+                } else {
+                    latestArrivalTimeToggle = false
+                }
+                
+                if setDefaultBusToggle {
+                    selectServiceToggle = true
+                    selectedServiceLocal = selectedService
+                } else {
+                    selectServiceToggle = false
+                }
+                
+                if removeTransfers {
+                    removeTransfersToggle = true
+                    removeTransfersToggle = removeTransfers
+                } else {
+                    removeTransfersToggle = false
+                }
+            }
             
             if isLoading {
                 LoadingView()
             } else {
                 TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
             }
-        }
-        .ignoresSafeArea()
-        .padding()
-        .navigationTitle("GetMeHome")
-        .analyticsScreen(name: "ContentView")
-        .onAppear {
-            if earliestDepartureOnToggle {
-                earliestDepartureTimeToggle = true
-                earliestDepartureTimeLocal = earliestDepartureTime
-            } else {
-                earliestDepartureTimeToggle = false
-            }
-            
-            if latestArrivalOnToggle {
-                latestArrivalTimeToggle = true
-                latestArrivalTimeLocal = latestArrivalTime
-            } else {
-                latestArrivalTimeToggle = false
-            }
-            
-            if setDefaultBusToggle {
-                selectServiceToggle = true
-                selectedServiceLocal = selectedService
-            } else {
-                selectServiceToggle = false
-            }
-            
-            if removeTransfers {
-                removeTransfersToggle = true
-                removeTransfersToggle = removeTransfers
-            } else {
-                removeTransfersToggle = false
-            }
-        }
+        
+
     }
 }
 

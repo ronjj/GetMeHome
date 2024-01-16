@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct SavedTripsFilterMenu: View {
     
     @Binding var sortingBy: String
@@ -15,6 +16,7 @@ struct SavedTripsFilterMenu: View {
     @Binding var busService: String
     
     var body: some View {
+    
         Menu("Sort") {
             Button("Price Ascending") {
                 sortingBy = "price"
@@ -67,5 +69,7 @@ struct SavedTripsFilterMenu: View {
                 AnalyticsManager.shared.logEvent(name: "SavedTripsFiltering_MegaBusOnly")
             }
         }
+        .buttonStyle(.bordered)
+        .tint(.purple)
     }
 }
