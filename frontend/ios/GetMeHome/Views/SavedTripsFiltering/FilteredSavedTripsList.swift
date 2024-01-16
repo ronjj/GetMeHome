@@ -18,6 +18,7 @@ struct FilteredSavedTripsList: View {
     
     var body: some View {
         VStack {
+            
             Text("Saved Trips")
                 .font(.title)
                 .fontWeight(.black)
@@ -80,8 +81,6 @@ struct FilteredSavedTripsList: View {
                 }
             }
         }
-
-        
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
             Button("Yes", role: .destructive) {
                 if let selectedSavedTripId {
@@ -94,8 +93,13 @@ struct FilteredSavedTripsList: View {
             }
         }
     }
-    init(sort: String, isAscending: Bool) {
-        _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)])
+    init(sort: String, isAscending: Bool, isSorting: Bool, busService: String) {
+        if isSorting {
+            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)])
+        } else {
+            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [],
+                                                  predicate: NSPredicate(format: "busService == %@", busService))
+        }
     }
     private func deleteSavedTrip(offsets: IndexSet) {
         withAnimation {

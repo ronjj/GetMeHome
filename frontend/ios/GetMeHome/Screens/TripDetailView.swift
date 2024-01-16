@@ -110,7 +110,7 @@ struct TripDetailView: View {
                                     latitude: trip.departureLocationCoords.latitude,
                                     longitude:  trip.departureLocationCoords.longitude), trip: trip)
         }
-        .onAppear(perform: {            
+        .onAppear(perform: {
             let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
             discountCodesFiltered = filteredCodesForService
             

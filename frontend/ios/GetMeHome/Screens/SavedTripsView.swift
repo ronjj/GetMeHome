@@ -11,11 +11,19 @@ struct SavedTripsView: View {
     var viewModel = ViewModel()
     @State var sortingBy: String = "price"
     @State var isAscending: Bool = true
+    @State var isSorting: Bool = true
+    @State var busService = "OurBus"
     
     var body: some View {
         NavigationStack {
-            SavedTripsFilterRowView(sortingBy: $sortingBy, isAscending: $isAscending)
-            FilteredSavedTripsList(sort: sortingBy, isAscending: isAscending)
+            SavedTripsFilterMenu(sortingBy: $sortingBy, 
+                                 isAscending: $isAscending,
+                                 isSorting: $isSorting,
+                                 busService: $busService)
+            FilteredSavedTripsList(sort: sortingBy,
+                                   isAscending: isAscending,
+                                   isSorting: isSorting,
+                                   busService: busService)
         }
         .analyticsScreen(name: "SavedTripsView")
         .onAppear {
@@ -24,34 +32,3 @@ struct SavedTripsView: View {
     }
 }
 
-struct SavedTripsFilterRowView: View {
-    
-    @Binding var sortingBy: String
-    @Binding var isAscending: Bool
-    
-    var body: some View {
-        Menu("Sort") {
-            Button("Price Ascending") {
-                sortingBy = "price"
-                isAscending = true
-                AnalyticsManager.shared.logEvent(name: "SavedTripsFiltering_PriceAscending")
-            }
-            Button("Price Descending") {
-                sortingBy = "price"
-                isAscending = false
-                AnalyticsManager.shared.logEvent(name: "SavedTripsFiltering_PriceDescending")
-            }
-            Button("Date Ascending") {
-                sortingBy = "date"
-                isAscending = true
-                AnalyticsManager.shared.logEvent(name: "SavedTripsFiltering_DateAscend")
-            }
-            
-            Button("Date Descending") {
-                sortingBy = "date"
-                isAscending = false
-                AnalyticsManager.shared.logEvent(name: "SavedTripsFiltering_DateDescend")
-            }
-        }
-    }
-}
