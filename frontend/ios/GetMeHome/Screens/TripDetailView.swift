@@ -23,7 +23,8 @@ struct TripDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                CustomSection(sectionTitle: "Date", sectionText: Text(date, style: .date))
+                CustomSection(sectionTitle: "Date", sectionText: Text(viewModel.convertToDate(dateString: trip.date),
+                                                                      style: .date))
                 
                 CustomSection(sectionTitle: "Time", sectionText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
                 
@@ -109,16 +110,7 @@ struct TripDetailView: View {
                                     latitude: trip.departureLocationCoords.latitude,
                                     longitude:  trip.departureLocationCoords.longitude), trip: trip)
         }
-        .onAppear(perform: {
-            let dateFormatter = DateFormatter()
-            //               Get a Date type from trip.date string
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let dateDate = dateFormatter.date(from:trip.date)!
-            //               Convert date to a Date object with a more readable format
-            dateFormatter.dateFormat = "MMMM d, yyyy"
-            let dateString = dateFormatter.string(from: dateDate)
-            date = dateFormatter.date(from: dateString)!
-            
+        .onAppear(perform: {            
             let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
             discountCodesFiltered = filteredCodesForService
             
