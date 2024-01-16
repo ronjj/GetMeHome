@@ -23,16 +23,17 @@ struct FilteredSavedTripsList: View {
     
     var body: some View {
         VStack {
-            
             Text("Saved Trips")
                 .font(.title)
                 .fontWeight(.black)
            
-            SavedTripsFilterMenu(sortingBy: $sortingBy,
-                                 isAscending: $isAscendingBinding,
-                                 isSorting: $isSortingBinding,
-                                 busService: $busServiceBinding)
             
+                SavedTripsFilterMenu(sortingBy: $sortingBy,
+                                     isAscending: $isAscendingBinding,
+                                     isSorting: $isSortingBinding,
+                                     busService: $busServiceBinding)
+            
+           
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
                                        systemImage: "bus.fill",
