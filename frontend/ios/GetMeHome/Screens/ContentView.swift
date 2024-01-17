@@ -112,29 +112,21 @@ struct ContentView: View {
                 if earliestDepartureOnToggle {
                     earliestDepartureTimeToggle = true
                     earliestDepartureTimeLocal = earliestDepartureTime
-                } else {
-                    earliestDepartureTimeToggle = false
                 }
                 
                 if latestArrivalOnToggle {
                     latestArrivalTimeToggle = true
                     latestArrivalTimeLocal = latestArrivalTime
-                } else {
-                    latestArrivalTimeToggle = false
                 }
                 
                 if setDefaultBusToggle {
                     selectServiceToggle = true
                     selectedServiceLocal = selectedService
-                } else {
-                    selectServiceToggle = false
                 }
                 
                 if removeTransfers {
                     removeTransfersToggle = true
                     removeTransfersToggle = removeTransfers
-                } else {
-                    removeTransfersToggle = false
                 }
             }
             
