@@ -27,6 +27,7 @@ struct DateAndLocationPickerView: View {
                             Button("\(location)") {
                                 selectedDeparture = location
                                 AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_DepLocClicked")
+                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
 
                             }
                             .buttonStyle(.bordered)
@@ -44,6 +45,7 @@ struct DateAndLocationPickerView: View {
                         if selectedArrival != location && selectedDeparture != location {
                             Button("\(location)") {
                                 selectedArrival = location
+                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
                                 AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
                             }
                             .buttonStyle(.bordered)
