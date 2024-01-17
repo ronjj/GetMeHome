@@ -28,7 +28,6 @@ struct TabBarView: View {
                     Image(systemName: "bookmark")
                     Text("Saved")
             }
-            
             NavigationStack {
                 ProfileView()
             }
