@@ -16,6 +16,11 @@ struct ProfileView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
+   
+    @AppStorage("departureLocationOnToggle") private var departureLocationOnToggle = false
+    @AppStorage("departureLocation") private var departureLocation: String = "Ithaca"
+    @AppStorage("arrivalLocationOnToggle") private var arrivalLocationOnToggle = false
+    @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
     
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
@@ -35,6 +40,85 @@ struct ProfileView: View {
             }
             List {
                 Section ("Set Search Defaults") {
+                    
+                    if departureLocationOnToggle {
+                        HStack {
+                            Text("Departure Location")
+                            Spacer()
+                            Menu(departureLocation) {
+                                //                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
+                                ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
+                                    if departureLocation != location && arrivalLocation != location {
+                                        Button("\(location)") {
+                                            departureLocation = location
+                                            AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_DepLocClicked")
+                                            AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
+                                            
+                                        }
+                                        .buttonStyle(.bordered)
+                                    }
+                                }
+                            }
+                            .tint(.purple)
+                            Toggle("", isOn: $departureLocationOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    } else {
+                        HStack {
+                            Text("Departure Location")
+                            Spacer()
+                            Toggle("", isOn: $departureLocationOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    }
+                    
+                    if arrivalLocationOnToggle {
+                        HStack {
+                            Text("Arrival Location")
+                            Spacer()
+                            Menu(arrivalLocation) {
+                                //                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
+                                ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
+                                    if arrivalLocation != location && departureLocation != location {
+                                        Button("\(location)") {
+                                            arrivalLocation = location
+                                            AnalyticsManager.shared.logEvent(name: "ProfileView_ArrLocClicked")
+                                            AnalyticsManager.shared.logEvent(name: "ProfileView_\(location)Clicked")
+                                        }
+                                        .buttonStyle(.bordered)
+                                    }
+                                }
+                            }
+                            .tint(.purple)
+                            Toggle("", isOn: $arrivalLocationOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    } else {
+                        HStack {
+                            Text("Arrival Location")
+                            Spacer()
+                            Toggle("", isOn: $arrivalLocationOnToggle)
+                                .tint(.purple)
+                                .labelsHidden()
+                        }
+                    }
+                    
+                    if arrivalLocationOnToggle && departureLocationOnToggle {
+                        Button {
+                            var tempLocation = ""
+                            tempLocation = departureLocation
+                            departureLocation = arrivalLocation
+                            arrivalLocation = tempLocation
+                            AnalyticsManager.shared.logEvent(name: "ProfileView_SwapClicked")
+                        } label: {
+                            Text("Swap Departure and Arrival Location")
+                        }
+                        .tint(.purple)
+                    }
+                    
                     if earliestDepartureOnToggle {
                         HStack {
                             DatePicker("Earliest Departure",
@@ -88,13 +172,15 @@ struct ProfileView: View {
                         }
                         .pickerStyle(.palette)
                     }
-                    if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle {
+                    if earliestDepartureOnToggle || latestArrivalOnToggle || removeTransfers || setDefaultBusToggle || departureLocationOnToggle || arrivalLocationOnToggle {
                         withAnimation(.easeIn(duration: 1.0)) {
                             Button {
                                 earliestDepartureOnToggle = false
                                 latestArrivalOnToggle = false
                                 setDefaultBusToggle = false
                                 removeTransfers = false
+                                departureLocationOnToggle = false
+                                arrivalLocationOnToggle = false
                                 AnalyticsManager.shared.logEvent(name: "ProfileView_ResetClicked")
 
                             } label: {

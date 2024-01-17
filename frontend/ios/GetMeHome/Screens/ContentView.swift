@@ -36,6 +36,10 @@ struct ContentView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
+    @AppStorage("departureLocationOnToggle") private var departureLocationOnToggle = false
+    @AppStorage("departureLocation") private var departureLocation: String = "Ithaca"
+    @AppStorage("arrivalLocationOnToggle") private var arrivalLocationOnToggle = false
+    @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -128,6 +132,14 @@ struct ContentView: View {
                 if removeTransfers {
                     removeTransfersToggle = true
                     removeTransfersToggle = removeTransfers
+                }
+                
+                if arrivalLocationOnToggle {
+                    selectedArrival = arrivalLocation
+                }
+                
+                if departureLocationOnToggle {
+                    selectedDeparture = departureLocation
                 }
             }
             
