@@ -115,7 +115,7 @@ struct ProfileView: View {
                     .tint(.red)
                 }
                 Section("Contact") {
-                    Text("Have questions? Found bugs? Have a feature suggestion? Send rj336@cornell.edu an email")
+                    Text("Have questions? Found bugs? Have a feature suggestion? \nSend rj336@cornell.edu an email")
                     Button {
                         email.send(openURL: openURL)
                         AnalyticsManager.shared.logEvent(name: "ProfileView_SendEmailClicked")
