@@ -150,16 +150,36 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                         if "var defaultSearch" in str(line):
                             parsed_trips = line[21:-2]
                             break
+       
         # Trip List Data
         # Use similar search as a backup. if both work, use both in response
+                        
+        # Try to get searchedRoute information
         try:
-            loaded_data = json.loads(parsed_trips)['searchedRouteList']['list']
-        except:
-            loaded_data = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
-        else:
             searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
-            similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
-            loaded_data = searched_route_list + similar_search
+        except:
+            # If there is no list for the searched information, check the similar search data
+            try:
+                similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
+            except:
+                # If both fail, there was an error with the information passed in or OurBus is down
+                loaded_data = []
+            # Only have similar search so set that to loaded data 
+            else:
+                loaded_data = similar_search
+        #  Searched route list worked and we have data
+        else:
+            # Try to get similar routes as well
+            try:
+                similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
+            except:
+                # Do not raise an exception since we don't need the similar search info
+                print("Could not load similarSearch")
+            # Since we have similar search and the primary data, include both
+            else:
+                loaded_data = searched_route_list + similar_search
+            # No similar search data so loaded data is only searched information
+            loaded_data = searched_route_list
 
         # Discount Code Loaded Data
         discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
