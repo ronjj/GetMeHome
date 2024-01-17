@@ -98,6 +98,8 @@ struct TripDetailView: View {
                     }
                 }
             }
+            .padding()
+            
         }
         .analyticsScreen(name: "TripDetailView")
         .sheet(isPresented: $mapDetailSelected) {
