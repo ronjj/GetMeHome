@@ -141,6 +141,7 @@ struct SearchButton: View {
                 Image(systemName: "arrow.up.arrow.down")
                     .frame(width: 25)
             }
+            .disabled(isLoading ? true : false)
             .buttonStyle(.bordered)
             .tint(.purple)
             

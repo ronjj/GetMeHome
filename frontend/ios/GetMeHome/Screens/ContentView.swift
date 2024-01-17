@@ -78,7 +78,8 @@ struct ContentView: View {
                     minDepartureTimeSelected: $earliestDepartureTimeToggle,
                     latestArrivalTimeSelected: $latestArrivalTimeToggle,
                     chooseBusServiceSelected: $selectServiceToggle,
-                    includeTransfersSelected: $removeTransfersToggle)
+                    includeTransfersSelected: $removeTransfersToggle, 
+                    isLoading: $isLoading)
                 .padding(.top)
                 
                 if earliestDepartureTimeToggle {
