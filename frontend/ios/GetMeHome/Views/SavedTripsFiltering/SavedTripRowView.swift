@@ -57,6 +57,7 @@ struct SavedTripRowDesign: View {
                 VStack(alignment: .leading) {
                     Text("$\(savedTrip.price, specifier: "%.2f")")
                         .fontWeight(.bold)
+                        .strikethrough(expired ? true  : false)
                     HStack {
                         Image(systemName: "calendar")
                         if expired {
@@ -65,21 +66,28 @@ struct SavedTripRowDesign: View {
                                 .foregroundStyle(.red)
                         }
                         Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
+                            .strikethrough(expired ? true  : false)
                     }
                     HStack (spacing: 2) {
                         Image(systemName: "clock")
                         Text(savedTrip.departureTime ?? "")
+                            .strikethrough(expired ? true  : false)
                         Image(systemName: "arrow.right")
                         Text(savedTrip.arrivalTime ?? "")
+                            .strikethrough(expired ? true  : false)
+                        
                     }
-                    HStack {
-                        Image(systemName: "bus.fill")
-                        Text(savedTrip.departureLocation ?? "")
+                    if !expired {
+                        HStack {
+                            Image(systemName: "bus.fill")
+                            Text(savedTrip.departureLocation ?? "")
+                        }
+                        HStack {
+                            Image(systemName: "star.fill")
+                            Text(savedTrip.arrivalLocation ?? "" )
+                        }
                     }
-                    HStack {
-                        Image(systemName: "star.fill")
-                        Text(savedTrip.arrivalLocation ?? "" )
-                    }
+                    
                     if savedTrip.nonStop == "False" {
                         HStack {
                             BusLabel(busService: savedTrip.busService ?? "")

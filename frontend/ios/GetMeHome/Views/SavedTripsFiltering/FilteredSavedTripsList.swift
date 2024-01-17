@@ -71,7 +71,6 @@ struct FilteredSavedTripsList: View {
                         deleteSavedTrip(offsets: indexSet)
                         AnalyticsManager.shared.logEvent(name: "SavedTripsView_SwipeToDelete")
                     })
-                    
                 }
             }
         }
