@@ -68,7 +68,9 @@ struct FilteredSavedTripsList: View {
                         }
                     }
                     .onDelete(perform: { indexSet in
-                        deleteSavedTrip(offsets: indexSet)
+                        withAnimation(.easeIn(duration: 1.75)) {
+                            deleteSavedTrip(offsets: indexSet)
+                        }
                         AnalyticsManager.shared.logEvent(name: "SavedTripsView_SwipeToDelete")
                     })
                 }
@@ -80,8 +82,10 @@ struct FilteredSavedTripsList: View {
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
             Button("Yes", role: .destructive) {
                 if let selectedSavedTripId {
-                    savedTrips.filter { $0.id == selectedSavedTripId }.forEach(managedObjectContext.delete)
-                    DataContrller().save(context: managedObjectContext)
+                    withAnimation(.snappy(duration: 1.0)) {
+                        savedTrips.filter { $0.id == selectedSavedTripId }.forEach(managedObjectContext.delete)
+                        DataContrller().save(context: managedObjectContext)
+                    }
                     AnalyticsManager.shared.logEvent(name: "SavedTripsView_ClickConfirmDelete")
                 }
             }
