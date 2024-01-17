@@ -130,10 +130,7 @@ struct SearchButton: View {
             Spacer()
            
             Button {
-                var tempLocation = ""
-                tempLocation = selectedDeparture
-                selectedDeparture = selectedArrival
-                selectedArrival = tempLocation
+                viewModel.swapLocations(swap: &selectedDeparture, with: &selectedArrival)
                 switchOriginAndDestinationButtonClicked.toggle()
                 AnalyticsManager.shared.logEvent(name: "SearchButton_SwapClicked")
                 

@@ -59,6 +59,13 @@ import SwiftUI
         return queryMap[string] ?? "all"
     }
     
+    func swapLocations(swap departureLocation: inout String, with arrivalLocation: inout String) {
+        let prevArrival = arrivalLocation
+        let prevDep = departureLocation
+        arrivalLocation = prevDep
+        departureLocation = prevArrival
+    }
+    
 //    MARK: GET Requests 
     func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
 //        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"

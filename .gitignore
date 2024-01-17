@@ -9,3 +9,4 @@ Pipfile.lock
 **/backend/__pycache__
 **.plist
 OfflineTrips.json
+**/frontend/.DS_Store

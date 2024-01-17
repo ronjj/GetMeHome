@@ -108,10 +108,7 @@ struct ProfileView: View {
                     
                     if arrivalLocationOnToggle && departureLocationOnToggle {
                         Button {
-                            var tempLocation = ""
-                            tempLocation = departureLocation
-                            departureLocation = arrivalLocation
-                            arrivalLocation = tempLocation
+                            viewModel.swapLocations(swap: &departureLocation, with: &arrivalLocation)
                             AnalyticsManager.shared.logEvent(name: "ProfileView_SwapClicked")
                         } label: {
                             Text("Swap Departure and Arrival Location")
