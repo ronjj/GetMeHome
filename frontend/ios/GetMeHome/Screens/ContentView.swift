@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var path = NavigationPath()
+    @State private var requestFailedAlert: Bool = false
     
     //    User Selections
     @State private var selectedDate = Date()
@@ -76,7 +77,8 @@ struct ContentView: View {
                              removeTransfersToggle: $removeTransfersToggle,
                              latestArrivalTimeToggle: $latestArrivalTimeToggle,
                              clickedSearch: $clickedSearch, 
-                             switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked)
+                             switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked, 
+                             showSearchError: $requestFailedAlert)
                 
                 FilterRowView(
                     minDepartureTimeSelected: $earliestDepartureTimeToggle,
@@ -109,6 +111,11 @@ struct ContentView: View {
                     }
                     .pickerStyle(.palette)
                 }
+            }
+            .alert(isPresented: $requestFailedAlert) {
+                Alert(title: Text("Search Error"),
+                      message: Text("There was an error searching for trips. Try again later."),
+                      dismissButton: .cancel())
             }
             .ignoresSafeArea()
             .padding()

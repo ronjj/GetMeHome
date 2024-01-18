@@ -27,6 +27,7 @@ struct SearchButton: View {
     @Binding var latestArrivalTimeToggle: Bool
     @Binding var clickedSearch: Bool
     @Binding var switchOriginAndDestinationButtonClicked: Bool
+    @Binding var showSearchError: Bool
     
     @State var lastSearch = ["from" : "", "to": "", "on": "", "bus": ""]
     @State var localSavedTrips: [Trip] = []
@@ -108,15 +109,23 @@ struct SearchButton: View {
                     } catch TripError.invalidURL {
                         print("invalid url")
                         isLoading = false
+                        showSearchError = true
+                        AnalyticsManager.shared.logEvent(name: "SearchButton_ErrorInvalidURL")
                     } catch TripError.invalidReponse {
                         print("invalid response")
                         isLoading = false
+                        showSearchError = true
+                        AnalyticsManager.shared.logEvent(name: "SearchButton_ErrorInvalidResponse")
                     } catch TripError.invalidData {
                         print("invalid data")
                         isLoading = false
+                        showSearchError = true
+                        AnalyticsManager.shared.logEvent(name: "SearchButton_ErrorInvalidData")
                     } catch {
                         print("unexpected erorr")
                         isLoading = false
+                        showSearchError = true
+                        AnalyticsManager.shared.logEvent(name: "SearchButton_ErrorUnexpected")
                     }
                 }
             } label: {
