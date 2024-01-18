@@ -163,7 +163,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
             except:
                 # If both fail, there was an error with the information passed in or OurBus is down
-                loaded_data = []
+                return trips_and_discount_response(trips=[],discount_code=[])
             # Only have similar search so set that to loaded data 
             else:
                 loaded_data = similar_search
@@ -189,6 +189,10 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     else:
         # Discount Codes
         discount_codes = []
+        # There was an error getting the trip information so just return an empty
+        # array for the trips and discount codes then end the function
+
+        
         for index in range(len(discount_code_loaded_data)):
             discount_code_string = discount_code_loaded_data[index]['voucher_name']
             discount_code = create_discount_code(service=constants.OUR_BUS_FULL, discount_code=discount_code_string)
