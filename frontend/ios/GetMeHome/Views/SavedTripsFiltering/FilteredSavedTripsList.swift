@@ -11,7 +11,6 @@ struct FilteredSavedTripsList: View {
     
     @FetchRequest(sortDescriptors: []) var savedTrips: FetchedResults<SavedTrip>
 
-    @State private var savedTripsList = [SavedTrip]()
     @Environment (\.managedObjectContext) var managedObjectContext
     var viewModel = ViewModel()
     
