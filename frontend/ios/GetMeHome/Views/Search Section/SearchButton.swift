@@ -34,10 +34,6 @@ struct SearchButton: View {
     @State var localSavedDiscountCodes: [Discount] = []
     
     var viewModel = ViewModel()
-    
-    var animation: Animation {
-        Animation.easeOut
-    }
 
     var body: some View {
         
@@ -150,8 +146,8 @@ struct SearchButton: View {
             } label: {
                 Image(systemName: "arrow.up.arrow.down")
                     .frame(width: 25)
-                    .rotationEffect(Angle.degrees(switchOriginAndDestinationButtonClicked ? 180 : 0))
-                    .animation(animation)
+                    .rotationEffect(Angle.degrees(switchOriginAndDestinationButtonClicked ? 180 : 360))
+                    .animation(viewModel.animation)
             }
             .disabled(isLoading ? true : false)
             .buttonStyle(.bordered)

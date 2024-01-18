@@ -15,6 +15,10 @@ import SwiftUI
     let locationQueryMap = ["NYC":"new_york", "Ithaca": "ithaca", "Syracuse": "syracuse", "SYR Airport": "syr_airport", "Newark":"newark"]
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    
+    var animation: Animation {
+        Animation.easeOut
+    }
+    
     func calculateDateRange() -> Date {
         let currentDate = Date()
         var dateComponent = DateComponents()
