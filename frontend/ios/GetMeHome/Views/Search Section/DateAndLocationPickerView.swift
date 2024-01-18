@@ -12,6 +12,7 @@ struct DateAndLocationPickerView: View {
     @Binding var selectedDeparture: String
     @Binding var selectedArrival: String
     @Binding var selectedDate: Date
+    @Binding var isLoading: Bool
     
     var viewModel = ViewModel()
     
@@ -34,6 +35,7 @@ struct DateAndLocationPickerView: View {
                         }
                     }
                 }
+                .disabled(isLoading ? true : false)
                 .tint(.purple)
             }
                
@@ -52,6 +54,7 @@ struct DateAndLocationPickerView: View {
                         }
                     }
                 }
+                .disabled(isLoading ? true : false)
                 .tint(.purple)
             }
             
@@ -59,9 +62,14 @@ struct DateAndLocationPickerView: View {
                 Text("Travel Date")
                 Spacer()
                 DatePicker("Trip Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
-                    
                     .labelsHidden()
                     .tint(.purple)
+                    .disabled(isLoading ? true : false)
+                    .opacity(isLoading ? 0.35 : 1.0)
+            }
+            .onChange(of: selectedDate) { oldValue, newValue in
+                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_DateClicked")
+                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(selectedDate)")
             }
         }
         .analyticsScreen(name: "DateAndLocationPickerView")

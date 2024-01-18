@@ -60,7 +60,8 @@ struct ContentView: View {
                 DateAndLocationPickerView(
                     selectedDeparture: $selectedDeparture,
                     selectedArrival: $selectedArrival,
-                    selectedDate: $selectedDate)
+                    selectedDate: $selectedDate,
+                    isLoading: $isLoading)
                 .padding(.bottom, 10)
                 
                 SearchButton(trips: $trips,
