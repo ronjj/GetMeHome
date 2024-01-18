@@ -19,6 +19,7 @@ struct SearchButton: View {
     @Binding var selectedService: String
     @Binding var selectedDeparture: String
     @Binding var selectedArrival: String
+    @Binding var maxPrice: Double
 
     @Binding var selectServiceToggle: Bool
     @Binding var earliestDepartureTimeToggle: Bool
@@ -28,6 +29,7 @@ struct SearchButton: View {
     @Binding var clickedSearch: Bool
     @Binding var switchOriginAndDestinationButtonClicked: Bool
     @Binding var showSearchError: Bool
+    @Binding var maxPriceToggle: Bool
     
     @State var lastSearch = ["from" : "", "to": "", "on": "", "bus": ""]
     @State var localSavedTrips: [Trip] = []
@@ -90,6 +92,10 @@ struct SearchButton: View {
                             if let latestArrivalTime {
                                 trips = viewModel.filterLatestArrivalTime(tripsArray: trips ?? [], latestArrival: latestArrivalTime)
                             }
+                        }
+                        
+                        if maxPriceToggle {
+                            trips = viewModel.filterMaxPrice(tripsArray: trips ?? [], maxPrice: maxPrice)
                         }
                         
                         if removeTransfersToggle {

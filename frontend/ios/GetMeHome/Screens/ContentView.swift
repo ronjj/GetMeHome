@@ -28,6 +28,8 @@ struct ContentView: View {
     @State private var selectedServiceLocal = "All"
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
+    @State private var maxPriceToggle = false
+    @State private var maxPriceLocal: Double = 0.0
     
     //    AppStorage
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
@@ -41,6 +43,8 @@ struct ContentView: View {
     @AppStorage("departureLocation") private var departureLocation: String = "Ithaca"
     @AppStorage("arrivalLocationOnToggle") private var arrivalLocationOnToggle = false
     @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
+    @AppStorage("maxPrice") private var maxPrice: Double = 0.0
+    @AppStorage("maxPriceOnToggle") private var maxPriceOnToggle: Bool = false
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -72,6 +76,7 @@ struct ContentView: View {
                              selectedService: $selectedServiceLocal,
                              selectedDeparture: $selectedDeparture,
                              selectedArrival: $selectedArrival,
+                             maxPrice: $maxPriceLocal,
                              selectServiceToggle: $selectServiceToggle,
                              earliestDepartureTimeToggle: $earliestDepartureTimeToggle,
                              isLoading: $isLoading,
@@ -79,9 +84,11 @@ struct ContentView: View {
                              latestArrivalTimeToggle: $latestArrivalTimeToggle,
                              clickedSearch: $clickedSearch, 
                              switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked, 
-                             showSearchError: $requestFailedAlert)
+                             showSearchError: $requestFailedAlert,
+                             maxPriceToggle: $maxPriceToggle)
                 
                 FilterRowView(
+                    maxPriceSelected: $maxPriceToggle,
                     minDepartureTimeSelected: $earliestDepartureTimeToggle,
                     latestArrivalTimeSelected: $latestArrivalTimeToggle,
                     chooseBusServiceSelected: $selectServiceToggle,
@@ -117,6 +124,15 @@ struct ContentView: View {
                     .pickerStyle(.palette)
                     .disabled(isLoading ? true : false)
                     .opacity(isLoading ? 0.25 : 1.0)
+                }
+                if maxPriceToggle {
+                    HStack {
+                        Text("Max Price")
+                        Spacer()
+                        Slider(value: $maxPriceLocal, in: 1...400, step: 1.0)
+                        Text("$\(maxPriceLocal, specifier: "%.2f")")
+                    }
+                    .tint(.purple)
                 }
             }
             .alert(isPresented: $requestFailedAlert) {
@@ -154,6 +170,11 @@ struct ContentView: View {
                 
                 if departureLocationOnToggle {
                     selectedDeparture = departureLocation
+                }
+
+                if maxPriceOnToggle {
+                    maxPriceToggle = true
+                    maxPriceLocal = maxPrice
                 }
             }
             
