@@ -50,7 +50,7 @@ struct SavedTripRowDesign: View {
                 .tint(.red)
                 .buttonStyle(.bordered)
             }
-            if let savedTripDate = savedTrip.date {
+            if savedTrip.date != nil {
                 VStack(alignment: .leading) {
                     Text("$\(savedTrip.price, specifier: "%.2f")")
                         .fontWeight(.bold)

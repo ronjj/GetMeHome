@@ -94,6 +94,8 @@ struct ContentView: View {
                                selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
                     .tint(.purple)
+                    .disabled(isLoading ? true : false)
+                    .opacity(isLoading ? 0.25 : 1.0)
                 }
                 
                 if latestArrivalTimeToggle {
@@ -101,6 +103,8 @@ struct ContentView: View {
                                selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
                                displayedComponents: .hourAndMinute)
                     .tint(.purple)
+                    .disabled(isLoading ? true : false)
+                    .opacity(isLoading ? 0.25 : 1.0)
                 }
                 
                 if selectServiceToggle {
@@ -110,6 +114,8 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.palette)
+                    .disabled(isLoading ? true : false)
+                    .opacity(isLoading ? 0.25 : 1.0)
                 }
             }
             .alert(isPresented: $requestFailedAlert) {
