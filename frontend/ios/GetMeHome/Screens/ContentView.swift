@@ -28,6 +28,8 @@ struct ContentView: View {
     @State private var selectedServiceLocal = "All"
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
+    @State private var maxPriceToggle = false
+    @State private var maxPriceLocal = 0.0
     
     //    AppStorage
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
@@ -82,6 +84,7 @@ struct ContentView: View {
                              showSearchError: $requestFailedAlert)
                 
                 FilterRowView(
+                    maxPriceSelected: $maxPriceToggle,
                     minDepartureTimeSelected: $earliestDepartureTimeToggle,
                     latestArrivalTimeSelected: $latestArrivalTimeToggle,
                     chooseBusServiceSelected: $selectServiceToggle,
@@ -117,6 +120,15 @@ struct ContentView: View {
                     .pickerStyle(.palette)
                     .disabled(isLoading ? true : false)
                     .opacity(isLoading ? 0.25 : 1.0)
+                }
+                if maxPriceToggle {
+                    HStack {
+                        Text("Max Price")
+                        Spacer()
+                        Slider(value: $maxPriceLocal, in: 1...400, step: 1.0)
+                        Text("$\(maxPriceLocal, specifier: "%.2f")")
+                    }
+                    .tint(.purple)
                 }
             }
             .alert(isPresented: $requestFailedAlert) {

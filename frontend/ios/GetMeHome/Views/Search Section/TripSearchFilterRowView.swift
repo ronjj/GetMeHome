@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FilterRowView: View {
     
+    @Binding var maxPriceSelected: Bool
     @Binding var minDepartureTimeSelected: Bool
     @Binding var latestArrivalTimeSelected: Bool
     @Binding var chooseBusServiceSelected: Bool
@@ -30,6 +31,13 @@ struct FilterRowView: View {
                     AnalyticsManager.shared.logEvent(name: "FilterRowView_LatestArrClicked")
                 } label: {
                     FilterButton(buttonTitle: "Arrival Time", isSelected: $latestArrivalTimeSelected, isDisabled: $isLoading)
+                }
+                .disabled(isLoading ? true : false)
+                Button {
+                    maxPriceSelected.toggle()
+                    AnalyticsManager.shared.logEvent(name: "FilterRowView_MaxPriceClicked")
+                } label: {
+                    FilterButton(buttonTitle: "Max Price", isSelected: $maxPriceSelected, isDisabled: $isLoading)
                 }
                 .disabled(isLoading ? true : false)
                 Button {
