@@ -41,6 +41,7 @@ FLIX_LOCATION_IDS = {
   "newark": "f5987d0c-232d-4d9b-8112-4a834d0c7ebd",
 
   # Arrival Station IDs
+  "96f408ea-c731-4fb3-a9d3-721f7cf31dd1": "Newark, NJ",
   "f5987d0c-232d-4d9b-8112-4a834d0c7ebd": "Newark, NJ",
   "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
   "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",

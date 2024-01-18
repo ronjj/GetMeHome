@@ -192,7 +192,6 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         # There was an error getting the trip information so just return an empty
         # array for the trips and discount codes then end the function
 
-        
         for index in range(len(discount_code_loaded_data)):
             discount_code_string = discount_code_loaded_data[index]['voucher_name']
             discount_code = create_discount_code(service=constants.OUR_BUS_FULL, discount_code=discount_code_string)
@@ -362,8 +361,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
         flix_info = flix_response['trips'][0]['results']
 
     except Exception as e:
-        print("raisedd exception here for some reason")
-        raise e
+        print(f"Exception {e} in getting FlixBus Trips")
+        return trips_and_discount_response(trips=[], discount_code=[])
     
     else:
         ticket_link = f"https://shop.flixbus.com/search?departureCity={constants.FLIX_LOCATION_IDS[dep_loc]}&arrivalCity={constants.FLIX_LOCATION_IDS[arr_loc]}&rideDate={proper_date}&adult=1&_locale=en_US&features%5Bfeature.enable_distribusion%5D=1&features%5Bfeature.train_cities_only%5D=0&features%5Bfeature.auto_update_disabled%5D=0&features%5Bfeature.webc_search_station_suggestions_enabled%5D=0&features%5Bfeature.darken_page%5D=1"
@@ -508,6 +507,8 @@ def get_all(date, dep_loc, arr_loc):
     else:
         # Combining Three Lists Into A Single list Using '+'
         trips = flix_trips['trips'] + mega_trips['trips'] + our_bus_trips['trips']
+        if trips == []:
+            return trips_and_discount_response(trips=[], discount_code=[])
         trips.sort(key=lambda x: x.price)
 
         discount_codes = flix_trips['discount_codes'] + mega_trips['discount_codes'] + our_bus_trips['discount_codes']
