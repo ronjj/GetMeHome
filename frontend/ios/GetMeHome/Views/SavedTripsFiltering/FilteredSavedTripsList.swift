@@ -17,12 +17,13 @@ struct FilteredSavedTripsList: View {
     
     @Binding var sortingBy: String
     @Binding var isAscendingBinding: Bool
-    @Binding var isSortingBinding: Bool
     @Binding var busServiceBinding: String
+    @Binding private var isFiltering: Bool
     
     @State private var showingDeleteAlert = false
     @State private var selectedSavedTripId: Int?
-    @State private var showingRemovedExpired = false
+    @State private var showingRemovedExpiredAlert = false
+    @State private var showingRemovedExpiredButton = false
 
     
     var body: some View {
@@ -32,16 +33,20 @@ struct FilteredSavedTripsList: View {
                 .fontWeight(.black)
            
             HStack {
-                SavedTripsFilterMenu(sortingBy: $sortingBy,
-                                     isAscending: $isAscendingBinding,
-                                     isSorting: $isSortingBinding,
-                                     busService: $busServiceBinding)
+                SavedTripsSortMenu(sortingBy: $sortingBy,
+                                   isAscending: $isAscendingBinding)
                 
+                SavedTripsFilterMenu(busService: $busServiceBinding, 
+                                     isFiltering: $isFiltering)
+            }
+            .padding(.horizontal)
+            
+            if showingRemovedExpiredButton {
                 Button {
                     AnalyticsManager.shared.logEvent(name: "FilteredSavedTripsList_RemoveExpiredClicked")
                     savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
                     DataContrller().save(context: managedObjectContext)
-                    showingRemovedExpired = true
+                    showingRemovedExpiredAlert = true
                     print("removed all expired trips")
                 } label: {
                     Text("Remove Expired")
@@ -49,12 +54,11 @@ struct FilteredSavedTripsList: View {
                 .buttonStyle(.bordered)
                 .tint(.purple)
             }
-            .padding(.horizontal)
           
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
                                        systemImage: "bus.fill",
-                                       description: Text("Saved Trips Will Appear Here"))
+                                       description: Text("Save Trips Or Adjust Filter Settings"))
             } else {
                 List {
                     ForEach(savedTrips) { savedTrip in
@@ -76,7 +80,14 @@ struct FilteredSavedTripsList: View {
                 }
             }
         }
-        .alert("Removed Expired Trips", isPresented: $showingRemovedExpired) {
+        .onAppear {
+            if savedTrips.filter({ $0.date ?? "" < viewModel.convertDateToString(date: Date())}).isEmpty {
+                showingRemovedExpiredButton = false
+            } else {
+                showingRemovedExpiredButton = true
+            }
+        }
+        .alert("Removed Expired Trips", isPresented: $showingRemovedExpiredAlert) {
             Button("Ok", role: .cancel) {}
         }
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
@@ -95,20 +106,21 @@ struct FilteredSavedTripsList: View {
         }
     }
     
-    init(sort: String, isAscending: Bool, isSorting: Bool, busService: String, sortingBy: Binding<String>, isAscendingBinding: Binding<Bool>, isSortingBinding: Binding<Bool>, busServiceBinding: Binding<String> ) {
+    init(sort: String, isAscending: Bool, busService: String, isFiltering: Binding<Bool>, sortingBy: Binding<String>, isAscendingBinding: Binding<Bool>,  busServiceBinding: Binding<String> ) {
         
-        if isSorting {
-            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)])
+        if isFiltering.wrappedValue {
+            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)],
+                                                  predicate: NSPredicate(format: "busService == %@", busService))
             
         } else {
-            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [],
-                                                  predicate: NSPredicate(format: "busService == %@", busService))
+            _savedTrips = FetchRequest<SavedTrip>(sortDescriptors: [.init(key: sort, ascending: isAscending)])
         }
         
         self._sortingBy = sortingBy
         self._isAscendingBinding = isAscendingBinding
-        self._isSortingBinding = isSortingBinding
         self._busServiceBinding = busServiceBinding
+        self._isFiltering = isFiltering
+        
        
     }
     private func deleteSavedTrip(offsets: IndexSet) {

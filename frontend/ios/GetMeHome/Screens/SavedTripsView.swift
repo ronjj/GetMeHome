@@ -13,15 +13,15 @@ struct SavedTripsView: View {
     @State var isAscending: Bool = true
     @State var isSorting: Bool = true
     @State var busService = "OurBus"
+    @State var isFiltering: Bool = false
     
     var body: some View {
             FilteredSavedTripsList(sort: sortingBy,
                                    isAscending: isAscending,
-                                   isSorting: isSorting,
-                                   busService: busService,
+                                   busService: busService, 
+                                   isFiltering: $isFiltering,
                                    sortingBy: $sortingBy,
                                    isAscendingBinding: $isAscending,
-                                   isSortingBinding: $isSorting,
                                    busServiceBinding: $busService)
         
         .analyticsScreen(name: "SavedTripsView")
