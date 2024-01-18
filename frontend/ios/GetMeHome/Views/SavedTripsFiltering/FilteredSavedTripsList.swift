@@ -22,7 +22,8 @@ struct FilteredSavedTripsList: View {
     
     @State private var showingDeleteAlert = false
     @State private var selectedSavedTripId: Int?
-    @State private var showingRemovedExpired = false
+    @State private var showingRemovedExpiredAlert = false
+    @State private var showingRemovedExpiredButton = false
 
     
     var body: some View {
@@ -40,18 +41,19 @@ struct FilteredSavedTripsList: View {
             }
             .padding(.horizontal)
             
-            Button {
-                AnalyticsManager.shared.logEvent(name: "FilteredSavedTripsList_RemoveExpiredClicked")
-                savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
-                DataContrller().save(context: managedObjectContext)
-                showingRemovedExpired = true
-                print("removed all expired trips")
-            } label: {
-                Text("Remove Expired")
+            if showingRemovedExpiredButton {
+                Button {
+                    AnalyticsManager.shared.logEvent(name: "FilteredSavedTripsList_RemoveExpiredClicked")
+                    savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
+                    DataContrller().save(context: managedObjectContext)
+                    showingRemovedExpiredAlert = true
+                    print("removed all expired trips")
+                } label: {
+                    Text("Remove Expired")
+                }
+                .buttonStyle(.bordered)
+                .tint(.purple)
             }
-            .buttonStyle(.bordered)
-            .tint(.purple)
-            
           
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
@@ -78,7 +80,14 @@ struct FilteredSavedTripsList: View {
                 }
             }
         }
-        .alert("Removed Expired Trips", isPresented: $showingRemovedExpired) {
+        .onAppear {
+            if savedTrips.filter({ $0.date ?? "" < viewModel.convertDateToString(date: Date())}).isEmpty {
+                showingRemovedExpiredButton = false
+            } else {
+                showingRemovedExpiredButton = true
+            }
+        }
+        .alert("Removed Expired Trips", isPresented: $showingRemovedExpiredAlert) {
             Button("Ok", role: .cancel) {}
         }
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
