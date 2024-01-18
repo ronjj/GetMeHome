@@ -29,7 +29,7 @@ struct ContentView: View {
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
     @State private var maxPriceToggle = false
-    @State private var maxPriceLocal: Float = 0.0
+    @State private var maxPriceLocal: Double = 0.0
     
     //    AppStorage
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
@@ -43,6 +43,8 @@ struct ContentView: View {
     @AppStorage("departureLocation") private var departureLocation: String = "Ithaca"
     @AppStorage("arrivalLocationOnToggle") private var arrivalLocationOnToggle = false
     @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
+    @AppStorage("maxPrice") private var maxPrice: Double = 0.0
+    @AppStorage("maxPriceOnToggle") private var maxPriceOnToggle: Bool = false
     
     //    ViewModel and Query Info
     @State private var trips: [Trip]?
@@ -168,6 +170,11 @@ struct ContentView: View {
                 
                 if departureLocationOnToggle {
                     selectedDeparture = departureLocation
+                }
+
+                if maxPriceOnToggle {
+                    maxPriceToggle = true
+                    maxPriceLocal = maxPrice
                 }
             }
             

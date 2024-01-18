@@ -138,14 +138,12 @@ import SwiftUI
         return listToReturn
     }
     
-    func filterMaxPrice(tripsArray: [Trip], maxPrice: Float) -> [Trip] {
+    func filterMaxPrice(tripsArray: [Trip], maxPrice: Double) -> [Trip] {
         print("results before no transfer: \(tripsArray.count)")
-        let newTripsArray = tripsArray.filter{ $0.price < maxPrice}
+        let newTripsArray = tripsArray.filter{ $0.price < Float(maxPrice)}
         print("results after no transfer: \(newTripsArray.count)")
         return newTripsArray
     }
-    
-    
 }
 
 enum TripError: Error {

@@ -22,7 +22,7 @@ struct ProfileView: View {
     @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
    
     @AppStorage("maxPrice") private var maxPrice: Double = 0.0
-    @AppStorage("maxPriceToggle") private var maxPriceToggle: Bool = false
+    @AppStorage("maxPriceOnToggle") private var maxPriceOnToggle: Bool = false
     
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
@@ -75,32 +75,7 @@ struct ProfileView: View {
                                 .labelsHidden()
                         }
                     }
-                    
-                    if maxPriceToggle {
-                        VStack {
-                            HStack {
-                                Text("Max Price")
-                                Spacer()
-                                Toggle("", isOn: $maxPriceToggle)
-                            }
-                            HStack {
-                                Slider(value: $maxPrice, in: 1...400, step: 1.0)
-                                Spacer()
-                                Text("$\(maxPrice, specifier: "%.2f")")
-                            }
-                        }
-                  
-                        .tint(.purple)
-                    } else {
-                        HStack {
-                            Text("Max Price")
-                            Spacer()
-                            Toggle("", isOn: $maxPriceToggle)
-                                .tint(.purple)
-                                
-                        }
-                    }
-                    
+                                        
                     if arrivalLocationOnToggle {
                         HStack {
                             Text("Arrival Location")
@@ -143,6 +118,30 @@ struct ProfileView: View {
                         .tint(.purple)
                     }
                     
+                    if maxPriceOnToggle {
+                        VStack {
+                            HStack {
+                                Text("Max Price")
+                                Spacer()
+                                Toggle("", isOn: $maxPriceOnToggle)
+                            }
+                            HStack {
+                                Slider(value: $maxPrice, in: 1...400, step: 1.0)
+                                Spacer()
+                                Text("$\(maxPrice, specifier: "%.2f")")
+                            }
+                        }
+                  
+                        .tint(.purple)
+                    } else {
+                        HStack {
+                            Text("Max Price")
+                            Spacer()
+                            Toggle("", isOn: $maxPriceOnToggle)
+                                .tint(.purple)
+                                
+                        }
+                    }
                     if earliestDepartureOnToggle {
                         HStack {
                             DatePicker("Earliest Departure",

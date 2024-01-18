@@ -19,7 +19,7 @@ struct SearchButton: View {
     @Binding var selectedService: String
     @Binding var selectedDeparture: String
     @Binding var selectedArrival: String
-    @Binding var maxPrice: Float
+    @Binding var maxPrice: Double
 
     @Binding var selectServiceToggle: Bool
     @Binding var earliestDepartureTimeToggle: Bool
