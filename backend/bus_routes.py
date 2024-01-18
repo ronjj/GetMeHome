@@ -382,13 +382,22 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 continue
             else:
                 departure_string = flix_info[uid]['departure']['date'].split("T")
-                departure_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['departure']['station_id']]
+                # if the code for a city is not in my map, just use the dep loc as a placeholder 
+                # so request doesn't raise error
+                try:
+                    departure_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['departure']['station_id']]
+                except:
+                    print("ADD A CODE FOR THIS DEPARTURE CITY IN FLIXBUS CONSTANTS")
+                    departure_city = dep_loc
                 departure_date = departure_string[0]
                 departure_time = departure_string[1][:5]
                 dep_time_12h = datetime.strptime(departure_time, "%H:%M")
                 dep_time_12h = dep_time_12h.strftime("%I:%M %p")
                 arrival_string = flix_info[uid]['arrival']['date'].split("T")
-                arrival_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['arrival']['station_id']]
+                try:
+                    arrival_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['arrival']['station_id']]
+                except:
+                    arrival_city = arr_loc
                 arrival_time = arrival_string[1][:5]
                 arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
                 arr_time_12h = arr_time_12h.strftime("%I:%M %p")
