@@ -29,7 +29,7 @@ struct ContentView: View {
     @State private var selectServiceToggle = false
     @State private var removeTransfersToggle = false
     @State private var maxPriceToggle = false
-    @State private var maxPriceLocal = 0.0
+    @State private var maxPriceLocal: Float = 0.0
     
     //    AppStorage
     @AppStorage("earliestDepartureOnToggle") private var earliestDepartureOnToggle: Bool = false
@@ -74,6 +74,7 @@ struct ContentView: View {
                              selectedService: $selectedServiceLocal,
                              selectedDeparture: $selectedDeparture,
                              selectedArrival: $selectedArrival,
+                             maxPrice: $maxPriceLocal,
                              selectServiceToggle: $selectServiceToggle,
                              earliestDepartureTimeToggle: $earliestDepartureTimeToggle,
                              isLoading: $isLoading,
@@ -81,7 +82,8 @@ struct ContentView: View {
                              latestArrivalTimeToggle: $latestArrivalTimeToggle,
                              clickedSearch: $clickedSearch, 
                              switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked, 
-                             showSearchError: $requestFailedAlert)
+                             showSearchError: $requestFailedAlert,
+                             maxPriceToggle: $maxPriceToggle)
                 
                 FilterRowView(
                     maxPriceSelected: $maxPriceToggle,

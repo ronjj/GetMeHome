@@ -72,8 +72,8 @@ import SwiftUI
     
 //    MARK: GET Requests 
     func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
@@ -137,6 +137,15 @@ import SwiftUI
         }
         return listToReturn
     }
+    
+    func filterMaxPrice(tripsArray: [Trip], maxPrice: Float) -> [Trip] {
+        print("results before no transfer: \(tripsArray.count)")
+        let newTripsArray = tripsArray.filter{ $0.price < maxPrice}
+        print("results after no transfer: \(newTripsArray.count)")
+        return newTripsArray
+    }
+    
+    
 }
 
 enum TripError: Error {
