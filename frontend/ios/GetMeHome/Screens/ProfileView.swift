@@ -16,11 +16,13 @@ struct ProfileView: View {
     @AppStorage("latestArrivalTime") private var latestArrivalTime: Date = Date()
     @AppStorage("selectedService") private var selectedService = "All"
     @AppStorage("removeTransfers") private var removeTransfers = false
-   
     @AppStorage("departureLocationOnToggle") private var departureLocationOnToggle = false
     @AppStorage("departureLocation") private var departureLocation: String = "Ithaca"
     @AppStorage("arrivalLocationOnToggle") private var arrivalLocationOnToggle = false
     @AppStorage("arrivalLocation") private var arrivalLocation: String = "NYC"
+   
+    @AppStorage("maxPrice") private var maxPrice: Double = 0.0
+    @AppStorage("maxPriceToggle") private var maxPriceToggle: Bool = false
     
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
@@ -71,6 +73,31 @@ struct ProfileView: View {
                             Toggle("", isOn: $departureLocationOnToggle)
                                 .tint(.purple)
                                 .labelsHidden()
+                        }
+                    }
+                    
+                    if maxPriceToggle {
+                        VStack {
+                            HStack {
+                                Text("Max Price")
+                                Spacer()
+                                Toggle("", isOn: $maxPriceToggle)
+                            }
+                            HStack {
+                                Slider(value: $maxPrice, in: 1...400, step: 1.0)
+                                Spacer()
+                                Text("$\(maxPrice, specifier: "%.2f")")
+                            }
+                        }
+                  
+                        .tint(.purple)
+                    } else {
+                        HStack {
+                            Text("Max Price")
+                            Spacer()
+                            Toggle("", isOn: $maxPriceToggle)
+                                .tint(.purple)
+                                
                         }
                     }
                     
