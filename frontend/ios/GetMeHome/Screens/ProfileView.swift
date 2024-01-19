@@ -23,6 +23,7 @@ struct ProfileView: View {
    
     @AppStorage("maxPrice") private var maxPrice: Double = 0.0
     @AppStorage("maxPriceOnToggle") private var maxPriceOnToggle: Bool = false
+    @State private var maxPriceString: String = ""
     
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
@@ -223,7 +224,7 @@ struct ProfileView: View {
                     }
                     .tint(.red)
                 }
-                Section("Contact") {
+                Section {
                     Text("Have questions? Found bugs? Have a feature suggestion? \nLet Me Know!")
                     Button {
                         email.send(openURL: openURL)
@@ -238,11 +239,16 @@ struct ProfileView: View {
                         .onTapGesture(perform: {
                             AnalyticsManager.shared.logEvent(name: "ProfileView_GoogleFormClicked")
                         })
+                } header: {
+                    Text("Contact")
+                } footer: {
+                    Text("Developed by **Ronald Jabouin Jr**")
                 }
             }
             .background(colorScheme == .light ? .white : .black)
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
+
         }
         .analyticsScreen(name: "ProfileView")
         .onAppear {
