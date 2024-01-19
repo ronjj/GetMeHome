@@ -27,9 +27,13 @@ struct ProfileView: View {
     
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     var viewModel = ViewModel()
+    @State var presentingConfirmationDialog = false
+
     
     @Environment(\.openURL) var openURL
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
+
     private var email = SupportEmail(toAddress: "rj336@cornell.edu",
                                      subject: "Support Email",
                                      messageHeader: "Please Describe Your Issue Below")
@@ -215,12 +219,17 @@ struct ProfileView: View {
                     }
                 }
                 Section("Account") {
-                    Text("Email: \(authViewModel.displayName)")
+                    Text("User: \(authViewModel.displayName)")
                     Button {
                         authViewModel.signOut()
                         AnalyticsManager.shared.logEvent(name: "ProfileView_SignoutClicked")
                     } label: {
                         Text("Sign Out")
+                    }
+                    .tint(.red)
+                    Button(role: .destructive, 
+                           action: { presentingConfirmationDialog.toggle() }) {
+                        Text("Delete Account")
                     }
                     .tint(.red)
                 }
@@ -250,10 +259,22 @@ struct ProfileView: View {
             .listStyle(.insetGrouped)
 
         }
+        .confirmationDialog("Deleting your account is permanent. Do you want to delete your account?",
+                            isPresented: $presentingConfirmationDialog, titleVisibility: .visible) {
+            Button("Delete Account", role: .destructive, action: deleteAccount)
+            Button("Cancel", role: .cancel, action: { })
+        }
         .analyticsScreen(name: "ProfileView")
         .onAppear {
             AnalyticsManager.shared.logEvent(name: "ProfileView_Appear")
         }
     }
+     func deleteAccount() {
+        Task {
+          if await authViewModel.deleteAccount() == true {
+            dismiss()
+          }
+        }
+      }
 }
 

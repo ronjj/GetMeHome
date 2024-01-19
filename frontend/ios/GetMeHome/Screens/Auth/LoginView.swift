@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct LoginView: View {
     @EnvironmentObject var viewModel: AuthenticationViewModel
@@ -53,6 +54,14 @@ struct LoginView: View {
                 }
                 .foregroundColor(colorScheme == .dark ? .white : .black)
                 .buttonStyle(.bordered)
+                
+                SignInWithAppleButton { request in
+                    viewModel.handleSignInWithAppleRequest(request)
+                } onCompletion: { result in
+                    viewModel.handleSignInWithAppleCompletion(result)
+                }
+                .signInWithAppleButtonStyle(colorScheme == .light ? .black : .white)
+                .frame(maxWidth: .infinity, maxHeight: 45)
             }
             .listStyle(.plain)
             .padding()
