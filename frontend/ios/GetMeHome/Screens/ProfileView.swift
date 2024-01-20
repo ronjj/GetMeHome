@@ -219,7 +219,7 @@ struct ProfileView: View {
                     }
                 }
                 Section("Account") {
-                    Text("User: \(authViewModel.displayName)")
+//                    Text("User: \(authViewModel.displayName)")
                     Button {
                         authViewModel.signOut()
                         AnalyticsManager.shared.logEvent(name: "ProfileView_SignoutClicked")

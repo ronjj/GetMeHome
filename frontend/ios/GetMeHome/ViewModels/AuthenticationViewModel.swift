@@ -199,6 +199,7 @@ extension AuthenticationViewModel {
           do {
             let result = try await Auth.auth().signIn(with: credential)
             await updateDisplayName(for: result.user, with: appleIDCredential)
+            print("Able to sign in")
           }
           catch {
             print("Error authenticating: \(error.localizedDescription)")

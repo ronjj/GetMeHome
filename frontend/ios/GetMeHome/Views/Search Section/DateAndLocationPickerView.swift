@@ -36,6 +36,7 @@ struct DateAndLocationPickerView: View {
                     }
                 }
                 .disabled(isLoading ? true : false)
+                .buttonStyle(.bordered)
                 .tint(.purple)
             }
                
@@ -55,6 +56,7 @@ struct DateAndLocationPickerView: View {
                     }
                 }
                 .disabled(isLoading ? true : false)
+                .buttonStyle(.bordered)
                 .tint(.purple)
             }
             

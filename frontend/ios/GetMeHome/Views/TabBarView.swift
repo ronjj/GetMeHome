@@ -20,17 +20,17 @@ struct TabBarView: View {
                 Image(systemName: "magnifyingglass")
                 Text("Search")
             }
-            NavigationStack {
+            
                 SavedTripsView()
-            }
+            
            
             .tabItem {
                     Image(systemName: "bookmark")
                     Text("Saved")
             }
-            NavigationStack {
+            
                 ProfileView()
-            }
+            
             .tabItem {
                 Image(systemName: "person")
                 Text("Profile")
