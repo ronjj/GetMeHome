@@ -153,7 +153,8 @@ struct SearchButton: View {
                 Image(systemName: "arrow.up.arrow.down")
                     .frame(width: 25)
                     .rotationEffect(Angle.degrees(switchOriginAndDestinationButtonClicked ? 180 : 360))
-                    .animation(viewModel.animation)
+                    .animation(viewModel.animation, value: switchOriginAndDestinationButtonClicked)
+                
             }
             .disabled(isLoading ? true : false)
             .buttonStyle(.bordered)
