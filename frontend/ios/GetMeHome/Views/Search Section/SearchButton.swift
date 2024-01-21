@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SearchButton: View {
-    
     @Binding var trips: [Trip]?
     @Binding var discountCodes: [Discount]?
     
@@ -159,8 +158,6 @@ struct SearchButton: View {
             .disabled(isLoading ? true : false)
             .buttonStyle(.bordered)
             .tint(.purple)
-           
-            
         }
         .analyticsScreen(name: "SearchButton")
         .onAppear {

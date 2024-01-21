@@ -17,14 +17,15 @@ struct SplashScreenView: View {
     var body: some View {
         if isActive {
             NavigationStack {
-                switch viewModel.authenticationState {
-                case .unauthenticated, .authenticating:
-                    AuthenticationView()
-                        .environmentObject(viewModel)
-                case .authenticated:
+//                Removed Signing in for now since there is no extra functonality
+//                switch viewModel.authenticationState {
+//                case .unauthenticated, .authenticating:
+//                    AuthenticationView()
+//                        .environmentObject(viewModel)
+//                case .authenticated:
                     TabBarView()
                         .environmentObject(viewModel)
-                }
+//                }
             }
         } else {
             ZStack {
