@@ -218,21 +218,22 @@ struct ProfileView: View {
                         }
                     }
                 }
-                Section("Account") {
-//                    Text("User: \(authViewModel.displayName)")
-                    Button {
-                        authViewModel.signOut()
-                        AnalyticsManager.shared.logEvent(name: "ProfileView_SignoutClicked")
-                    } label: {
-                        Text("Sign Out")
-                    }
-                    .tint(.red)
-                    Button(role: .destructive, 
-                           action: { presentingConfirmationDialog.toggle() }) {
-                        Text("Delete Account")
-                    }
-                    .tint(.red)
-                }
+//                Commented out until I have a sign in screen again
+//                Section("Account") {
+////                    Text("User: \(authViewModel.displayName)")
+//                    Button {
+//                        authViewModel.signOut()
+//                        AnalyticsManager.shared.logEvent(name: "ProfileView_SignoutClicked")
+//                    } label: {
+//                        Text("Sign Out")
+//                    }
+//                    .tint(.red)
+//                    Button(role: .destructive, 
+//                           action: { presentingConfirmationDialog.toggle() }) {
+//                        Text("Delete Account")
+//                    }
+//                    .tint(.red)
+//                }
                 Section {
                     Text("Have questions? Found bugs? Have a feature suggestion? \nLet Me Know!")
                     Button {
