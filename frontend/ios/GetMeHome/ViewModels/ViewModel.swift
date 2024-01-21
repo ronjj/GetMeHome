@@ -12,7 +12,12 @@ import SwiftUI
 @Observable class ViewModel {
 
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
-    let locationQueryMap = ["NYC":"new_york", "Ithaca": "ithaca", "Syracuse": "syracuse", "SYR Airport": "syr_airport", "Newark":"newark"]
+    let locationQueryMap = ["NYC":"new_york", 
+                            "Ithaca": "ithaca",
+                            "Syracuse": "syracuse",
+                            "SYR Airport": "syr_airport",
+                            "Newark":"newark",
+                            "Philadelphia, PA": "philly",]
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    
     var animation: Animation {
@@ -22,7 +27,7 @@ import SwiftUI
     func calculateDateRange() -> Date {
         let currentDate = Date()
         var dateComponent = DateComponents()
-        dateComponent.month = 1
+        dateComponent.month = 2
         dateComponent.day = 7
         let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
         return futureDate!
