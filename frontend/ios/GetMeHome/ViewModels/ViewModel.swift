@@ -18,6 +18,7 @@ import SwiftUI
                             "SYR Airport": "syr_airport",
                             "Newark":"newark",
                             "Philadelphia, PA": "philly",]
+    
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    
     var animation: Animation {
