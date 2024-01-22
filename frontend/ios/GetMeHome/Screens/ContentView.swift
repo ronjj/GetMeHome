@@ -14,7 +14,7 @@ struct ContentView: View {
     
     //    User Selections
     @State private var selectedDate = Date()
-    @State private var selectedDeparture = "Ithaca"
+    @State private var selectedDeparture = "Ithaca, NY"
     @State private var selectedArrival = "NYC"
     @State private var switchOriginAndDestinationButtonClicked = false
     @State private var clickedSearch = false

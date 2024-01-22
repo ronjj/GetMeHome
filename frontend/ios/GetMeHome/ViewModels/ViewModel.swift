@@ -13,10 +13,10 @@ import SwiftUI
 
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["NYC":"new_york", 
-                            "Ithaca": "ithaca",
-                            "Syracuse": "syracuse",
+                            "Ithaca, NY": "ithaca",
+                            "Syracuse, NY": "syracuse",
                             "SYR Airport": "syr_airport",
-                            "Newark":"newark",
+                            "Newark, NJ":"newark",
                             "Philadelphia, PA": "philly",
                             "Binghamton, NY": "binghamton"]
     
