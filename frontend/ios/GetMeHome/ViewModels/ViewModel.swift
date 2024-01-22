@@ -13,10 +13,10 @@ import SwiftUI
 
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["NYC":"new_york", 
-                            "Ithaca, NY": "ithaca",
-                            "Syracuse, NY": "syracuse",
+                            "Ithaca": "ithaca",
+                            "Syracuse": "syracuse",
                             "SYR Airport": "syr_airport",
-                            "Newark, NJ":"newark",
+                            "Newark":"newark",
                             "Philadelphia, PA": "philly",
                             "Binghamton, NY": "binghamton"]
     
@@ -79,8 +79,8 @@ import SwiftUI
     
 //    MARK: GET Requests 
     func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
-//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
