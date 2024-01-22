@@ -24,6 +24,7 @@ OURBUS_LOCATION_IDS = {
   "binghamton": "Binghamton%2C%20NY",
   "rochester": "Rochester%2C%20NY",
   "baltimore": "Baltimore%2C%20MD",
+  "boston": "Boston%2C%20MA&",
 }
 
 MEGA_LOCATION_IDS = {
@@ -35,6 +36,7 @@ MEGA_LOCATION_IDS = {
   "ithaca": "511",
   "new_york": "123",
   "baltimore": "143",
+  "boston": "94",
 }
 
 FLIX_LOCATION_IDS = {
@@ -46,8 +48,15 @@ FLIX_LOCATION_IDS = {
   "binghamton": "f6368de4-a532-4caf-8564-d99e5138e5a7",
   "rochester": "9361f877-cc72-448c-8545-c1b0e86b4ce8",
   "baltimore": "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd",
+  "boston": "eeff627f-2fda-4e75-8468-783d47955b3a",
 
   # Arrival Station IDs
+
+  # Boston
+  "9b6bfd56-3ecb-11ea-8017-02437075395e": "Boston South Station",
+  "9b6c1745-3ecb-11ea-8017-02437075395e": "Brookline, MA",
+  "9b6c1714-3ecb-11ea-8017-02437075395e": "Cambridge, MA",
+
   # Baltimore
   "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd": "Baltimore, MD",
   "977a0446-537c-4503-a27e-edb8d2e39756": "Baltimore, MD",
@@ -71,14 +80,18 @@ FLIX_LOCATION_IDS = {
   "4a71452b-9fed-4e98-a84a-9f4d1dcff9c3" : "Malvern, PA",
   "1889e282-7b9b-4a16-a729-dc5000bc1e29" : "Philadelphia, PA",
   "fd509c08-0a3e-4a44-b933-79f4a9db13da": "Philadelphia, PA",
+  
   # Newark
   "96f408ea-c731-4fb3-a9d3-721f7cf31dd1": "Newark, NJ",
   "f5987d0c-232d-4d9b-8112-4a834d0c7ebd": "Newark, NJ",
+ 
   # SYR
   "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
+
   # ITH
   "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
   "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
+  
   # NYC
   "e204bb66-8ab9-4437-8d0d-2b603cdf0c43": "New York Port Authority",
   "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
