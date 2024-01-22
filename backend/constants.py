@@ -23,6 +23,7 @@ OURBUS_LOCATION_IDS = {
   "philly": "Philadelphia%2C%20PA",
   "binghamton": "Binghamton%2C%20NY",
   "rochester": "Rochester%2C%20NY",
+  "baltimore": "Baltimore%2C%20MD",
 }
 
 MEGA_LOCATION_IDS = {
@@ -32,7 +33,8 @@ MEGA_LOCATION_IDS = {
   "newark": "610",
   "syracuse": "139",
   "ithaca": "511",
-  "new_york": "123"
+  "new_york": "123",
+  "baltimore": "143",
 }
 
 FLIX_LOCATION_IDS = {
@@ -43,8 +45,15 @@ FLIX_LOCATION_IDS = {
   "philly": "fd509c08-0a3e-4a44-b933-79f4a9db13da",
   "binghamton": "f6368de4-a532-4caf-8564-d99e5138e5a7",
   "rochester": "9361f877-cc72-448c-8545-c1b0e86b4ce8",
+  "baltimore": "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd",
 
   # Arrival Station IDs
+  # Baltimore
+  "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd": "Baltimore, MD",
+  "977a0446-537c-4503-a27e-edb8d2e39756": "Baltimore, MD",
+  "12a2c399-a17f-44e2-8d1f-7655f95c2689": "Baltimore Downtown Bus Station",
+  "9b6aadb6-3ecb-11ea-8017-02437075395e": "White Marsh Park N Ride",
+
   # Rochester
   "9361f877-cc72-448c-8545-c1b0e86b4ce8": "Rochester, NY",
   "990919e2-39d1-4ff0-849e-1639c19307c6": "Rochester, NY",

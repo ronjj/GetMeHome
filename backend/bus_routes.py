@@ -397,7 +397,8 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 try:
                     arrival_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['arrival']['station_id']]
                 except:
-                    arrival_city = arr_loc
+                    arrival_city = arr_loc[0].upper() + arr_loc[1:]
+
                 arrival_time = arrival_string[1][:5]
                 arr_time_12h = datetime.strptime(arrival_time, "%H:%M")
                 arr_time_12h = arr_time_12h.strftime("%I:%M %p")
