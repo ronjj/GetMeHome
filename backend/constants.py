@@ -22,16 +22,11 @@ OURBUS_LOCATION_IDS = {
   "newark": "Newark%2C%20NJ",
   "philly": "Philadelphia%2C%20PA",
   "binghamton": "Binghamton%2C%20NY",
+  "rochester": "Rochester%2C%20NY",
 }
 
 MEGA_LOCATION_IDS = {
-  "511":"Ithaca, NY",
-  "123":"New York City, NY",
-  "139":"Syracuse, NY",
-  "610": "Newark, NJ",
-  "127": "Philadelphia, PA",
-  "93": "Binghamton, NY",
-
+  "rochester": "134",
   "binghamton":"93",
   "philly": "127",
   "newark": "610",
@@ -47,8 +42,13 @@ FLIX_LOCATION_IDS = {
   "newark": "f5987d0c-232d-4d9b-8112-4a834d0c7ebd",
   "philly": "fd509c08-0a3e-4a44-b933-79f4a9db13da",
   "binghamton": "f6368de4-a532-4caf-8564-d99e5138e5a7",
+  "rochester": "9361f877-cc72-448c-8545-c1b0e86b4ce8",
 
   # Arrival Station IDs
+  # Rochester
+  "9361f877-cc72-448c-8545-c1b0e86b4ce8": "Rochester, NY",
+  "990919e2-39d1-4ff0-849e-1639c19307c6": "Rochester, NY",
+
   # Binghamton
   "9caca472-eb38-45fd-a5f9-43894add57a8" : "Binghamton, NY",
 
