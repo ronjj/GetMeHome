@@ -21,15 +21,18 @@ OURBUS_LOCATION_IDS = {
   "syr_airport": "Syracuse%20Airport,%20NY",
   "newark": "Newark%2C%20NJ",
   "philly": "Philadelphia%2C%20PA",
+  "binghamton": "Binghamton%2C%20NY",
 }
 
 MEGA_LOCATION_IDS = {
-  "511":"Ithaca",
-  "123":"New York",
-  "139":"Syracuse",
+  "511":"Ithaca, NY",
+  "123":"New York City, NY",
+  "139":"Syracuse, NY",
   "610": "Newark, NJ",
   "127": "Philadelphia, PA",
+  "93": "Binghamton, NY",
 
+  "binghamton":"93",
   "philly": "127",
   "newark": "610",
   "syracuse": "139",
@@ -43,8 +46,12 @@ FLIX_LOCATION_IDS = {
   "syracuse": "270aeb05-d99f-4cc0-a578-724339024c87",
   "newark": "f5987d0c-232d-4d9b-8112-4a834d0c7ebd",
   "philly": "fd509c08-0a3e-4a44-b933-79f4a9db13da",
+  "binghamton": "f6368de4-a532-4caf-8564-d99e5138e5a7",
 
   # Arrival Station IDs
+  # Binghamton
+  "9caca472-eb38-45fd-a5f9-43894add57a8" : "Binghamton, NY",
+
   # Philly
   "2a9747a9-710b-4372-9a54-b018e1892baf": "Camden Walter Rand Trans Center",
   "c5a2ff48-f8f4-4bc5-aa61-9daf9d1fbf38": "Cherry Hill Mall, PA",

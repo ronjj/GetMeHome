@@ -13,11 +13,12 @@ import SwiftUI
 
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["NYC":"new_york", 
-                            "Ithaca": "ithaca",
-                            "Syracuse": "syracuse",
+                            "Ithaca, NY": "ithaca",
+                            "Syracuse, NY": "syracuse",
                             "SYR Airport": "syr_airport",
-                            "Newark":"newark",
-                            "Philadelphia, PA": "philly",]
+                            "Newark, NJ":"newark",
+                            "Philadelphia, PA": "philly",
+                            "Binghamton, NY": "binghamton"]
     
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    
@@ -78,8 +79,8 @@ import SwiftUI
     
 //    MARK: GET Requests 
     func getTripsAndDiscounts(from departureLocation: String, to arrivalLocation: String, on date: String, bus: String) async throws -> ([Trip],[Discount]) {
-        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
-//        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+//        let endpoint = "https://get-me-home.onrender.com/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
+        let endpoint = "http://127.0.0.1:5000/\(bus)/\(date)/\(departureLocation)/\(arrivalLocation)"
         
         guard let url = URL(string: endpoint) else {
             throw TripError.invalidURL
