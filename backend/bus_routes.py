@@ -387,7 +387,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 try:
                     departure_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['departure']['station_id']]
                 except:
-                    print("ADD A CODE FOR THIS DEPARTURE CITY IN FLIXBUS CONSTANTS")
+                    print("ADD A CODE FOR THIS DEPARTURE** CITY IN FLIXBUS CONSTANTS")
                     departure_city = dep_loc
                 departure_date = departure_string[0]
                 departure_time = departure_string[1][:5]
@@ -397,6 +397,7 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 try:
                     arrival_city = constants.FLIX_LOCATION_IDS[flix_info[uid]['arrival']['station_id']]
                 except:
+                    print("ADD A CODE FOR THIS ARRIVAL** CITY IN FLIXBUS CONSTANTS")
                     arrival_city = arr_loc[0].upper() + arr_loc[1:]
 
                 arrival_time = arrival_string[1][:5]

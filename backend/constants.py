@@ -53,6 +53,7 @@ FLIX_LOCATION_IDS = {
   "977a0446-537c-4503-a27e-edb8d2e39756": "Baltimore, MD",
   "12a2c399-a17f-44e2-8d1f-7655f95c2689": "Baltimore Downtown Bus Station",
   "9b6aadb6-3ecb-11ea-8017-02437075395e": "White Marsh Park N Ride",
+  "d42f8c40-c275-460d-87e1-e95bc8f91a25":  "White Marsh Park N Ride",
 
   # Rochester
   "9361f877-cc72-448c-8545-c1b0e86b4ce8": "Rochester, NY",
