@@ -29,15 +29,18 @@ struct TripRowView: View {
             }
             
             HStack (spacing:  2) {
-                Image(systemName: "building")
-                Text(trip.departureLocation.prefix(20))
+                Image(systemName: "bus.fill")
+                Text(trip.departureLocation)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.8)
                     .multilineTextAlignment(.trailing)
-                Image(systemName: "arrow.right")
-                Text(trip.arrivalLocation.prefix(20))
+            }
+            
+            HStack (spacing: 2) {
+                Image(systemName: "mappin.and.ellipse")
+                Text(trip.arrivalLocation)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.8)
                     .multilineTextAlignment(.trailing)
             }
             
