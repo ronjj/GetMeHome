@@ -46,6 +46,7 @@ struct MapViewDetailSheet: View {
                 .tint(.purple)
                 .tag(2)
             
+//            need to ask for users location for this
 //            UserAnnotation()
             
             if let route {
@@ -57,8 +58,8 @@ struct MapViewDetailSheet: View {
             MapPitchToggle()
         }
         .mapStyle(switchMapType ? .hybrid(elevation:.realistic) : .standard(elevation:.realistic))
-        .overlay(alignment: .bottomTrailing) {
-            HStack{
+        .overlay(alignment: .topLeading) {
+            VStack (spacing: 2){
                 closeButton
                 switchMapButton
 //                MapUserLocationButton(scope: mapScope)
