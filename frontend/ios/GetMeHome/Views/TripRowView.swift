@@ -21,14 +21,14 @@ struct TripRowView: View {
             Text("$\(trip.price, specifier: "%.2f")")
                 .fontWeight(.bold)
             
-            HStack (spacing: 2) {
+            HStack (spacing: 5) {
                 Image(systemName: "clock")
                 Text(trip.departureTime)
                 Image(systemName: "arrow.right")
                 Text(trip.arrivalTime)
             }
             
-            HStack (spacing:  2) {
+            HStack (spacing:  5) {
                 Image(systemName: "bus.fill")
                 Text(trip.departureLocation)
                     .lineLimit(1)
@@ -36,7 +36,7 @@ struct TripRowView: View {
                     .multilineTextAlignment(.trailing)
             }
             
-            HStack (spacing: 2) {
+            HStack (spacing: 5) {
                 Image(systemName: "mappin.and.ellipse")
                 Text(trip.arrivalLocation)
                     .lineLimit(1)
