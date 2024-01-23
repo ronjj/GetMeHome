@@ -61,15 +61,14 @@ struct TripDetailView: View {
                                 .shadow(radius: 4)
                                 .padding()
                                 .rotationEffect(Angle(degrees: 270))
+                                .buttonStyle(.bordered)
                         }
-                        .tint(.purple)
                     }
                 }
             
-            
             VStack(alignment: .leading, spacing: 10) {
                 CustomSection(sectionTitle: "Date", sectionText: Text(viewModel.convertToDate(dateString: trip.date),
-                                                                      style: .date))
+                      style: .date))
                 
                 CustomSection(sectionTitle: "Time", sectionText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
                 
@@ -96,11 +95,8 @@ struct TripDetailView: View {
                         .tint(.indigo)
                         .frame(maxWidth: .infinity)
                 }
-                
-               
             }
             .padding()
-            
         }
         .analyticsScreen(name: "TripDetailView")
         .sheet(isPresented: $mapDetailSelected) {
