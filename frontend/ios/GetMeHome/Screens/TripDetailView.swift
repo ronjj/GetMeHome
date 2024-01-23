@@ -22,6 +22,51 @@ struct TripDetailView: View {
     
     var body: some View {
         ScrollView {
+                if trip.arrivalLocationCoords.latitude != 0.0 {
+                    Map(position: $location) {
+                        Marker("Departure Location",
+                               systemImage: "bus.fill",
+                               coordinate: CLLocationCoordinate2D(
+                                latitude: trip.departureLocationCoords.latitude,
+                                longitude: trip.departureLocationCoords.longitude))
+                        .tint(.purple)
+                        
+                        Marker("Arrival Location",
+                               systemImage: "star.fill",
+                               coordinate: CLLocationCoordinate2D(
+                                latitude: trip.arrivalLocationCoords.latitude,
+                                longitude: trip.arrivalLocationCoords.longitude))
+                        .tint(.purple)
+                    }
+                    
+                    .frame(maxWidth: .infinity)
+                    .aspectRatio(1, contentMode: .fill)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        mapDetailSelected.toggle()
+                        AnalyticsManager.shared.logEvent(name: "TripDetailView_MapClicked")
+                    }
+                    .overlay(alignment: .topTrailing) {
+                        Button {
+                            mapDetailSelected.toggle()
+                            AnalyticsManager.shared.logEvent(name: "TripDetailView_ExpandMapButtonClicked")
+                            
+                        } label: {
+                            Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle.fill")
+                                .font(.headline)
+                                .padding(16)
+                                .foregroundColor(.primary)
+                                .background(.thickMaterial)
+                                .cornerRadius(10)
+                                .shadow(radius: 4)
+                                .padding()
+                                .rotationEffect(Angle(degrees: 270))
+                        }
+                        .tint(.purple)
+                    }
+                }
+            
+            
             VStack(alignment: .leading, spacing: 10) {
                 CustomSection(sectionTitle: "Date", sectionText: Text(viewModel.convertToDate(dateString: trip.date),
                                                                       style: .date))
@@ -52,51 +97,7 @@ struct TripDetailView: View {
                         .frame(maxWidth: .infinity)
                 }
                 
-                HStack {
-                    if trip.arrivalLocationCoords.latitude != 0.0 {
-                        Map(position: $location) {
-                            Marker("Departure Location",
-                                   systemImage: "bus.fill",
-                                   coordinate: CLLocationCoordinate2D(
-                                    latitude: trip.departureLocationCoords.latitude,
-                                    longitude: trip.departureLocationCoords.longitude))
-                                .tint(.purple)
-                            
-                            Marker("Arrival Location",
-                                   systemImage: "star.fill",
-                                   coordinate: CLLocationCoordinate2D(
-                                    latitude: trip.arrivalLocationCoords.latitude,
-                                    longitude: trip.arrivalLocationCoords.longitude))
-                                .tint(.purple)
-                        }
-
-                        .frame(maxWidth: .infinity)
-                        .aspectRatio(1, contentMode: .fill)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            mapDetailSelected.toggle()
-                            AnalyticsManager.shared.logEvent(name: "TripDetailView_MapClicked")
-                        }
-                        .cornerRadius(30)
-                        .overlay(alignment: .topTrailing) {
-                            Button {
-                                mapDetailSelected.toggle()
-                                AnalyticsManager.shared.logEvent(name: "TripDetailView_ExpandMapButtonClicked")
-
-                            } label: {
-                                Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle.fill")
-                                    .font(.headline)
-                                    .padding(16)
-                                    .foregroundColor(.primary)
-                                    .background(.thickMaterial)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 4)
-                                    .padding()
-                                    .rotationEffect(Angle(degrees: 270))
-                            }
-                        }
-                    }
-                }
+               
             }
             .padding()
             
