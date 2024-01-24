@@ -23,7 +23,7 @@ struct DateAndLocationPickerView: View {
                 Spacer()
                 Menu(selectedDeparture) {
                     //                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
-                    ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
+                    ForEach(viewModel.locationQueryMap.sorted(by: <), id: \.key)  { location, code in
                         if selectedDeparture != location && selectedArrival != location {
                             Button("\(location)") {
                                 selectedDeparture = location
@@ -44,7 +44,7 @@ struct DateAndLocationPickerView: View {
                 Text("Arrival Location")
                 Spacer()
                 Menu(selectedArrival) {
-                    ForEach(viewModel.locationQueryMap.sorted(by: >), id: \.key)  { location, code in
+                    ForEach(viewModel.locationQueryMap.sorted(by: <), id: \.key)  { location, code in
                         if selectedArrival != location && selectedDeparture != location {
                             Button("\(location)") {
                                 selectedArrival = location
