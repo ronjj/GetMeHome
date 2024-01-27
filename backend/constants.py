@@ -38,6 +38,7 @@ MEGA_LOCATION_IDS = {
   "new_york": "123",
   "baltimore": "143",
   "boston": "94",
+  "albany": "89",
 }
 
 FLIX_LOCATION_IDS = {
