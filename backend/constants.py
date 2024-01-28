@@ -26,6 +26,7 @@ OURBUS_LOCATION_IDS = {
   "baltimore": "Baltimore%2C%20MD",
   "boston": "Boston%2C%20MA&",
   "albany": "Albany%2C%20NY",
+  "buffalo": "Buffalo%2C%20NY",
 }
 
 MEGA_LOCATION_IDS = {
@@ -39,6 +40,7 @@ MEGA_LOCATION_IDS = {
   "baltimore": "143",
   "boston": "94",
   "albany": "89",
+  "buffalo": "95",
 }
 
 FLIX_LOCATION_IDS = {
@@ -52,8 +54,14 @@ FLIX_LOCATION_IDS = {
   "baltimore": "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd",
   "boston": "eeff627f-2fda-4e75-8468-783d47955b3a",
   "albany": "c9968a8a-e5be-422b-b7f3-32851e4dc823",
+  "buffalo": "946a2820-dc2d-4098-8583-d36f6804f6b7",
 
   # Arrival Station IDs
+
+  # Buffalo
+  "946a2820-dc2d-4098-8583-d36f6804f6b7": "Buffalo", 
+  "9a1b39b7-d723-4cf7-85dd-a34e3521568c": "Buffalo",
+
   # Albany
   "e610e851-1daf-4fc5-a236-0cb200f82fba": "Albany Bus Terminal",
 
