@@ -59,8 +59,8 @@ FLIX_LOCATION_IDS = {
   # Arrival Station IDs
 
   # Buffalo
-  "946a2820-dc2d-4098-8583-d36f6804f6b7": "Buffalo", 
-  "9a1b39b7-d723-4cf7-85dd-a34e3521568c": "Buffalo",
+  "946a2820-dc2d-4098-8583-d36f6804f6b7": "Buffalo, NY", 
+  "9a1b39b7-d723-4cf7-85dd-a34e3521568c": "Buffalo, NY",
 
   # Albany
   "e610e851-1daf-4fc5-a236-0cb200f82fba": "Albany Bus Terminal",
@@ -99,15 +99,15 @@ FLIX_LOCATION_IDS = {
   "f5987d0c-232d-4d9b-8112-4a834d0c7ebd": "Newark, NJ",
  
   # SYR
-  "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse",
+  "270aeb05-d99f-4cc0-a578-724339024c87": "Syracuse, NY",
 
   # ITH
-  "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca",
+  "99c4f86c-3ecb-11ea-8017-02437075395e": "Ithaca, NY",
   "9b6aadb6-3ecb-11ea-8017-02437075395e": "131 E Green St",
   
   # NYC
   "e204bb66-8ab9-4437-8d0d-2b603cdf0c43": "New York Port Authority",
-  "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York",
+  "c0a47c54-53ea-46dc-984b-b764fc0b2fa9": "New York City",
   "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
   "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
   "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
