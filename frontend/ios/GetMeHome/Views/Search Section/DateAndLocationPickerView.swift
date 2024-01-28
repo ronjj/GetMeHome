@@ -13,6 +13,8 @@ struct DateAndLocationPickerView: View {
     @Binding var selectedArrival: String
     @Binding var selectedDate: Date
     @Binding var isLoading: Bool
+    @State var newYorkLocations = [String]()
+    @State var otherLocations = [String]()
     
     var viewModel = ViewModel()
     
@@ -22,16 +24,28 @@ struct DateAndLocationPickerView: View {
                 Text("Departure Location")
                 Spacer()
                 Menu(selectedDeparture) {
-                    //                    Have to sort dict to iterate over it in SwiftUI. not actually necessary to sort
-                    ForEach(viewModel.locationQueryMap.sorted(by: <), id: \.key)  { location, code in
-                        if selectedDeparture != location && selectedArrival != location {
-                            Button("\(location)") {
-                                selectedDeparture = location
-                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_DepLocClicked")
-                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
-
+                    Section("New York Stops") {
+                        ForEach(newYorkLocations, id: \.self) { location in
+                            if selectedArrival != location && selectedDeparture != location {
+                                Button("\(location)") {
+                                    selectedDeparture = location
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
+                                }
+                                .buttonStyle(.bordered)
                             }
-                            .buttonStyle(.bordered)
+                        }
+                    }
+                    Section("Other Stops") {
+                        ForEach(otherLocations, id: \.self) { location in
+                            if selectedArrival != location && selectedDeparture != location {
+                                Button("\(location)") {
+                                    selectedDeparture = location
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
+                                }
+                                .buttonStyle(.bordered)
+                            }
                         }
                     }
                 }
@@ -44,14 +58,28 @@ struct DateAndLocationPickerView: View {
                 Text("Arrival Location")
                 Spacer()
                 Menu(selectedArrival) {
-                    ForEach(viewModel.locationQueryMap.sorted(by: <), id: \.key)  { location, code in
-                        if selectedArrival != location && selectedDeparture != location {
-                            Button("\(location)") {
-                                selectedArrival = location
-                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
-                                AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
+                    Section("New York Stops") {
+                        ForEach(newYorkLocations, id: \.self) { location in
+                            if selectedArrival != location && selectedDeparture != location {
+                                Button("\(location)") {
+                                    selectedArrival = location
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
+                                }
+                                .buttonStyle(.bordered)
                             }
-                            .buttonStyle(.bordered)
+                        }
+                    }
+                    Section("Other Stops") {
+                        ForEach(otherLocations, id: \.self) { location in
+                            if selectedArrival != location && selectedDeparture != location {
+                                Button("\(location)") {
+                                    selectedArrival = location
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(location)Clicked")
+                                    AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_ArrLocClicked")
+                                }
+                                .buttonStyle(.bordered)
+                            }
                         }
                     }
                 }
@@ -73,6 +101,15 @@ struct DateAndLocationPickerView: View {
                 AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_DateClicked")
                 AnalyticsManager.shared.logEvent(name: "DateAndLocationPickerView_\(selectedDate)")
             }
+        }
+        .onAppear {
+            viewModel.locationQueryMap.forEach({ location, code in
+                if location.contains("NY") || location.contains("SYR") {
+                    newYorkLocations.append(location)
+                } else {
+                    otherLocations.append(location)
+                }
+            })
         }
         .analyticsScreen(name: "DateAndLocationPickerView")
     }
