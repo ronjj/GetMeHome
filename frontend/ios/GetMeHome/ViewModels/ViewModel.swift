@@ -17,6 +17,7 @@ import SwiftUI
                             "Binghamton, NY": "binghamton",
                             "Rochester, NY": "rochester",
                             "Albany, NY": "albany",
+                            "Buffalo, NY": "buffalo",
                             "Syracuse, NY": "syracuse",
                             "SYR Airport": "syr_airport",
                             "Newark, NJ":"newark",
@@ -43,8 +44,6 @@ import SwiftUI
         }
         return (newYorkStops, otherLocationStops)
     }
-    
-
     
     func calculateDateRange() -> Date {
         let currentDate = Date()
