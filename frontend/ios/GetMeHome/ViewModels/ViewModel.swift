@@ -21,7 +21,8 @@ import SwiftUI
                             "Newark, NJ":"newark",
                             "Philadelphia, PA": "philly",
                             "Baltimore, MD": "baltimore",
-                            "Boston, MA": "boston",]
+                            "Boston, MA": "boston",
+                            "Albany, NY": "albany",]
     
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    

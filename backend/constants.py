@@ -25,6 +25,7 @@ OURBUS_LOCATION_IDS = {
   "rochester": "Rochester%2C%20NY",
   "baltimore": "Baltimore%2C%20MD",
   "boston": "Boston%2C%20MA&",
+  "albany": "Albany%2C%20NY",
 }
 
 MEGA_LOCATION_IDS = {
@@ -37,6 +38,7 @@ MEGA_LOCATION_IDS = {
   "new_york": "123",
   "baltimore": "143",
   "boston": "94",
+  "albany": "89",
 }
 
 FLIX_LOCATION_IDS = {
@@ -49,8 +51,11 @@ FLIX_LOCATION_IDS = {
   "rochester": "9361f877-cc72-448c-8545-c1b0e86b4ce8",
   "baltimore": "ff6921c7-4746-4553-8ef8-3bb7f19fc2bd",
   "boston": "eeff627f-2fda-4e75-8468-783d47955b3a",
+  "albany": "c9968a8a-e5be-422b-b7f3-32851e4dc823",
 
   # Arrival Station IDs
+  # Albany
+  "e610e851-1daf-4fc5-a236-0cb200f82fba": "Albany Bus Terminal",
 
   # Boston
   "9b6bfd56-3ecb-11ea-8017-02437075395e": "Boston South Station",
