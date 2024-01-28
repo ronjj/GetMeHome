@@ -21,16 +21,19 @@ struct TabBarView: View {
                 Text("Search")
             }
             
-                SavedTripsView()
-            
-           
+            SavedTripsView()
             .tabItem {
                     Image(systemName: "bookmark")
                     Text("Saved")
             }
             
-                ProfileView()
+            TrackedTripsView()
+            .tabItem {
+                Image(systemName: "bell")
+                Text("Tracking")
+            }
             
+            ProfileView()
             .tabItem {
                 Image(systemName: "person")
                 Text("Profile")
