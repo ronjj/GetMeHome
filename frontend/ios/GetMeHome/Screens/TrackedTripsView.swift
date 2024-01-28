@@ -11,6 +11,7 @@ struct TrackedTripsView: View {
     
     @State var presentAddTrackedTripSheet = false
     
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -146,9 +147,44 @@ struct TrackedTripRowView: View {
 }
 
 struct AddTrackedTripForm: View {
+    
+    @State var departureLocation: String = "Ithaca, NY"
+    @State var arrivalLocation: String = "NYC"
+    @State var date: Date = Date()
+    @State var price: Float = 0.0
+    @State var isLoading = false
+    
     var body: some View {
-        Form {
-            Text("Hello world")
+        VStack {
+            VStack(alignment: .center) {
+                Text("Add Tracked Trip")
+                    .font(.title)
+                    .fontWeight(.bold)
+            }
+            DateAndLocationPickerView(selectedDeparture: $departureLocation,
+                                      selectedArrival: $arrivalLocation,
+                                      selectedDate: $date,
+                                      isLoading: $isLoading)
+            HStack {
+                Text("Max Price")
+                Spacer()
+                Slider(value: $price, in: 1...400, step: 1.0)
+                Text("$\(price, specifier: "%.2f")")
+            }
+            
+            Button {
+//                  save to firebase
+            } label: {
+                Text("Save")
+            }
+            .tint(.purple)
+            .buttonStyle(.bordered)
+            .disabled(!arrivalLocation.isEmpty &&
+                      !departureLocation.isEmpty &&
+                      price != 0.0 ? false : true)
+            
+            Spacer()
         }
+        .padding()
     }
 }
