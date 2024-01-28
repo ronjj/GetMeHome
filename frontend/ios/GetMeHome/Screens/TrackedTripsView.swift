@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TrackedTripsView: View {
     
+    @State var presentAddTrackedTripSheet = false
     
     var body: some View {
         NavigationStack {
@@ -18,10 +19,25 @@ struct TrackedTripsView: View {
                     .fontWeight(.black)
             }
             List {
-                Text("hello world")
+                Section("Tracking") {
 //                ForEach(TrackedTripsView.trackedTrips, id: \.self) { trackedTrip in
 //                    SavedTripRowDesign(expired: <#T##Bool#>, savedTrip: <#T##SavedTrip#>, savedTripId: <#T##Binding<Int?>#>, showDeleteAlert: <#T##Binding<Bool>#>)
 //                }
+                }
+            }
+        }
+        .sheet(isPresented: $presentAddTrackedTripSheet) {
+                print("Sheet dismissed!")
+            } content: {
+                AddTrackedTripForm()
+            }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    presentAddTrackedTripSheet.toggle()
+                } label: {
+                    Image(systemName:"plus")
+                }
             }
         }
     }
@@ -125,6 +141,14 @@ struct TrackedTripRowView: View {
             TrackedTripsRowDesign(expired: false,
                                   trackedTrip: trackedTrip,
                                   showDeleteAlert: $showDeleteAlert)
+        }
+    }
+}
+
+struct AddTrackedTripForm: View {
+    var body: some View {
+        Form {
+            Text("Hello world")
         }
     }
 }
