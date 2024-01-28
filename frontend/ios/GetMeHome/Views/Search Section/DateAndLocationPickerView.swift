@@ -103,13 +103,8 @@ struct DateAndLocationPickerView: View {
             }
         }
         .onAppear {
-            viewModel.locationQueryMap.forEach({ location, code in
-                if location.contains("NY") || location.contains("SYR") {
-                    newYorkLocations.append(location)
-                } else {
-                    otherLocations.append(location)
-                }
-            })
+            newYorkLocations = viewModel.getLocationListSections().0
+            otherLocations = viewModel.getLocationListSections().1
         }
         .analyticsScreen(name: "DateAndLocationPickerView")
     }

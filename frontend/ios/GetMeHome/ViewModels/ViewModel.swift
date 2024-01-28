@@ -30,6 +30,22 @@ import SwiftUI
         Animation.easeOut
     }
     
+    func getLocationListSections() -> ([String],[String]) {
+        var newYorkStops = [String]()
+        var otherLocationStops = [String]()
+        
+        locationQueryMap.forEach { location, code in
+            if location.contains("NY") || location.contains("SYR") {
+                newYorkStops.append(location)
+            } else {
+                otherLocationStops.append(location)
+            }
+        }
+        return (newYorkStops, otherLocationStops)
+    }
+    
+
+    
     func calculateDateRange() -> Date {
         let currentDate = Date()
         var dateComponent = DateComponents()
