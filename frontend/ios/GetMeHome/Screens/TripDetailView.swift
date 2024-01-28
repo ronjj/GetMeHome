@@ -78,8 +78,6 @@ struct TripDetailView: View {
                 
                 CustomSection(sectionTitle: "Destination", sectionText:  Text("\(trip.arrivalLocation)"))
                 
-                CustomSection(sectionTitle: "Intermediate Stops", sectionText: Text("\(trip.intermediateCount)"))
-                
                 CustomSection(sectionTitle: "Bus Destinations", sectionListType: .tripLocations, trip: trip)
                 
                 if !discountCodes.isEmpty {

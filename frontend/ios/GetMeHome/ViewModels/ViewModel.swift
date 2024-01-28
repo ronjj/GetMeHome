@@ -16,19 +16,35 @@ import SwiftUI
                             "Ithaca, NY": "ithaca",
                             "Binghamton, NY": "binghamton",
                             "Rochester, NY": "rochester",
+                            "Albany, NY": "albany",
                             "Syracuse, NY": "syracuse",
                             "SYR Airport": "syr_airport",
                             "Newark, NJ":"newark",
                             "Philadelphia, PA": "philly",
                             "Baltimore, MD": "baltimore",
-                            "Boston, MA": "boston",
-                            "Albany, NY": "albany",]
+                            "Boston, MA": "boston",]
     
     let backupLinkMap = ["OurBus":"https://ourbus.com", "MegaBus":"https://us.megabus.com", "FlixBus":"https://flixbus.com"]
    
     var animation: Animation {
         Animation.easeOut
     }
+    
+    func getLocationListSections() -> ([String],[String]) {
+        var newYorkStops = [String]()
+        var otherLocationStops = [String]()
+        
+        locationQueryMap.forEach { location, code in
+            if location.contains("NY") || location.contains("SYR") {
+                newYorkStops.append(location)
+            } else {
+                otherLocationStops.append(location)
+            }
+        }
+        return (newYorkStops, otherLocationStops)
+    }
+    
+
     
     func calculateDateRange() -> Date {
         let currentDate = Date()
