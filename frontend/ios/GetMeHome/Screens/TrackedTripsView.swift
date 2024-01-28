@@ -154,13 +154,24 @@ struct AddTrackedTripForm: View {
     @State var price: Float = 0.0
     @State var isLoading = false
     
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         VStack {
-            VStack(alignment: .center) {
+            HStack {
+                Spacer()
                 Text("Add Tracked Trip")
                     .font(.title)
                     .fontWeight(.bold)
+                
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Close")
+                }
+                .padding(.horizontal)
             }
+           
             DateAndLocationPickerView(selectedDeparture: $departureLocation,
                                       selectedArrival: $arrivalLocation,
                                       selectedDate: $date,
