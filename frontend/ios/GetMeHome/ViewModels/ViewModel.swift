@@ -45,8 +45,6 @@ import SwiftUI
         return (newYorkStops, otherLocationStops)
     }
     
-
-    
     func calculateDateRange() -> Date {
         let currentDate = Date()
         var dateComponent = DateComponents()
