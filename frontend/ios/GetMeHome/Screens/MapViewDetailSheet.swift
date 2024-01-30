@@ -60,7 +60,7 @@ struct MapViewDetailSheet: View {
         .mapStyle(switchMapType ? .hybrid(elevation:.realistic) : .standard(elevation:.realistic))
         .overlay(alignment: .topLeading) {
             VStack (spacing: 2){
-                MapCompass(scope: mapScope)
+//                MapCompass(scope: mapScope)
                 closeButton
                 switchMapButton
 //                MapUserLocationButton(scope: mapScope)
