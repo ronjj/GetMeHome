@@ -536,9 +536,10 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
 
     else:
         for trip in trailways_info:
+            intermediate_stations = set()
+            non_stop = False
             trip_data_schedule_run = trip["scheduleRun"]
             if trip_data_schedule_run['soldOut'] == "false":
-
                 departure_location = trip_data_schedule_run['origin']['stationName']
                 departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']["latitude"],
                                                                longitude=trip_data_schedule_run['origin']["longitude"])
@@ -557,36 +558,51 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
                 departure_date = trip_data_schedule_run["travelDate"]
                 ticket_link = "https://ride-api.trailways.com/tickets/v2/schedule"
                 random_num = randrange(10000)
-
-
-
-
-    
-                  
+                price = trip['railgunFares']['Adult'][0]['fares'][1]['amount']
                 
-        #     newTrip = Trip(non_stop=non_stop,
-        #                        intermediate_stations=intermediate_stations_names, 
-        #                        intermediate_count=intermediate_count - 2,
-        #                        ticket_link=ticket_link,
-        #                        random_num=random_num,
-        #                         date=departure_date, 
-        #                         price=price, arr_time=arr_time_12h, 
-        #                         arr_location=arrival_city,
-        #                         dep_time=dep_time_12h, 
-        #                         dep_location=departure_city, 
-        #                         bus_serivce=bus_service,
-        #                         dep_location_coords=dep_coords,
-        #                         arr_location_coords=arrival_coords)
-        #         result.append(newTrip)
+
+                try:
+                    segments_info = trip['segments']
+                except:
+                    print("No segment data for trip")
+                    # empty cuz no intermediate stations
+                    intermediate_stations = []  
+                else:
+                    if len(segments_info) == 1:
+                        #  the only segment is the trip itself
+                        intermediate_stations = []
+                        non_stop = True
+                    for segment in segments_info:
+                        intermediate_stations.add(segment['departStop']['stationName'])
+                        intermediate_stations.add(segment['arriveStop']['stationName'])
+                        intermediate_stations = list(intermediate_stations)
+                        # TODO: Properly check for non stop trips in the future 
+                        non_stop = False
+
+
+
+            newTrip = Trip(non_stop=non_stop,
+                               intermediate_stations=intermediate_stations, 
+                               ticket_link=ticket_link,
+                               random_num=random_num,
+                                date=departure_date, 
+                                price=price, arr_time=arrival_time_12h, 
+                                arr_location=arrival_location,
+                                dep_time=departure_time_12h, 
+                                dep_location=departure_location, 
+                                bus_serivce=bus_service,
+                                dep_location_coords=departure_location_coords,
+                                arr_location_coords=arrival_location_coords)
+            result.append(newTrip)
             
-        # # Dont want to wrap in json if its in the get all function
-        # # Also don't want to sort it since it will be sorted again with the other services
-        # if all_or_single:
-        #     return trips_and_discount_response(trips=result, discount_code=discount_codes)
-        # else:
-        #     result.sort(key=lambda x: x.price)
-        #     trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
-        #     return jsonpickle.encode(trips_and_codes)
+        # Dont want to wrap in json if its in the get all function
+        # Also don't want to sort it since it will be sorted again with the other services
+    if all_or_single:
+        return trips_and_discount_response(trips=result, discount_code=discount_codes)
+    else:
+        result.sort(key=lambda x: x.price)
+        trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
+        return jsonpickle.encode(trips_and_codes)
 
 
 # All (OurBus, MegaBus, Flixbus)

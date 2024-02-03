@@ -33,11 +33,11 @@ OURBUS_LOCATION_IDS = {
 
 TRAILWAYS_LOCATION_IDS = {
     "new_york": "83be15f2-118b-45d9-839c-c92e841f10fd",
-    "newark": "a2c5828d-bb99-47f1-9704-d421061009ab",
+    "newark": "e6c2837b-3881-4224-880e-f15b0b996dcc",
 
 
     "83be15f2-118b-45d9-839c-c92e841f10fd": "New York (P.A.B.T.)",
-    "a2c5828d-bb99-47f1-9704-d421061009ab": "Newark",
+    "e6c2837b-3881-4224-880e-f15b0b996dcc": "Newark, NJ (Amtrak)",
 }
 
 TRAILWAYS_REQUEST_HEADERS = {
