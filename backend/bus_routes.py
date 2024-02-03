@@ -93,7 +93,7 @@ def format_date(search_date, bus_service):
     
     if bus_service == constants.FLIX_BUS:
         return f"{day}.{month}.{year}"
-    if bus_service == constants.MEGA_BUS:
+    if bus_service == constants.MEGA_BUS or bus_service == constants.TRAILWAYS:
         return f"{year}-{month}-{day}"
     if bus_service == constants.OUR_BUS:
         return f"{month}/{day}/{year}"
@@ -505,6 +505,89 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
             result.sort(key=lambda x: x.price)
             trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
             return jsonpickle.encode(trips_and_codes)
+
+# Trailways
+def get_trailways(date, dep_loc, arr_loc, all_or_single):
+    result = []
+    discount_codes = []
+
+    # Added for future routes where Flixbus is not supported
+    if dep_loc not in constants.TRAILWAYS_LOCATION_IDS.keys() or arr_loc not in constants.TRAILWAYS_LOCATION_IDS.keys():
+        print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Trailways")
+        return trips_and_discount_response(trips=[], discount_code=[])
+
+    proper_date = format_date(search_date=date, bus_service=constants.TRAILWAYS)
+    link = "https://ride-api.trailways.com/tickets/v2/schedule"
+    try:
+        trailways_request = requests.post(link, 
+                                         headers={
+                                            "Content-Type": "application/json",
+                                            "Cookie": "SESSION=MmE3OTA1MjktNGE3Yi00MTI2LThhNWQtZDFiMGU2ZTRiNWNl",
+                                            "tds-api-key": "04BAD10F-3AD2-49CD-A8FE-28CF8D2BA0AB"
+                                        },
+                                         json={"departDate":proper_date,"destination":{"stopUuid":constants.TRAILWAYS_LOCATION_IDS[arr_loc]},"origin":{"stopUuid":constants.TRAILWAYS_LOCATION_IDS[dep_loc]},"isReturn": False,"passengerCounts":{"Adult":1,"Child":0,"Military":0,"Senior":0,"Student":0},"purchaseType":"SCHEDULE_BOOK"})
+        trailways_response = json.loads(trailways_request.text)
+        trailways_info = trailways_response['scheduleProducts']
+        
+
+    except Exception as e:
+        print(f"Exception {e} in getting Trailways Trips")
+        return trips_and_discount_response(trips=[], discount_code=[])
+
+    else:
+        for trip in trailways_info:
+            trip_data_schedule_run = trip["scheduleRun"]
+            if trip_data_schedule_run['soldOut'] == "false":
+
+                departure_location = trip_data_schedule_run['origin']['stationName']
+                departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']["latitude"],
+                                                               longitude=trip_data_schedule_run['origin']["longitude"])
+                departure_time = trip_data_schedule_run['departTime']
+                departure_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+                departure_time_12h = departure_time_12h.strftime("%I:%M %p")
+                
+                arrival_location =  trip_data_schedule_run['destination']['stationName']
+                arrival_location_coords = create_coordinates(longitude=trip_data_schedule_run['destination']["longitude"],
+                                                             latitude=trip_data_schedule_run['destination']["latitude"])
+                arrival_time = trip_data_schedule_run['arriveTime']
+                arrival_time_12h = datetime.strptime(arrival_time, "%H:%M:%S")
+                arrival_time_12h = arrival_time.strftime("%I:%M %p")
+
+                bus_service = "Trailways"
+                departure_date = trip_data_schedule_run["travelDate"]
+                ticket_link = "https://ride-api.trailways.com/tickets/v2/schedule"
+                random_num = randrange(10000)
+
+
+
+
+    
+                  
+                
+        #     newTrip = Trip(non_stop=non_stop,
+        #                        intermediate_stations=intermediate_stations_names, 
+        #                        intermediate_count=intermediate_count - 2,
+        #                        ticket_link=ticket_link,
+        #                        random_num=random_num,
+        #                         date=departure_date, 
+        #                         price=price, arr_time=arr_time_12h, 
+        #                         arr_location=arrival_city,
+        #                         dep_time=dep_time_12h, 
+        #                         dep_location=departure_city, 
+        #                         bus_serivce=bus_service,
+        #                         dep_location_coords=dep_coords,
+        #                         arr_location_coords=arrival_coords)
+        #         result.append(newTrip)
+            
+        # # Dont want to wrap in json if its in the get all function
+        # # Also don't want to sort it since it will be sorted again with the other services
+        # if all_or_single:
+        #     return trips_and_discount_response(trips=result, discount_code=discount_codes)
+        # else:
+        #     result.sort(key=lambda x: x.price)
+        #     trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
+        #     return jsonpickle.encode(trips_and_codes)
+
 
 # All (OurBus, MegaBus, Flixbus)
 def get_all(date, dep_loc, arr_loc):

@@ -1,6 +1,6 @@
 
 # Bus Services
-VALID_BUS_SERVICES = ["all", "flix", "mega", "our"]
+VALID_BUS_SERVICES = ["all", "flix", "mega", "our", "trailways"]
 OUR_BUS = "our"
 OUR_BUS_FULL = "OurBus"
 MEGA_BUS = "mega"
@@ -8,6 +8,8 @@ MEGA_BUS_FULL = "MegaBus"
 FLIX_BUS = "flix"
 FLIX_BUS_FULL = "FlixBus"
 ALL_BUSES = "all"
+TRAILWAYS = "trailways"
+TRAILWAYS_FULL = "Trailways"
 
 # Request Codes
 INVALID_REQUEST = 400
@@ -27,6 +29,21 @@ OURBUS_LOCATION_IDS = {
   "boston": "Boston%2C%20MA&",
   "albany": "Albany%2C%20NY",
   "buffalo": "Buffalo%2C%20NY",
+}
+
+TRAILWAYS_LOCATION_IDS = {
+    "new_york": "83be15f2-118b-45d9-839c-c92e841f10fd",
+    "newark": "a2c5828d-bb99-47f1-9704-d421061009ab",
+
+
+    "83be15f2-118b-45d9-839c-c92e841f10fd": "New York (P.A.B.T.)",
+    "a2c5828d-bb99-47f1-9704-d421061009ab": "Newark",
+}
+
+TRAILWAYS_REQUEST_HEADERS = {
+    "Content-Type": "application/json",
+    "Cookie": "SESSION=MmE3OTA1MjktNGE3Yi00MTI2LThhNWQtZDFiMGU2ZTRiNWNl",
+    "tds-api-key": "04BAD10F-3AD2-49CD-A8FE-28CF8D2BA0AB"
 }
 
 MEGA_LOCATION_IDS = {

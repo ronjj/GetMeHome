@@ -34,6 +34,8 @@ def get_trips(bus_service, date, origin, destination):
                 trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
             if bus_service == constants.FLIX_BUS:
                 trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+            if bus_service == constants.TRAILWAYS:
+                trips = bus_routes.get_trailways(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
         except exceptions.IncorrectDateFormatException:
             return error_message("Date formatting incorrect. Format is MM-DD-YYYY", constants.INVALID_REQUEST)
         except exceptions.PastDateException:
