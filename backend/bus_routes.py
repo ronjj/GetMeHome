@@ -538,24 +538,38 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
         for trip in trailways_info:
             intermediate_stations = []
             non_stop = False
+            departure_location_coords = {"longitude": 0.0, "latitude": 0.0}
+            arrival_location_coords = {"longitude": 0.0, "latitude": 0.0}
             trip_data_schedule_run = trip["scheduleRun"]
 
             departure_location = trip_data_schedule_run['origin']['stationName']
             try:
-                departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']['latitude'],
-                                                               longitude=trip_data_schedule_run['origin']['longitude'])
+                # departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']['latitude'],
+                                                            #    longitude=trip_data_schedule_run['origin']['longitude'])
+                dep_long = trip_data_schedule_run['origin']['longitude']
+                dep_lat = trip_data_schedule_run['origin']['latitude']
             except:
                 print("no dep coords for this trip")
+            else:
+                departure_location_coords = {
+                    "latitude": dep_lat,
+                    "longitude": dep_long
+                }
             departure_time = trip_data_schedule_run['departTime']
             departure_time_strip = datetime.strptime(departure_time, '%Y-%m-%dT%H:%M:%S%z')
             departure_time_12h = departure_time_strip.strftime("%I:%M %p")
             
             try:
                 arrival_location =  trip_data_schedule_run['destination']['stationName']
-                arrival_location_coords = create_coordinates(longitude=trip_data_schedule_run['destination']['longitude'],
-                                                             latitude=trip_data_schedule_run['destination']['latitude'])
+                arr_long = trip_data_schedule_run['destination']['longitude']
+                arr_lat = trip_data_schedule_run['destination']['latitude']
             except:
                 print("no arrival coords")
+            else:
+                arrival_location_coords = {
+                    "latitude": arr_lat,
+                    "longitude": arr_long
+                }
 
             arrival_time = trip_data_schedule_run['arriveTime']
             arrival_time_strip = datetime.strptime(arrival_time, '%Y-%m-%dT%H:%M:%S%z')
@@ -586,7 +600,6 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
                     intermediate_stations.append(segment['arriveStop']['stationName'])
                     # TODO: Properly check for non stop trips in the future 
                     non_stop = False
-            print("make new trip")
             newTrip = Trip(non_stop=non_stop,
                             intermediate_stations=intermediate_stations, 
                             ticket_link=ticket_link,
@@ -599,7 +612,7 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
                                 bus_serivce=bus_service,
                                 dep_location_coords=departure_location_coords,
                                 arr_location_coords=arrival_location_coords)
-            print("append new trip")
+
 
 
             result.append(newTrip)
