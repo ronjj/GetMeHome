@@ -7,6 +7,7 @@ from datetime import datetime
 from random import randrange
 import exceptions
 import constants
+from dateutil.parser import parse
 
 """
 Bus Routes:
@@ -539,52 +540,53 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
             intermediate_stations = set()
             non_stop = False
             trip_data_schedule_run = trip["scheduleRun"]
-            if trip_data_schedule_run['soldOut'] == "false":
-                departure_location = trip_data_schedule_run['origin']['stationName']
-                departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']["latitude"],
-                                                               longitude=trip_data_schedule_run['origin']["longitude"])
-                departure_time = trip_data_schedule_run['departTime']
-                departure_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-                departure_time_12h = departure_time_12h.strftime("%I:%M %p")
-                
-                arrival_location =  trip_data_schedule_run['destination']['stationName']
-                arrival_location_coords = create_coordinates(longitude=trip_data_schedule_run['destination']["longitude"],
-                                                             latitude=trip_data_schedule_run['destination']["latitude"])
-                arrival_time = trip_data_schedule_run['arriveTime']
-                arrival_time_12h = datetime.strptime(arrival_time, "%H:%M:%S")
-                arrival_time_12h = arrival_time.strftime("%I:%M %p")
 
-                bus_service = "Trailways"
-                departure_date = trip_data_schedule_run["travelDate"]
-                ticket_link = "https://ride-api.trailways.com/tickets/v2/schedule"
-                random_num = randrange(10000)
-                price = trip['railgunFares']['Adult'][0]['fares'][1]['amount']
-                
+            departure_location = trip_data_schedule_run['origin']['stationName']
+            departure_location_coords = create_coordinates(latitude=trip_data_schedule_run['origin']["latitude"],
+                                                            longitude=trip_data_schedule_run['origin']["longitude"])
+            departure_time = trip_data_schedule_run['departTime']
+            # departure_time_12h = datetime.strptime(departure_time, '%Y-%m-%d%H:%M:%S%Z')
+            departure_time_12h = datetime.datetime.fromisoformat(departure_time)
+            print(departure_time_12h)
+            departure_time_12h = departure_time_12h.strftime("%I:%M %p")
+            
+            arrival_location =  trip_data_schedule_run['destination']['stationName']
+            arrival_location_coords = create_coordinates(longitude=trip_data_schedule_run['destination']["longitude"],
+                                                            latitude=trip_data_schedule_run['destination']["latitude"])
+            arrival_time = trip_data_schedule_run['arriveTime']
+            arrival_time_12h = datetime.strptime(arrival_time, '%Y-%m-%d%H:%M:%S%Z')
+            arrival_time_12h = arrival_time.strftime("%I:%M %p")
 
-                try:
-                    segments_info = trip['segments']
-                except:
-                    print("No segment data for trip")
-                    # empty cuz no intermediate stations
-                    intermediate_stations = []  
-                else:
-                    if len(segments_info) == 1:
-                        #  the only segment is the trip itself
-                        intermediate_stations = []
-                        non_stop = True
-                    for segment in segments_info:
-                        intermediate_stations.add(segment['departStop']['stationName'])
-                        intermediate_stations.add(segment['arriveStop']['stationName'])
-                        intermediate_stations = list(intermediate_stations)
-                        # TODO: Properly check for non stop trips in the future 
-                        non_stop = False
+            bus_service = "Trailways"
+            departure_date = trip_data_schedule_run["travelDate"]
+            ticket_link = "https://ride-api.trailways.com/tickets/v2/schedule"
+            random_num = randrange(10000)
+            price = trip['railgunFares']['Adult'][0]['fares'][1]['amount']
+            
+            try:
+                segments_info = trip['segments']
+            except:
+                print("No segment data for trip")
+                # empty cuz no intermediate stations
+                intermediate_stations = []  
+            else:
+                if len(segments_info) == 1:
+                    #  the only segment is the trip itself
+                    intermediate_stations = []
+                    non_stop = True
+                for segment in segments_info:
+                    intermediate_stations.add(segment['departStop']['stationName'])
+                    intermediate_stations.add(segment['arriveStop']['stationName'])
+                    intermediate_stations = list(intermediate_stations)
+                    # TODO: Properly check for non stop trips in the future 
+                    non_stop = False
 
 
-
+            print(bus_service)
             newTrip = Trip(non_stop=non_stop,
-                               intermediate_stations=intermediate_stations, 
-                               ticket_link=ticket_link,
-                               random_num=random_num,
+                            intermediate_stations=intermediate_stations, 
+                            ticket_link=ticket_link,
+                            random_num=random_num,
                                 date=departure_date, 
                                 price=price, arr_time=arrival_time_12h, 
                                 arr_location=arrival_location,
@@ -593,6 +595,7 @@ def get_trailways(date, dep_loc, arr_loc, all_or_single):
                                 bus_serivce=bus_service,
                                 dep_location_coords=departure_location_coords,
                                 arr_location_coords=arrival_location_coords)
+
             result.append(newTrip)
             
         # Dont want to wrap in json if its in the get all function
