@@ -16,7 +16,7 @@ struct SavedTripsFilterMenu: View {
     @State var selectedValue: String? = nil
     
     var body: some View {
-        Menu(selectedValue != nil ? "Sort - \(selectedValue!)" : "Sort") {
+        Menu(selectedValue != nil ? "\(selectedValue!)" : "Sort") {
             Button("Price Ascending") {
                 sortingBy = "price"
                 isAscending = true

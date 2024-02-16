@@ -30,19 +30,24 @@ struct FilteredSavedTripsList: View {
                 .font(.title)
                 .fontWeight(.black)
            
-            SavedTripsFilterMenu(sortingBy: $sortingBy,
-                                 isAscending: $isAscendingBinding,
-                                 isSorting: $isSortingBinding,
-                                 busService: $busServiceBinding)
-            
-            Button {
-                savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
-                DataContrller().save(context: managedObjectContext)
-                print("removed all expired trips")
-            } label: {
-                Text("Remove Expired Trips")
+            HStack {
+                SavedTripsFilterMenu(sortingBy: $sortingBy,
+                                     isAscending: $isAscendingBinding,
+                                     isSorting: $isSortingBinding,
+                                     busService: $busServiceBinding)
+                
+                Button {
+                    savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
+                    DataContrller().save(context: managedObjectContext)
+                    print("removed all expired trips")
+                } label: {
+                    Text("Remove Expired")
+                }
+                .buttonStyle(.bordered)
+                .tint(.purple)
             }
-            
+            .padding(.horizontal)
+          
             if savedTrips.isEmpty {
                 ContentUnavailableView("No Saved Trips",
                                        systemImage: "bus.fill",
