@@ -29,6 +29,7 @@ struct SavedTripRowView: View {
     }
 }
 
+
 struct SavedTripRowDesign: View {
     var expired: Bool
     var savedTrip: SavedTrip
@@ -43,12 +44,14 @@ struct SavedTripRowDesign: View {
                 Button {
                     savedTripId = Int(Int16(savedTrip.id))
                     showDeleteAlert = true
+                    AnalyticsManager.shared.logEvent(name: "SavedTripRowView_XButtonClicked")
                 } label: {
                     Image(systemName: "x.circle")
                 }
                 .tint(.red)
                 .buttonStyle(.bordered)
             }
+
            
             if let savedTripDate = savedTrip.date {
                 VStack(alignment: .leading) {

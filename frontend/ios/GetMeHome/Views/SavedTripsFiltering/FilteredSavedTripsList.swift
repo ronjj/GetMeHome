@@ -22,6 +22,7 @@ struct FilteredSavedTripsList: View {
     
     @State private var showingDeleteAlert = false
     @State private var selectedSavedTripId: Int?
+    @State private var showingRemovedExpired = false
 
     
     var body: some View {
@@ -37,8 +38,10 @@ struct FilteredSavedTripsList: View {
                                      busService: $busServiceBinding)
                 
                 Button {
+                    AnalyticsManager.shared.logEvent(name: "FilteredSavedTripsList_RemoveExpiredClicked")
                     savedTrips.filter { $0.date ?? "" < viewModel.convertDateToString(date: Date()) }.forEach(managedObjectContext.delete)
                     DataContrller().save(context: managedObjectContext)
+                    showingRemovedExpired = true
                     print("removed all expired trips")
                 } label: {
                     Text("Remove Expired")
@@ -71,6 +74,9 @@ struct FilteredSavedTripsList: View {
                     
                 }
             }
+        }
+        .alert("Removed Expired Trips", isPresented: $showingRemovedExpired) {
+            Button("Ok", role: .cancel) {}
         }
         .alert("Delete Saved Trip?", isPresented: $showingDeleteAlert) {
             Button("Yes", role: .destructive) {
