@@ -31,6 +31,13 @@ struct BusLabel: View {
             }
             .buttonStyle(.bordered)
             .tint(.yellow)
+        case "expired":
+            Button {} label: {
+                Image(systemName: "exclamationmark.triangle")
+                Text("Expired")
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
 
         default:
             Text("No Bus Service")

@@ -23,14 +23,6 @@ struct SavedTripsView: View {
                                    isAscendingBinding: $isAscending,
                                    isSortingBinding: $isSorting,
                                    busServiceBinding: $busService)
-            
-        
-//            SavedTripsFilterMenu(sortingBy: $sortingBy,
-//                                 isAscending: $isAscending,
-//                                 isSorting: $isSorting,
-//                                 busService: $busService)
-                
-            
         
         .analyticsScreen(name: "SavedTripsView")
         .onAppear {

@@ -48,6 +48,12 @@ import SwiftUI
            return date
    }
     
+    func convertDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
+    }
+    
     func convertForQuery(value string: String) -> String {
         let queryMap = ["All": "all", "OurBus":"our", "MegaBus":"mega", "FlixBus":"flix"]
         return queryMap[string] ?? "all"

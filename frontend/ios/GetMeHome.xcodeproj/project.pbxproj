@@ -20,6 +20,7 @@
 		543928852B10EDD200C5E609 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928842B10EDD200C5E609 /* Trip.swift */; };
 		543928872B1100B100C5E609 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928862B1100B100C5E609 /* TripDetailView.swift */; };
 		543928892B11199B00C5E609 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928882B11199B00C5E609 /* MockData.swift */; };
+		543C59302B56EED700636520 /* SavedTripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C592F2B56EED700636520 /* SavedTripRowView.swift */; };
 		546F4DE52B54353D0091F0D4 /* OfflineTrips.json in Resources */ = {isa = PBXBuildFile; fileRef = 546F4DE42B54353D0091F0D4 /* OfflineTrips.json */; };
 		546F4DEA2B5481AE0091F0D4 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F4DE92B5481AE0091F0D4 /* AnalyticsManager.swift */; };
 		547AB00F2B0FE14400F7C539 /* GetMeHomeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547AB00E2B0FE14400F7C539 /* GetMeHomeApp.swift */; };
@@ -69,6 +70,7 @@
 		543928842B10EDD200C5E609 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		543928862B1100B100C5E609 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
 		543928882B11199B00C5E609 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		543C592F2B56EED700636520 /* SavedTripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTripRowView.swift; sourceTree = "<group>"; };
 		546F4DE42B54353D0091F0D4 /* OfflineTrips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = OfflineTrips.json; path = ../../../../OfflineTrips.json; sourceTree = "<group>"; };
 		546F4DE92B5481AE0091F0D4 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		547AB00B2B0FE14400F7C539 /* GetMeHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetMeHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,6 +231,7 @@
 			children = (
 				548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */,
 				548A426A2B560AB8001E2A77 /* SavedTripsFilterMenu.swift */,
+				543C592F2B56EED700636520 /* SavedTripRowView.swift */,
 			);
 			path = SavedTripsFiltering;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				543928852B10EDD200C5E609 /* Trip.swift in Sources */,
 				543928832B10EDA400C5E609 /* TripRowView.swift in Sources */,
 				540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */,
+				543C59302B56EED700636520 /* SavedTripRowView.swift in Sources */,
 				54A2E9D72B52D37200166062 /* Bundle+Extension.swift in Sources */,
 				546F4DEA2B5481AE0091F0D4 /* AnalyticsManager.swift in Sources */,
 				54A2E9E02B52DF6800166062 /* MailView.swift in Sources */,
