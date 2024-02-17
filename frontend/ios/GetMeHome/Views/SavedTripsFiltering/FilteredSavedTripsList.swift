@@ -43,7 +43,9 @@ struct FilteredSavedTripsList: View {
             } else {
                 List {
                     ForEach(savedTrips) { savedTrip in
-                        SavedTripRowView(savedTrip: savedTrip)
+                        SavedTripRowView(savedTrip: savedTrip,
+                                         savedTripId: $selectedSavedTripId,
+                                         showDeleteAlert: $showingDeleteAlert)
                         .onTapGesture {
                             showingDeleteAlert = true
                             selectedSavedTripId = Int(savedTrip.id)
