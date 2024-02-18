@@ -11,11 +11,11 @@ struct SavedTripRowView: View {
     
     var savedTrip: SavedTrip
     var viewModel = ViewModel()
+
     
     var body: some View {
         if savedTrip.date ?? "" < viewModel.convertDateToString(date: Date()) {
             VStack(alignment: .leading) {
-                Divider()
                 Text("$\(savedTrip.price, specifier: "%.2f")")
                     .fontWeight(.bold)
                 HStack {

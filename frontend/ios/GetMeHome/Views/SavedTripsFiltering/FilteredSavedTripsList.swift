@@ -10,8 +10,7 @@ import SwiftUI
 struct FilteredSavedTripsList: View {
     
     @FetchRequest(sortDescriptors: []) var savedTrips: FetchedResults<SavedTrip>
-    @State private var showingDeleteAlert = false
-    @State private var selectedSavedTripId: Int?
+
     @State private var savedTripsList = [SavedTrip]()
     @Environment (\.managedObjectContext) var managedObjectContext
     var viewModel = ViewModel()
@@ -20,6 +19,9 @@ struct FilteredSavedTripsList: View {
     @Binding var isAscendingBinding: Bool
     @Binding var isSortingBinding: Bool
     @Binding var busServiceBinding: String
+    
+    @State private var showingDeleteAlert = false
+    @State private var selectedSavedTripId: Int?
     
     var body: some View {
         VStack {
