@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import os
 import bus_routes
 import json
@@ -43,6 +43,11 @@ def get_trips(bus_service, date, origin, destination):
         else:
             return trips
 
+@app.route('/buy_ticket', methods=["POST"])
+def buy_ticket():
+   data = request.get_data()
+   return f"data is {data}"
+   
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
