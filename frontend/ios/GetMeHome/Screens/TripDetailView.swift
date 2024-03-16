@@ -17,6 +17,7 @@ struct TripDetailView: View {
     
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
+
     
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
@@ -94,7 +95,17 @@ struct TripDetailView: View {
 //                        .tint(.indigo)
 //                        .frame(maxWidth: .infinity)
                     Button {
-                        paymentsViewModel.makePayment()
+                        paymentsViewModel.makePayment(date: trip.date,
+                                                      price: String(trip.price),
+                                                      dep: trip.departureLocation,
+                                                      depTime: trip.departureTime,
+                                                      dest: trip.arrivalLocation,
+                                                      destTime: trip.arrivalTime,
+                                                      bus: trip.busService,
+                                                      name: "Ronald Jabouin",
+                                                      email: "ronaldjabouin2004@gmail.com",
+                                                      commission: String(trip.price * 0.05),
+                                                      ticketLink: trip.ticketLink)
                     } label: {
                         Text("Send Post request")
                     }
@@ -121,6 +132,7 @@ struct TripDetailView: View {
             let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
             location = MapCameraPosition.region(coordinates)
             AnalyticsManager.shared.logEvent(name: "TripDetailView_Appear")
+            
         })
         .listStyle(.plain)
     }

@@ -10,7 +10,7 @@ import SwiftUI
 
 @Observable class PaymentsViewModel {
     
-    func makePayment() {
+    func makePayment(date: String, price: String, dep: String, depTime: String, dest: String, destTime: String, bus: String, name: String, email: String,  commission: String, ticketLink: String) {
         guard let url = URL(string: "http://127.0.0.1:5000/buy_ticket") else { return }
         
         print("making payment request")
@@ -20,15 +20,17 @@ import SwiftUI
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let body: [String: AnyHashable] = [
-            "name": "Ronald",
-            "email": "roaldjabouin2004@gmail.com",
-            "bus_service": "OurBus",
-            "date": "4/20/2024",
-            "origin": "Ithaca",
-            "destination": "New York",
-            "ticket_price": "55.0",
-            "commission": "4.0",
-            "link_to_buy": "https://www.google.com"
+            "name": name,
+            "email": email,
+            "bus_service": bus,
+            "date": date,
+            "dep": dep,
+            "dep_time": depTime,
+            "destination": dest,
+            "destination_time": destTime,
+            "ticket_price": price,
+            "commission": commission,
+            "link_to_buy": ticketLink
             
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
