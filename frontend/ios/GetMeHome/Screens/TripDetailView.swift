@@ -13,6 +13,7 @@ struct TripDetailView: View {
     var trip: Trip
     var discountCodes: [Discount]
     var viewModel = ViewModel()
+    var paymentsViewModel = PaymentsViewModel()
     
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
@@ -87,11 +88,17 @@ struct TripDetailView: View {
                 CustomSection(sectionTitle: "Bus Service", sectionText: Text("\(trip.busService)"))
                 
                 HStack {
-                    Link("Buy on \(trip.busService) Website", 
-                         destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-                        .buttonStyle(.bordered)
-                        .tint(.indigo)
-                        .frame(maxWidth: .infinity)
+//                    Link("Buy on \(trip.busService) Website", 
+//                         destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
+//                        .buttonStyle(.bordered)
+//                        .tint(.indigo)
+//                        .frame(maxWidth: .infinity)
+                    Button {
+                        paymentsViewModel.makePayment()
+                    } label: {
+                        Text("Send Post request")
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
             }
             .padding()

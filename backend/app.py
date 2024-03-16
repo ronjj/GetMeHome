@@ -60,6 +60,7 @@ def buy_ticket():
         commission = data['commission']
         link_to_buy = data['link_to_buy']
 
+        print(f"Received Request: {data}")
         return f"successfully recieved {data}"
     
 # Run Server
