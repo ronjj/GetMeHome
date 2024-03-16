@@ -109,7 +109,9 @@ struct TripDetailView: View {
                     } label: {
                         Text("Send Post request")
                     }
-                    .buttonStyle(.borderedProminent)
+                        .buttonStyle(.bordered)
+                        .tint(.indigo)
+                        .frame(maxWidth: .infinity)
                 }
             }
             .padding()
