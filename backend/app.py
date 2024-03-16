@@ -45,9 +45,23 @@ def get_trips(bus_service, date, origin, destination):
 
 @app.route('/buy_ticket', methods=["POST"])
 def buy_ticket():
-   data = request.get_data()
-   return f"data is {data}"
-   
+    try:
+        data = request.json
+    except:
+        return error_message("POST Request should contain valid JSON", constants.INVALID_REQUEST)
+    else:
+        name = data['name']
+        email = data['email']
+        bus_service = data['bus_service']
+        date = data['date']
+        origin = data['origin']
+        destination = data['destination']
+        ticket_price = data['ticket_price']
+        commission = data['commission']
+        link_to_buy = data['link_to_buy']
+
+        return f"successfully recieved {data}"
+    
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
