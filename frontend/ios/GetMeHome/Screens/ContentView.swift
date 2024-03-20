@@ -89,14 +89,14 @@ struct ContentView: View {
                              maxPriceToggle: $maxPriceToggle, 
                              presentFilterSheet: $presentFilterSheet)
                 
-                FilterRowView(
-                    maxPriceSelected: $maxPriceToggle,
-                    minDepartureTimeSelected: $earliestDepartureTimeToggle,
-                    latestArrivalTimeSelected: $latestArrivalTimeToggle,
-                    chooseBusServiceSelected: $selectServiceToggle,
-                    includeTransfersSelected: $removeTransfersToggle, 
-                    isLoading: $isLoading)
-                .padding(.top)
+//                FilterRowView(
+//                    maxPriceSelected: $maxPriceToggle,
+//                    minDepartureTimeSelected: $earliestDepartureTimeToggle,
+//                    latestArrivalTimeSelected: $latestArrivalTimeToggle,
+//                    chooseBusServiceSelected: $selectServiceToggle,
+//                    includeTransfersSelected: $removeTransfersToggle, 
+//                    isLoading: $isLoading)
+//                .padding(.top)
                 
                 if earliestDepartureTimeToggle {
                     DatePicker("Earliest Departure Time",
@@ -140,7 +140,8 @@ struct ContentView: View {
             .sheet(isPresented: $presentFilterSheet) {
                               print("Sheet dismissed!")
                           } content: {
-                              FilterScreen()
+                              FilterScreen(isLoading: $isLoading,
+                                           earliestDepartureTimeLocal: $earliestDepartureTimeLocal, depTimeFilter: $earliestDepartureTimeToggle)
                           }
             .alert(isPresented: $requestFailedAlert) {
                 Alert(title: Text("Search Error"),

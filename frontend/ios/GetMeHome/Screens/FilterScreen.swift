@@ -9,6 +9,9 @@ import SwiftUI
 
 struct FilterScreen: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding var isLoading: Bool
+    @Binding var earliestDepartureTimeLocal: Date?
+    @Binding var depTimeFilter: Bool
 
     var body: some View {
         VStack {
@@ -27,9 +30,25 @@ struct FilterScreen: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Section("Departure Time") {
-                Text("change dep time")
+            VStack{
+                HStack{
+                    Button {
+                        depTimeFilter.toggle()
+                    } label: {
+                        Image(systemName: depTimeFilter ? "checkmark.circle.fill" : "circle")
+                    }
+                    Text("Earliest Departure Time")
+                }
+                DatePicker("Earliest Departure Time",
+                           //                               Need complicated binding so I can make earliestDeparture nil
+                           selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
+                           displayedComponents: .hourAndMinute)
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
+            
             }
+             
             
             Spacer()
         }
