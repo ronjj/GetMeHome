@@ -14,6 +14,10 @@ struct FilterScreen: View {
     @Binding var depTimeFilter: Bool
     @Binding var maxPriceToggle: Bool
     @Binding var maxPriceLocal: Double
+    @Binding var selectedServiceLocal: String
+    @Binding var selectServiceToggle: Bool
+    
+    var viewModel = ViewModel()
     
     var body: some View {
         VStack {
@@ -79,6 +83,33 @@ struct FilterScreen: View {
                 .opacity(isLoading ? 0.25 : 1.0)
                 .opacity(!maxPriceToggle ? 0.25 : 1.0)
                 .labelsHidden()
+            }
+            .padding(.horizontal)
+            
+//            Select Bus
+            HStack{
+                Button {
+                    selectServiceToggle.toggle()
+                } label: {
+                    Image(systemName: selectServiceToggle ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                }
+                .tint(.purple)
+                
+                VStack (alignment: .leading){
+                    Text("Choose A Bus Service")
+                    Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
+                        ForEach(viewModel.services, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.palette)
+                    .disabled(isLoading ? true : false)
+                    .disabled(!selectServiceToggle ? true : false)
+                    .opacity(isLoading ? 0.25 : 1.0)
+                    .opacity(!selectServiceToggle ? 0.4 : 1.0)
+                }
+                
             }
             
             .padding(.horizontal)

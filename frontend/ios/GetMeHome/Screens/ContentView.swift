@@ -145,7 +145,9 @@ struct ContentView: View {
                          earliestDepartureTimeLocal: $earliestDepartureTimeLocal,
                          depTimeFilter: $earliestDepartureTimeToggle,
                          maxPriceToggle: $maxPriceToggle,
-                         maxPriceLocal: $maxPriceLocal)
+                         maxPriceLocal: $maxPriceLocal,
+                            selectedServiceLocal: $selectedServiceLocal,
+                        selectServiceToggle: $selectServiceToggle)
             
         }
         .alert(isPresented: $requestFailedAlert) {
