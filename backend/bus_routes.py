@@ -8,6 +8,7 @@ from random import randrange
 import exceptions
 import constants
 import asyncio
+import time
 
 """
 Bus Routes:
@@ -509,6 +510,7 @@ async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 
 # All (OurBus, MegaBus, Flixbus)
 async def get_all(date, dep_loc, arr_loc):
+    start = time.time()
     our_bus_task = asyncio.create_task(get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
     mega_bus_task = asyncio.create_task(get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
     flix_bus_task = asyncio.create_task(get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
@@ -533,4 +535,6 @@ async def get_all(date, dep_loc, arr_loc):
         print(f"Cheapest Trip: {trips[0]}")
         
         trips_and_codes = trips_and_discount_response(trips=trips, discount_code=discount_codes)
+        end = time.time()
+        print(f"Time to get all trips: {end - start}")
         return jsonpickle.encode(trips_and_codes)
