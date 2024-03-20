@@ -16,6 +16,7 @@
 		5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA472B537803002C9000 /* SplashScreenView.swift */; };
 		5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410BA492B537A58002C9000 /* Colors+Extension.swift */; };
 		5410CA2E2B4EF2D400828BCB /* CustomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5410CA2D2B4EF2D400828BCB /* CustomSection.swift */; };
+		543507F12BAB273B002A230D /* FilterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543507F02BAB273B002A230D /* FilterScreen.swift */; };
 		543928832B10EDA400C5E609 /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928822B10EDA400C5E609 /* TripRowView.swift */; };
 		543928852B10EDD200C5E609 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928842B10EDD200C5E609 /* Trip.swift */; };
 		543928872B1100B100C5E609 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543928862B1100B100C5E609 /* TripDetailView.swift */; };
@@ -76,6 +77,7 @@
 		5410BA472B537803002C9000 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		5410BA492B537A58002C9000 /* Colors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Extension.swift"; sourceTree = "<group>"; };
 		5410CA2D2B4EF2D400828BCB /* CustomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSection.swift; sourceTree = "<group>"; };
+		543507F02BAB273B002A230D /* FilterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScreen.swift; sourceTree = "<group>"; };
 		543928822B10EDA400C5E609 /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
 		543928842B10EDD200C5E609 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		543928862B1100B100C5E609 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				5410BA472B537803002C9000 /* SplashScreenView.swift */,
 				540FF2F52B55AABC000372CD /* SavedTripsView.swift */,
 				54B5667C2B63474D00483C67 /* TrackedTripsView.swift */,
+				543507F02BAB273B002A230D /* FilterScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
 				54B5667D2B63474D00483C67 /* TrackedTripsView.swift in Sources */,
 				547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */,
+				543507F12BAB273B002A230D /* FilterScreen.swift in Sources */,
 				540FF2F22B55A5A3000372CD /* SavedTripModel.xcdatamodeld in Sources */,
 				540581372B3F5EF60068B6F0 /* BusLabel.swift in Sources */,
 			);

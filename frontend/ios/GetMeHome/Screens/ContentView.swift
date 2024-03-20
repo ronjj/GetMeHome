@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var isLoading = false
     
     //    Filtering
+    @State private var presentFilterSheet = false
     @State private var earliestDepartureTimeLocal: Date? = nil
     @State private var earliestDepartureTimeToggle = false
     @State private var latestArrivalTimeLocal: Date? = nil
@@ -85,7 +86,8 @@ struct ContentView: View {
                              clickedSearch: $clickedSearch, 
                              switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked, 
                              showSearchError: $requestFailedAlert,
-                             maxPriceToggle: $maxPriceToggle)
+                             maxPriceToggle: $maxPriceToggle, 
+                             presentFilterSheet: $presentFilterSheet)
                 
                 FilterRowView(
                     maxPriceSelected: $maxPriceToggle,
@@ -135,6 +137,11 @@ struct ContentView: View {
                     .tint(.purple)
                 }
             }
+            .sheet(isPresented: $presentFilterSheet) {
+                              print("Sheet dismissed!")
+                          } content: {
+                              FilterScreen()
+                          }
             .alert(isPresented: $requestFailedAlert) {
                 Alert(title: Text("Search Error"),
                       message: Text("There was an error searching for trips. Try again later."),
@@ -183,6 +190,7 @@ struct ContentView: View {
             } else {
                 TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
             }
+        
     }
 }
 
