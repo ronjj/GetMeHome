@@ -97,5 +97,6 @@ extension TripListView {
             Text("Select A Date, Departure Location, and Destination")
                 .multilineTextAlignment(.center)
         }
+        .padding(.horizontal)
     }
 }

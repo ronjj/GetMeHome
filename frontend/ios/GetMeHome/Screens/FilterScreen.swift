@@ -23,7 +23,7 @@ struct FilterScreen: View {
     var viewModel = ViewModel()
     
     var body: some View {
-        VStack {
+        VStack (alignment: .leading, spacing: 15) {
             HStack {
                 Spacer()
                 Button {
@@ -31,7 +31,7 @@ struct FilterScreen: View {
                 } label: {
                     Text("Close")
                 }
-                .tint(.blue)
+                .tint(.purple)
             }
             .padding()
             
@@ -39,7 +39,7 @@ struct FilterScreen: View {
                 .font(.title)
                 .bold()
             
-//            Earliest Dep Time
+            //            Earliest Dep Time
             HStack{
                 Button {
                     depTimeFilter.toggle()
@@ -50,21 +50,42 @@ struct FilterScreen: View {
                 .tint(.purple)
                 Text("Earliest Departure Time")
                 
-                    DatePicker("Earliest Departure Time",
-                               //                               Need complicated binding so I can make earliestDeparture nil
-                               selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
-                               displayedComponents: .hourAndMinute)
-                    .tint(.purple)
-                    .disabled(isLoading ? true : false)
-                    .disabled(!depTimeFilter ? true : false)
-                    .opacity(isLoading ? 0.25 : 1.0)
-                    .opacity(!depTimeFilter ? 0.25 : 1.0)
-                    .labelsHidden()
-                    
+                DatePicker("Earliest Departure Time",
+                           //                               Need complicated binding so I can make earliestDeparture nil
+                           selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
+                           displayedComponents: .hourAndMinute)
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .disabled(!depTimeFilter ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
+                .opacity(!depTimeFilter ? 0.25 : 1.0)
+                .labelsHidden()
+                
             }
             
+            //                Latest Arrival
+            HStack{
+                
+                Button {
+                    latestArrivalTimeToggle.toggle()
+                } label: {
+                    Image(systemName: latestArrivalTimeToggle ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                }
+                .tint(.purple)
+                Text("Latest Arrival Time")
+                DatePicker("Latest Arrival Time",
+                           selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
+                           displayedComponents: .hourAndMinute)
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .disabled(!latestArrivalTimeToggle ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
+                .opacity(!latestArrivalTimeToggle ? 0.25 : 1.0)
+                .labelsHidden()
+            }
             
-//            Max Price
+            //            Max Price
             HStack{
                 Button {
                     maxPriceToggle.toggle()
@@ -75,7 +96,7 @@ struct FilterScreen: View {
                 .tint(.purple)
                 
                 Text("Max Price")
-               
+                
                 HStack {
                     Slider(value: $maxPriceLocal, in: 1...300, step: 1.0)
                     Text("$\(maxPriceLocal, specifier: "%.2f")")
@@ -87,9 +108,9 @@ struct FilterScreen: View {
                 .opacity(!maxPriceToggle ? 0.25 : 1.0)
                 .labelsHidden()
             }
-            .padding(.horizontal)
             
-//            Select Bus
+            
+            //            Select Bus
             HStack{
                 Button {
                     selectServiceToggle.toggle()
@@ -113,11 +134,10 @@ struct FilterScreen: View {
                     .opacity(!selectServiceToggle ? 0.4 : 1.0)
                 }
             }
-                
-//                Remove Transfers
+            
+            
+            //                Remove Transfers
             HStack{
-                Text("Remove Transfers")
-                
                 Button {
                     removeTransfersToggle.toggle()
                 } label: {
@@ -128,33 +148,14 @@ struct FilterScreen: View {
                 .disabled(isLoading ? true : false)
                 .opacity(isLoading ? 0.25 : 1.0)
                 
-            }
+                Text("Remove Transfers")
                 
-//                Latest Arrival
-                
-                HStack{
-                    Button {
-                        latestArrivalTimeToggle.toggle()
-                    } label: {
-                        Image(systemName: latestArrivalTimeToggle ? "checkmark.circle.fill" : "circle")
-                            .font(.title2)
-                    }
-                    .tint(.purple)
-                    DatePicker("Latest Arrival Time",
-                               selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
-                               displayedComponents: .hourAndMinute)
-                    .tint(.purple)
-                    .disabled(isLoading ? true : false)
-                    .disabled(!latestArrivalTimeToggle ? true : false)
-                    .opacity(isLoading ? 0.25 : 1.0)
-                    .opacity(!latestArrivalTimeToggle ? 0.25 : 1.0)
-                }
             }
-            
-            .padding(.horizontal)
-        
-            Spacer()
         }
+        .padding(.horizontal)
+        
+        Spacer()
     }
+}
 
 
