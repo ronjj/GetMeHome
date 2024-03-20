@@ -33,6 +33,7 @@ struct SearchButton: View {
     @State var lastSearch = ["from" : "", "to": "", "on": "", "bus": ""]
     @State var localSavedTrips: [Trip] = []
     @State var localSavedDiscountCodes: [Discount] = []
+    @Binding var presentFilterSheet: Bool
     
     var viewModel = ViewModel()
 
@@ -154,6 +155,17 @@ struct SearchButton: View {
                     .rotationEffect(Angle.degrees(switchOriginAndDestinationButtonClicked ? 180 : 360))
                     .animation(viewModel.animation, value: switchOriginAndDestinationButtonClicked)
                 
+            }
+            .disabled(isLoading ? true : false)
+            .buttonStyle(.bordered)
+            .tint(.purple)
+            
+            Spacer()
+            
+            Button {
+                presentFilterSheet = true
+            } label: {
+                Image(systemName: "gear")
             }
             .disabled(isLoading ? true : false)
             .buttonStyle(.bordered)
