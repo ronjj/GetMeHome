@@ -5,6 +5,7 @@ import json
 import exceptions
 import constants
 import stripe_funcs
+import asyncio
 
 
 # Initialise Flask App
@@ -29,7 +30,7 @@ def get_trips(bus_service, date, origin, destination):
     else:
         try:
             if bus_service == constants.ALL_BUSES:
-                trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
+                trips = asyncio.run(bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination))
             if bus_service == constants.MEGA_BUS:
                 trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
             if bus_service == constants.OUR_BUS:

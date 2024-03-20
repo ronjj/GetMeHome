@@ -7,6 +7,7 @@ from datetime import datetime
 from random import randrange
 import exceptions
 import constants
+import asyncio
 
 """
 Bus Routes:
@@ -119,7 +120,7 @@ def create_coordinates(longitude: float, latitude: float):
     }
 
 # OurBus
-def get_our_bus(date,dep_loc,arr_loc, all_or_single):
+async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
     proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
     
@@ -258,7 +259,7 @@ def get_our_bus(date,dep_loc,arr_loc, all_or_single):
             trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
             return jsonpickle.encode(trips_and_codes)
 # MegaBus
-def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
+async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
     discount_codes = []
     proper_date = format_date(search_date=date, bus_service=constants.MEGA_BUS)
@@ -344,7 +345,7 @@ def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             return jsonpickle.encode(trips_and_codes)
 
 # FlixBus
-def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
+async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
     result = []
     discount_codes = []
 
@@ -507,12 +508,16 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
             return jsonpickle.encode(trips_and_codes)
 
 # All (OurBus, MegaBus, Flixbus)
-def get_all(date, dep_loc, arr_loc):
+async def get_all(date, dep_loc, arr_loc):
+    our_bus_task = asyncio.create_task(get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
+    mega_bus_task = asyncio.create_task(get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
+    flix_bus_task = asyncio.create_task(get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True))
     # Call each service
     try:
-        flix_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        our_bus_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        our_bus_trips = await our_bus_task
+        mega_trips = await mega_bus_task
+        flix_trips = await flix_bus_task
+        
     except Exception as e:
         raise e
     else:
