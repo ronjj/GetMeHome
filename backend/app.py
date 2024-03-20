@@ -4,6 +4,8 @@ import bus_routes
 import json
 import exceptions
 import constants
+import stripe_funcs
+
 
 # Initialise Flask App
 app = Flask(__name__)
@@ -62,6 +64,8 @@ def buy_ticket():
         commission = data['commission']
         link_to_buy = data['link_to_buy']
 
+        stripe_funcs.payment_sheet(ticket_price + commission)
+        
         print(f"Received Request: {data}")
         return f"successfully recieved {data}"
     
