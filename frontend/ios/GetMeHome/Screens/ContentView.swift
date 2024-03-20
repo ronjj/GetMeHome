@@ -53,145 +53,149 @@ struct ContentView: View {
     var viewModel = ViewModel()
     
     var body: some View {
-            VStack {
-                VStack(alignment: .center) {
-                    Text("GetMeHome")
-                        .font(.title)
-                        .fontWeight(.black)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 0)
-                
-                DateAndLocationPickerView(
-                    selectedDeparture: $selectedDeparture,
-                    selectedArrival: $selectedArrival,
-                    selectedDate: $selectedDate,
-                    isLoading: $isLoading)
-                .padding(.bottom, 10)
-                
-                SearchButton(trips: $trips,
-                             discountCodes: $discountCodes,
-                             selectedDate: $selectedDate,
-                             earliestDepartureTime: $earliestDepartureTimeLocal,
-                             latestArrivalTime: $latestArrivalTimeLocal,
-                             selectedService: $selectedServiceLocal,
-                             selectedDeparture: $selectedDeparture,
-                             selectedArrival: $selectedArrival,
-                             maxPrice: $maxPriceLocal,
-                             selectServiceToggle: $selectServiceToggle,
-                             earliestDepartureTimeToggle: $earliestDepartureTimeToggle,
-                             isLoading: $isLoading,
-                             removeTransfersToggle: $removeTransfersToggle,
-                             latestArrivalTimeToggle: $latestArrivalTimeToggle,
-                             clickedSearch: $clickedSearch, 
-                             switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked, 
-                             showSearchError: $requestFailedAlert,
-                             maxPriceToggle: $maxPriceToggle, 
-                             presentFilterSheet: $presentFilterSheet)
-                
-//                FilterRowView(
-//                    maxPriceSelected: $maxPriceToggle,
-//                    minDepartureTimeSelected: $earliestDepartureTimeToggle,
-//                    latestArrivalTimeSelected: $latestArrivalTimeToggle,
-//                    chooseBusServiceSelected: $selectServiceToggle,
-//                    includeTransfersSelected: $removeTransfersToggle, 
-//                    isLoading: $isLoading)
-//                .padding(.top)
-                
-                if earliestDepartureTimeToggle {
-                    DatePicker("Earliest Departure Time",
-                               //                               Need complicated binding so I can make earliestDeparture nil
-                               selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
-                               displayedComponents: .hourAndMinute)
-                    .tint(.purple)
-                    .disabled(isLoading ? true : false)
-                    .opacity(isLoading ? 0.25 : 1.0)
-                }
-                
-                if latestArrivalTimeToggle {
-                    DatePicker("Latest Arrival Time",
-                               selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
-                               displayedComponents: .hourAndMinute)
-                    .tint(.purple)
-                    .disabled(isLoading ? true : false)
-                    .opacity(isLoading ? 0.25 : 1.0)
-                }
-                
-                if selectServiceToggle {
-                    Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
-                        ForEach(viewModel.services, id: \.self) {
-                            Text($0)
-                        }
-                    }
-                    .pickerStyle(.palette)
-                    .disabled(isLoading ? true : false)
-                    .opacity(isLoading ? 0.25 : 1.0)
-                }
-                if maxPriceToggle {
-                    HStack {
-                        Text("Max Price")
-                        Spacer()
-                        Slider(value: $maxPriceLocal, in: 1...400, step: 1.0)
-                        Text("$\(maxPriceLocal, specifier: "%.2f")")
-                    }
-                    .tint(.purple)
-                }
+        VStack {
+            VStack(alignment: .center) {
+                Text("GetMeHome")
+                    .font(.title)
+                    .fontWeight(.black)
             }
-            .sheet(isPresented: $presentFilterSheet) {
-                              print("Sheet dismissed!")
-                          } content: {
-                              FilterScreen(isLoading: $isLoading,
-                                           earliestDepartureTimeLocal: $earliestDepartureTimeLocal, depTimeFilter: $earliestDepartureTimeToggle)
-                          }
-            .alert(isPresented: $requestFailedAlert) {
-                Alert(title: Text("Search Error"),
-                      message: Text("There was an error searching for trips. Try again later."),
-                      dismissButton: .cancel())
-            }
-            .ignoresSafeArea()
-            .padding()
-            .analyticsScreen(name: "ContentView")
-            .onAppear {
-                if earliestDepartureOnToggle {
-                    earliestDepartureTimeToggle = true
-                    earliestDepartureTimeLocal = earliestDepartureTime
-                }
-                
-                if latestArrivalOnToggle {
-                    latestArrivalTimeToggle = true
-                    latestArrivalTimeLocal = latestArrivalTime
-                }
-                
-                if setDefaultBusToggle {
-                    selectServiceToggle = true
-                    selectedServiceLocal = selectedService
-                }
-                
-                if removeTransfers {
-                    removeTransfersToggle = true
-                    removeTransfersToggle = removeTransfers
-                }
-                
-                if arrivalLocationOnToggle {
-                    selectedArrival = arrivalLocation
-                }
-                
-                if departureLocationOnToggle {
-                    selectedDeparture = departureLocation
-                }
-
-                if maxPriceOnToggle {
-                    maxPriceToggle = true
-                    maxPriceLocal = maxPrice
-                }
+            .frame(maxWidth: .infinity)
+            .padding(.bottom, 0)
+            
+            DateAndLocationPickerView(
+                selectedDeparture: $selectedDeparture,
+                selectedArrival: $selectedArrival,
+                selectedDate: $selectedDate,
+                isLoading: $isLoading)
+            .padding(.bottom, 10)
+            
+            SearchButton(trips: $trips,
+                         discountCodes: $discountCodes,
+                         selectedDate: $selectedDate,
+                         earliestDepartureTime: $earliestDepartureTimeLocal,
+                         latestArrivalTime: $latestArrivalTimeLocal,
+                         selectedService: $selectedServiceLocal,
+                         selectedDeparture: $selectedDeparture,
+                         selectedArrival: $selectedArrival,
+                         maxPrice: $maxPriceLocal,
+                         selectServiceToggle: $selectServiceToggle,
+                         earliestDepartureTimeToggle: $earliestDepartureTimeToggle,
+                         isLoading: $isLoading,
+                         removeTransfersToggle: $removeTransfersToggle,
+                         latestArrivalTimeToggle: $latestArrivalTimeToggle,
+                         clickedSearch: $clickedSearch,
+                         switchOriginAndDestinationButtonClicked: $switchOriginAndDestinationButtonClicked,
+                         showSearchError: $requestFailedAlert,
+                         maxPriceToggle: $maxPriceToggle,
+                         presentFilterSheet: $presentFilterSheet)
+            
+            //                FilterRowView(
+            //                    maxPriceSelected: $maxPriceToggle,
+            //                    minDepartureTimeSelected: $earliestDepartureTimeToggle,
+            //                    latestArrivalTimeSelected: $latestArrivalTimeToggle,
+            //                    chooseBusServiceSelected: $selectServiceToggle,
+            //                    includeTransfersSelected: $removeTransfersToggle,
+            //                    isLoading: $isLoading)
+            //                .padding(.top)
+            
+            if earliestDepartureTimeToggle {
+                DatePicker("Earliest Departure Time",
+                           //                               Need complicated binding so I can make earliestDeparture nil
+                           selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
+                           displayedComponents: .hourAndMinute)
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
             }
             
-            if isLoading {
-                LoadingView()
-            } else {
-                TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
+            if latestArrivalTimeToggle {
+                DatePicker("Latest Arrival Time",
+                           selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
+                           displayedComponents: .hourAndMinute)
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
             }
+            
+            if selectServiceToggle {
+                Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
+                    ForEach(viewModel.services, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.palette)
+                .disabled(isLoading ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
+            }
+            if maxPriceToggle {
+                HStack {
+                    Text("Max Price")
+                    Spacer()
+                    Slider(value: $maxPriceLocal, in: 1...400, step: 1.0)
+                    Text("$\(maxPriceLocal, specifier: "%.2f")")
+                }
+                .tint(.purple)
+            }
+        }
+        .sheet(isPresented: $presentFilterSheet) {
+            print("Sheet dismissed!")
+        } content: {
+            
+            FilterScreen(isLoading: $isLoading,
+                         earliestDepartureTimeLocal: $earliestDepartureTimeLocal,
+                         depTimeFilter: $earliestDepartureTimeToggle,
+                         maxPriceToggle: $maxPriceToggle,
+                         maxPriceLocal: $maxPriceLocal)
+            
+        }
+        .alert(isPresented: $requestFailedAlert) {
+            Alert(title: Text("Search Error"),
+                  message: Text("There was an error searching for trips. Try again later."),
+                  dismissButton: .cancel())
+        }
+        .ignoresSafeArea()
+        .padding()
+        .analyticsScreen(name: "ContentView")
+        .onAppear {
+            if earliestDepartureOnToggle {
+                earliestDepartureTimeToggle = true
+                earliestDepartureTimeLocal = earliestDepartureTime
+            }
+            
+            if latestArrivalOnToggle {
+                latestArrivalTimeToggle = true
+                latestArrivalTimeLocal = latestArrivalTime
+            }
+            
+            if setDefaultBusToggle {
+                selectServiceToggle = true
+                selectedServiceLocal = selectedService
+            }
+            
+            if removeTransfers {
+                removeTransfersToggle = true
+                removeTransfersToggle = removeTransfers
+            }
+            
+            if arrivalLocationOnToggle {
+                selectedArrival = arrivalLocation
+            }
+            
+            if departureLocationOnToggle {
+                selectedDeparture = departureLocation
+            }
+            
+            if maxPriceOnToggle {
+                maxPriceToggle = true
+                maxPriceLocal = maxPrice
+            }
+        }
         
+        if isLoading {
+            LoadingView()
+        } else {
+            TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
+        }   
     }
 }
 
