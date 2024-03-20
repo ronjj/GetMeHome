@@ -11,11 +11,14 @@ struct FilterScreen: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var isLoading: Bool
     @Binding var earliestDepartureTimeLocal: Date?
+    @Binding var latestArrivalTimeLocal: Date?
+    @Binding var latestArrivalTimeToggle: Bool
     @Binding var depTimeFilter: Bool
     @Binding var maxPriceToggle: Bool
     @Binding var maxPriceLocal: Double
     @Binding var selectedServiceLocal: String
     @Binding var selectServiceToggle: Bool
+    @Binding var removeTransfersToggle: Bool
     
     var viewModel = ViewModel()
     
@@ -109,7 +112,43 @@ struct FilterScreen: View {
                     .opacity(isLoading ? 0.25 : 1.0)
                     .opacity(!selectServiceToggle ? 0.4 : 1.0)
                 }
+            }
                 
+//                Remove Transfers
+            HStack{
+                Text("Remove Transfers")
+                
+                Button {
+                    removeTransfersToggle.toggle()
+                } label: {
+                    Image(systemName: removeTransfersToggle ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                }
+                .tint(.purple)
+                .disabled(isLoading ? true : false)
+                .opacity(isLoading ? 0.25 : 1.0)
+                
+            }
+                
+//                Latest Arrival
+                
+                HStack{
+                    Button {
+                        latestArrivalTimeToggle.toggle()
+                    } label: {
+                        Image(systemName: latestArrivalTimeToggle ? "checkmark.circle.fill" : "circle")
+                            .font(.title2)
+                    }
+                    .tint(.purple)
+                    DatePicker("Latest Arrival Time",
+                               selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
+                               displayedComponents: .hourAndMinute)
+                    .tint(.purple)
+                    .disabled(isLoading ? true : false)
+                    .disabled(!latestArrivalTimeToggle ? true : false)
+                    .opacity(isLoading ? 0.25 : 1.0)
+                    .opacity(!latestArrivalTimeToggle ? 0.25 : 1.0)
+                }
             }
             
             .padding(.horizontal)
@@ -117,5 +156,5 @@ struct FilterScreen: View {
             Spacer()
         }
     }
-}
+
 

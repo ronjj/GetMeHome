@@ -89,14 +89,14 @@ struct ContentView: View {
                          maxPriceToggle: $maxPriceToggle,
                          presentFilterSheet: $presentFilterSheet)
             
-            //                FilterRowView(
-            //                    maxPriceSelected: $maxPriceToggle,
-            //                    minDepartureTimeSelected: $earliestDepartureTimeToggle,
-            //                    latestArrivalTimeSelected: $latestArrivalTimeToggle,
-            //                    chooseBusServiceSelected: $selectServiceToggle,
-            //                    includeTransfersSelected: $removeTransfersToggle,
-            //                    isLoading: $isLoading)
-            //                .padding(.top)
+//                            FilterRowView(
+//                                maxPriceSelected: $maxPriceToggle,
+//                                minDepartureTimeSelected: $earliestDepartureTimeToggle,
+//                                latestArrivalTimeSelected: $latestArrivalTimeToggle,
+//                                chooseBusServiceSelected: $selectServiceToggle,
+//                                includeTransfersSelected: $removeTransfersToggle,
+//                                isLoading: $isLoading)
+//                            .padding(.top)
             
             if earliestDepartureTimeToggle {
                 DatePicker("Earliest Departure Time",
@@ -142,12 +142,13 @@ struct ContentView: View {
         } content: {
             
             FilterScreen(isLoading: $isLoading,
-                         earliestDepartureTimeLocal: $earliestDepartureTimeLocal,
+                         earliestDepartureTimeLocal: $earliestDepartureTimeLocal, latestArrivalTimeLocal: $latestArrivalTimeLocal, latestArrivalTimeToggle: $latestArrivalTimeToggle,
                          depTimeFilter: $earliestDepartureTimeToggle,
                          maxPriceToggle: $maxPriceToggle,
                          maxPriceLocal: $maxPriceLocal,
-                            selectedServiceLocal: $selectedServiceLocal,
-                        selectServiceToggle: $selectServiceToggle)
+                         selectedServiceLocal: $selectedServiceLocal,
+                         selectServiceToggle: $selectServiceToggle,
+                         removeTransfersToggle: $removeTransfersToggle)
             
         }
         .alert(isPresented: $requestFailedAlert) {
@@ -197,7 +198,7 @@ struct ContentView: View {
             LoadingView()
         } else {
             TripListView(trips: trips, discountCodes: discountCodes, clickedSearch: $clickedSearch)
-        }   
+        }
     }
 }
 
