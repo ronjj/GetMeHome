@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 import os
 import bus_routes
 import json
 import exceptions
 import constants
+import stripe_funcs
+
 
 # Initialise Flask App
 app = Flask(__name__)
@@ -43,6 +45,30 @@ def get_trips(bus_service, date, origin, destination):
         else:
             return trips
 
+@app.route('/buy_ticket', methods=["POST"])
+def buy_ticket():
+    try:
+        data = request.json
+    except:
+        return error_message("POST Request should contain valid JSON", constants.INVALID_REQUEST)
+    else:
+        name = data['name']
+        email = data['email']
+        bus_service = data['bus_service']
+        date = data['date']
+        dep = data['dep']
+        dep_time = data['dep_time']
+        destination = data['destination']
+        destination_time = data['destination_time']
+        ticket_price = data['ticket_price']
+        commission = data['commission']
+        link_to_buy = data['link_to_buy']
+
+        stripe_funcs.payment_sheet(ticket_price + commission)
+        
+        print(f"Received Request: {data}")
+        return f"successfully recieved {data}"
+    
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
