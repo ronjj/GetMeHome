@@ -8,6 +8,7 @@ from random import randrange
 import exceptions
 import constants
 import threading
+import time
 
 """
 Bus Routes:
@@ -510,11 +511,19 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 # All (OurBus, MegaBus, Flixbus)
 def get_all(date, dep_loc, arr_loc):
     # Call each service
-
+    start = time.time()
     try:
-        flix_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        our_bus_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        flix_trips = threading.Thread(target = get_flix_bus, args=(date, dep_loc, arr_loc, True))
+        flix_trips.start()
+        mega_trips = threading.Thread(target = get_mega_bus, args=(date, dep_loc, arr_loc, True))
+        mega_trips.start()
+        our_bus_trips = threading.Thread(target = get_our_bus, args=(date, dep_loc, arr_loc, True))
+        our_bus_trips.start()
+
+        flix_trips.join()
+        mega_trips.join()
+        our_bus_trips.join()
+
 
     except Exception as e:
         raise e
@@ -531,4 +540,6 @@ def get_all(date, dep_loc, arr_loc):
         print(f"Cheapest Trip: {trips[0]}")
         
         trips_and_codes = trips_and_discount_response(trips=trips, discount_code=discount_codes)
+        end = time.time()
+        print(f"Time to get all: {end - start}")
         return jsonpickle.encode(trips_and_codes)
