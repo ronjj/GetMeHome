@@ -7,6 +7,7 @@ from datetime import datetime
 from random import randrange
 import exceptions
 import constants
+import threading
 
 """
 Bus Routes:
@@ -509,10 +510,12 @@ def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
 # All (OurBus, MegaBus, Flixbus)
 def get_all(date, dep_loc, arr_loc):
     # Call each service
+
     try:
         flix_trips = get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
         mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
         our_bus_trips = get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+
     except Exception as e:
         raise e
     else:
