@@ -518,21 +518,27 @@ async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                 return jsonpickle.encode(trips_and_codes)
 
 # All (OurBus, MegaBus, Flixbus)
-def get_all(date, dep_loc, arr_loc):
-    # Call each service
+import asyncio
+import jsonpickle
+import time
+
+async def get_all(date, dep_loc, arr_loc):
     start = time.time()
     try:
-        flix_trips =  get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        mega_trips = get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
-        our_bus_trips =  get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        # Concurrently call the async functions using asyncio.gather
+        flix_trips, mega_trips, our_bus_trips = await asyncio.gather(
+            get_flix_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True),
+            get_mega_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True),
+            get_our_bus(date=date, dep_loc=dep_loc, arr_loc=arr_loc, all_or_single=True)
+        )
     except Exception as e:
         raise e
     else:
-        # Combining Three Lists Into A Single list Using '+'
+        # Combine and process the results as before
         trips = flix_trips['trips'] + mega_trips['trips'] + our_bus_trips['trips']
-        if trips == []:
+        if not trips:
             return trips_and_discount_response(trips=[], discount_code=[])
-        trips.sort(key=lambda x: x.price)
+        trips.sort(key=lambda x: x.price)  # Ensure your sorting key is correct
 
         discount_codes = flix_trips['discount_codes'] + mega_trips['discount_codes'] + our_bus_trips['discount_codes']
         
