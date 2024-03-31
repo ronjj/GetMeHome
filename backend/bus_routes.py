@@ -136,60 +136,55 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
         api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={constants.OURBUS_LOCATION_IDS[dep_loc]}&destination={constants.OURBUS_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&adult=1"
         
         try:
-                # response_text = await our_bus_request.text
-            web = urllib.request.urlopen(api_and_ticket_link)
-            soup = BeautifulSoup(web.read(), 'lxml')
+            async with session.get(api_and_ticket_link) as our_bus_request:
+                web = await our_bus_request.text()
+                soup = BeautifulSoup(web, 'lxml')
 
-        # Code to find script tag with variable defaultSearch since this contains the trips
-        # 1. Find all script tags in response and go through each until I find the tag containing "var defaultSearch" 
-        # 2. Go through the lines of the found tag and get the exact line of defaultSearch
-        # 3. Remove extra characters and spacing to make it into JSON -> [21:-2]
+            # Code to find script tag with variable defaultSearch since this contains the trips
+            # 1. Find all script tags in response and go through each until I find the tag containing "var defaultSearch" 
+            # 2. Go through the lines of the found tag and get the exact line of defaultSearch
+            # 3. Remove extra characters and spacing to make it into JSON -> [21:-2]
 
-            data = soup.find_all("script")
-            for tag in data:
-                # check if tag is non empty
-                if tag.string:
-                    # check script tag for defaultSearch
-                    if "var defaultSearch" in tag.string:
-                        lines = tag.string.splitlines()
-                        for line in lines:
-                            # get the exact defaultSearch line as a string
-                            if "var defaultSearch" in str(line):
-                                parsed_trips = line[21:-2]
-                                break
+                data = soup.find_all("script")
+                for tag in data:
+                    # check if tag is non empty
+                    if tag.string:
+                        # check script tag for defaultSearch
+                        if "var defaultSearch" in tag.string:
+                            lines = tag.string.splitlines()
+                            for line in lines:
+                                # get the exact defaultSearch line as a string
+                                if "var defaultSearch" in str(line):
+                                    parsed_trips = line[21:-2]
+                                    break
         
-            # Trip List Data
-            # Use similar search as a backup. if both work, use both in response
-                            
-            # Try to get searchedRoute information
-            try:
-                searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
-            except:
-                # If there is no list for the searched information, check the similar search data
-                try:
-                    similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
-                except:
-                    # If both fail, there was an error with the information passed in or OurBus is down
-                    return trips_and_discount_response(trips=[],discount_code=[])
-                # Only have similar search so set that to loaded data 
-                else:
-                    loaded_data = similar_search
-            #  Searched route list worked and we have data
-            else:
-                # Try to get similar routes as well
-                try:
-                    similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
-                except:
-                    # Do not raise an exception since we don't need the similar search info
-                    print("Could not load similarSearch")
-                # Since we have similar search and the primary data, include both
-                else:
-                    loaded_data = searched_route_list + similar_search
-                # No similar search data so loaded data is only searched information
-                loaded_data = searched_route_list
+                # Trip List Data
+                # Use similar search as a backup. if both work, use both in response
+                                
+                # Decode JSON just once to improve efficiency and readability
+                trip_data = json.loads(parsed_trips)
 
-            # Discount Code Loaded Data
-            discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
+                # Initialize loaded_data to an empty list to handle cases where neither primary nor similar search data is available
+                loaded_data = []
+
+                # Attempt to retrieve the primary searched route list
+                searched_route_list = trip_data.get('searchedRouteList', {}).get('list', [])
+                if searched_route_list:
+                    loaded_data.extend(searched_route_list)
+
+                # Attempt to retrieve similar search data, regardless of whether primary data was found
+                # This simplifies logic by not needing a nested try-except structure
+                similar_search = trip_data.get('searchedRouteList', {}).get('similarSearch', [])
+                if similar_search:
+                    loaded_data.extend(similar_search)
+
+                # If both lists are empty, it indicates a failure to retrieve valid data
+                if not loaded_data:
+                    # Handle the error case where no data could be loaded
+                    return trips_and_discount_response(trips=[], discount_code=[])
+
+                # Extract discount code data using a direct approach, assuming it's always present as an array
+                discount_code_loaded_data = trip_data.get('searchedRouteList', {}).get('voucher', [])
 
         except Exception as e:
             raise e
