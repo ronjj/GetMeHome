@@ -55,9 +55,10 @@ struct SavedTripRowDesign: View {
                 .buttonStyle(.bordered)
             }
 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 5) {
                     Text("$\(savedTrip.price, specifier: "%.2f")")
                         .fontWeight(.bold)
+                        .font(.headline)
                         .strikethrough(expired ? true  : false)
                     HStack (spacing: 2) {
                         Image(systemName: "clock")
@@ -68,22 +69,26 @@ struct SavedTripRowDesign: View {
                             .strikethrough(expired ? true  : false)
                     }
                     if !expired {
-                        HStack {
-                            Image(systemName: "bus.fill")
+                        VStack(alignment: .leading) {
+                            Divider()
+                            Text("Departure Location")
+                                .bold()
                             Text(savedTrip.departureLocation ?? "")
                         }
-                        HStack {
-                            Image(systemName: "star.fill")
-                            Text(savedTrip.arrivalLocation ?? "" )
+                        
+                        VStack(alignment: .leading) {
+                            Divider()
+                            Text("Arrival Location")
+                                .bold()
+                            Text(savedTrip.arrivalLocation ?? "")
                         }
-                    }
-                    if savedTrip.nonStop == "False" {
-                        HStack {
-                            BusLabel(busService: savedTrip.busService ?? "")
-                            BusLabel(busService: "indirect")
+                        
+                        if savedTrip.nonStop == "False" {
+                            HStack {
+                                BusLabel(busService: "indirect")
+                            }
                         }
-                    }
-                    else {
+                        
                         HStack {
                             if !expired {
                                 Link("Buy on \(savedTrip.busService!)",
@@ -100,7 +105,6 @@ struct SavedTripRowDesign: View {
                             BusLabel(busService: savedTrip.busService ?? "")
                         }
                     }
-                   
                 }
                 .disabled(expired ? true : false)
             }
