@@ -21,7 +21,7 @@ def error_message(message, code):
 
 # Get All Trips for A Date, Origin, Destination, and Bus Service
 @app.route('/<bus_service>/<date>/<origin>/<destination>', methods=["GET"])
-def get_trips(bus_service, date, origin, destination):
+async def get_trips(bus_service, date, origin, destination):
     if bus_service not in constants.VALID_BUS_SERVICES:
         return error_message("Invalid Bus Service", constants.INVALID_REQUEST)
     if origin == destination:
@@ -29,13 +29,13 @@ def get_trips(bus_service, date, origin, destination):
     else:
         try:
             if bus_service == constants.ALL_BUSES:
-                trips = bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
+                trips = await bus_routes.get_all(date=date, dep_loc=origin, arr_loc=destination)
             if bus_service == constants.MEGA_BUS:
-                trips = bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+                trips = await bus_routes.get_mega_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
             if bus_service == constants.OUR_BUS:
-                trips = bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+                trips = await bus_routes.get_our_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
             if bus_service == constants.FLIX_BUS:
-                trips = bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
+                trips = await bus_routes.get_flix_bus(date=date, dep_loc=origin, arr_loc=destination, all_or_single=False)
         except exceptions.IncorrectDateFormatException:
             return error_message("Date formatting incorrect. Format is MM-DD-YYYY", constants.INVALID_REQUEST)
         except exceptions.PastDateException:
