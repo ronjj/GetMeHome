@@ -125,8 +125,8 @@ struct FilterScreen: View {
                 .tint(.purple)
                 
                 VStack (alignment: .leading){
-                    Text("Choose A Bus Service")
-                    Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
+                    Text("Bus Service")
+                    Picker("Bus Service", selection: $selectedServiceLocal) {
                         ForEach(viewModel.services, id: \.self) {
                             Text($0)
                         }

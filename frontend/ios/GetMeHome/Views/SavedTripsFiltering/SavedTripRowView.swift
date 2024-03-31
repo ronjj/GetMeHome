@@ -38,7 +38,7 @@ struct SavedTripRowDesign: View {
     
     var body: some View {
         if savedTrip.date != nil {
-        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 5) {
             HStack {
                 Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
                     .strikethrough(expired ? true  : false)
@@ -84,17 +84,23 @@ struct SavedTripRowDesign: View {
                         }
                     }
                     else {
-                        BusLabel(busService: savedTrip.busService ?? "")
-                    }
-                    if !expired {
-                        Link("Buy on \(savedTrip.busService!) Website",
-                             destination: (URL(string: savedTrip.ticketLink ?? "") ?? URL(string: viewModel.backupLinkMap[savedTrip.busService ?? ""]!))!)
-                        .buttonStyle(.borderedProminent)
-                        .tint(.indigo)
-                        .onTapGesture {
-                            AnalyticsManager.shared.logEvent(name: "SavedTripsView_BuyTicketClicked")
+                        HStack {
+                            if !expired {
+                                Link("Buy on \(savedTrip.busService!)",
+                                     destination: (URL(string: savedTrip.ticketLink ?? "") ?? URL(string: viewModel.backupLinkMap[savedTrip.busService ?? ""]!))!)
+                                .buttonStyle(.borderedProminent)
+                                .tint(.indigo)
+                                .onTapGesture {
+                                    AnalyticsManager.shared.logEvent(name: "SavedTripsView_BuyTicketClicked")
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            BusLabel(busService: savedTrip.busService ?? "")
                         }
                     }
+                   
                 }
                 .disabled(expired ? true : false)
             }
