@@ -22,5 +22,5 @@ soupsieve==2.4.1
 stripe==8.7.0
 typing_extensions==4.7.0
 urllib3==2.0.7
-Werkzeug==3.0.1
+Werkzeug==2.2.3
 yarl==1.9.4
