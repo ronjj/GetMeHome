@@ -513,17 +513,9 @@ def get_all(date, dep_loc, arr_loc):
     # Call each service
     start = time.time()
     try:
-        flix_trips = threading.Thread(target = get_flix_bus, args=(date, dep_loc, arr_loc, True))
-        flix_trips.start()
-        mega_trips = threading.Thread(target = get_mega_bus, args=(date, dep_loc, arr_loc, True))
-        mega_trips.start()
-        our_bus_trips = threading.Thread(target = get_our_bus, args=(date, dep_loc, arr_loc, True))
-        our_bus_trips.start()
-
-        flix_trips.join()
-        mega_trips.join()
-        our_bus_trips.join()
-
+        flix_trips =  get_flix_bus(date, dep_loc, arr_loc, True)
+        mega_trips =  get_mega_bus(date, dep_loc, arr_loc, True)
+        our_bus_trips =  get_our_bus(date, dep_loc, arr_loc, True)
 
     except Exception as e:
         raise e
