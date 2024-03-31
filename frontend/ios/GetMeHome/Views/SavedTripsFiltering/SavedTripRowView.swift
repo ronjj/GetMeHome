@@ -37,8 +37,12 @@ struct SavedTripRowDesign: View {
     @Binding var showDeleteAlert: Bool
     
     var body: some View {
+        if savedTrip.date != nil {
         VStack(alignment: .leading) {
             HStack {
+                Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
+                    .strikethrough(expired ? true  : false)
+                    .font(.title2)
                 Spacer()
                 Button {
                     savedTripId = Int(Int16(savedTrip.id))
@@ -50,21 +54,11 @@ struct SavedTripRowDesign: View {
                 .tint(.red)
                 .buttonStyle(.bordered)
             }
-            if savedTrip.date != nil {
+
                 VStack(alignment: .leading) {
                     Text("$\(savedTrip.price, specifier: "%.2f")")
                         .fontWeight(.bold)
                         .strikethrough(expired ? true  : false)
-                    HStack {
-                        Image(systemName: "calendar")
-                        if expired {
-                            Text("EXPIRED")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.red)
-                        }
-                        Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
-                            .strikethrough(expired ? true  : false)
-                    }
                     HStack (spacing: 2) {
                         Image(systemName: "clock")
                         Text(savedTrip.departureTime ?? "")
