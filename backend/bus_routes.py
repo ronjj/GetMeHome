@@ -543,3 +543,4 @@ async def get_all(date, dep_loc, arr_loc):
         end = time.time()
         print(f"Time to get all: {end - start}")
         return jsonpickle.encode(trips_and_codes)
+
