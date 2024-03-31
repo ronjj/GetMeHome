@@ -122,144 +122,149 @@ def create_coordinates(longitude: float, latitude: float):
     }
 
 # OurBus
-def get_our_bus(date,dep_loc,arr_loc, all_or_single):
+async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
-    proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
-    
-    # Added for future routes where OurBus is not supported
-    if dep_loc not in constants.OURBUS_LOCATION_IDS.keys() or arr_loc not in constants.OURBUS_LOCATION_IDS.keys():
-        print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Ourbus")
-        return trips_and_discount_response(trips=[], discount_code=[])
 
-    try:
-        api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={constants.OURBUS_LOCATION_IDS[dep_loc]}&destination={constants.OURBUS_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&adult=1"
-        web = urllib.request.urlopen(api_and_ticket_link)
-        soup = BeautifulSoup(web.read(), 'lxml')
-
-        # Code to find script tag with variable defaultSearch since this contains the trips
-        # 1. Find all script tags in response and go through each until I find the tag containing "var defaultSearch" 
-        # 2. Go through the lines of the found tag and get the exact line of defaultSearch
-        # 3. Remove extra characters and spacing to make it into JSON -> [21:-2]
-
-        data = soup.find_all("script")
-        for tag in data:
-            # check if tag is non empty
-            if tag.string:
-                # check script tag for defaultSearch
-                if "var defaultSearch" in tag.string:
-                    lines = tag.string.splitlines()
-                    for line in lines:
-                        # get the exact defaultSearch line as a string
-                        if "var defaultSearch" in str(line):
-                            parsed_trips = line[21:-2]
-                            break
+    async with aiohttp.ClientSession() as session:
+        proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
+        
+        # Added for future routes where OurBus is not supported
+        if dep_loc not in constants.OURBUS_LOCATION_IDS.keys() or arr_loc not in constants.OURBUS_LOCATION_IDS.keys():
+            print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Ourbus")
+            return trips_and_discount_response(trips=[], discount_code=[])
        
-        # Trip List Data
-        # Use similar search as a backup. if both work, use both in response
-                        
-        # Try to get searchedRoute information
+        api_and_ticket_link = f"https://www.ourbus.com/booknow?origin={constants.OURBUS_LOCATION_IDS[dep_loc]}&destination={constants.OURBUS_LOCATION_IDS[arr_loc]}&departure_date={proper_date}&adult=1"
+        
         try:
-            searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
-        except:
-            # If there is no list for the searched information, check the similar search data
+            async with session.get(api_and_ticket_link) as our_bus_request:
+                # response_text = await our_bus_request.text
+                web = urllib.request.urlopen(api_and_ticket_link)
+                soup = BeautifulSoup(web.read(), 'lxml')
+
+            # Code to find script tag with variable defaultSearch since this contains the trips
+            # 1. Find all script tags in response and go through each until I find the tag containing "var defaultSearch" 
+            # 2. Go through the lines of the found tag and get the exact line of defaultSearch
+            # 3. Remove extra characters and spacing to make it into JSON -> [21:-2]
+
+                data = soup.find_all("script")
+                for tag in data:
+                    # check if tag is non empty
+                    if tag.string:
+                        # check script tag for defaultSearch
+                        if "var defaultSearch" in tag.string:
+                            lines = tag.string.splitlines()
+                            for line in lines:
+                                # get the exact defaultSearch line as a string
+                                if "var defaultSearch" in str(line):
+                                    parsed_trips = line[21:-2]
+                                    break
+        
+            # Trip List Data
+            # Use similar search as a backup. if both work, use both in response
+                            
+            # Try to get searchedRoute information
             try:
-                similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
+                searched_route_list = json.loads(parsed_trips)['searchedRouteList']['list']
             except:
-                # If both fail, there was an error with the information passed in or OurBus is down
-                return trips_and_discount_response(trips=[],discount_code=[])
-            # Only have similar search so set that to loaded data 
-            else:
-                loaded_data = similar_search
-        #  Searched route list worked and we have data
-        else:
-            # Try to get similar routes as well
-            try:
-                similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
-            except:
-                # Do not raise an exception since we don't need the similar search info
-                print("Could not load similarSearch")
-            # Since we have similar search and the primary data, include both
-            else:
-                loaded_data = searched_route_list + similar_search
-            # No similar search data so loaded data is only searched information
-            loaded_data = searched_route_list
-
-        # Discount Code Loaded Data
-        discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
-
-    except Exception as e:
-        raise e
-    else:
-        # Discount Codes
-        discount_codes = []
-        # There was an error getting the trip information so just return an empty
-        # array for the trips and discount codes then end the function
-
-        for index in range(len(discount_code_loaded_data)):
-            discount_code_string = discount_code_loaded_data[index]['voucher_name']
-            discount_code = create_discount_code(service=constants.OUR_BUS_FULL, discount_code=discount_code_string)
-            discount_codes.append(discount_code)
-
-        # Basic Trip Information
-        for index in range(len(loaded_data)):
-            journey = loaded_data[index]
-
-            # skip sold out bus or non direct buses
-            if journey['trip_status'] == "STOP_SALES":
-                continue
-            else:
-                trip_date = journey['travel_date']
-                price = journey['pass_amount']
-                arr_time = journey['last_stop_eta']
-                arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-                arr_time_12h = arr_time_12h.strftime("%I:%M %p")
-                arr_location = journey['dest_landmark']
-                departure_time = journey['start_time']
-                dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-                dep_time_12h = dep_time_12h.strftime("%I:%M %p")
-                departure_location = journey['src_landmark']
-                bus = constants.OUR_BUS_FULL
-                non_stop = str(journey['non_stop'])
-                random_num = randrange(10000)
-                route_id = journey['route_id']
+                # If there is no list for the searched information, check the similar search data
                 try:
-                    # Intermediate Stations Request and Information
-                    intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
-                    intermediate_stations_request = requests.get(intermediate_stations_link)
-                    intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                    intermediate_stations_info = intermediate_stations_response["stopList"]
-                    intermediate_count = len(intermediate_stations_info) 
-                
-                    intermediate_stations_names = []
-                    for index in range(0,intermediate_count):
-                        city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
-                        intermediate_stations_names.append(city_and_location)
-            
-                except Exception as e:
-                    print(e)
-                    intermediate_count = 0
-                    intermediate_stations_names = []
+                    similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
+                except:
+                    # If both fail, there was an error with the information passed in or OurBus is down
+                    return trips_and_discount_response(trips=[],discount_code=[])
+                # Only have similar search so set that to loaded data 
+                else:
+                    loaded_data = similar_search
+            #  Searched route list worked and we have data
+            else:
+                # Try to get similar routes as well
+                try:
+                    similar_search = json.loads(parsed_trips)['searchedRouteList']['similarSearch']
+                except:
+                    # Do not raise an exception since we don't need the similar search info
+                    print("Could not load similarSearch")
+                # Since we have similar search and the primary data, include both
+                else:
+                    loaded_data = searched_route_list + similar_search
+                # No similar search data so loaded data is only searched information
+                loaded_data = searched_route_list
 
-                newTrip = Trip(intermediate_stations=intermediate_stations_names, 
-                               intermediate_count=intermediate_count - 2, 
-                               ticket_link=api_and_ticket_link, 
-                               random_num=random_num,date=trip_date, 
-                               price=price, arr_time=arr_time_12h, 
-                               arr_location=arr_location, 
-                               dep_time=dep_time_12h, 
-                               dep_location=departure_location, 
-                               bus_serivce=bus, 
-                               non_stop=non_stop,
-                               arr_location_coords = create_coordinates(longitude=0.0, latitude=0.0),
-                               dep_location_coords = create_coordinates(longitude=0.0, latitude=0.0))
-                result.append(newTrip)
-          
-        if all_or_single:
-            return trips_and_discount_response(trips=result, discount_code=discount_codes)
+            # Discount Code Loaded Data
+            discount_code_loaded_data = json.loads(parsed_trips)['searchedRouteList']['voucher']
+
+        except Exception as e:
+            raise e
         else:
-            result.sort(key=lambda x: x.price)
-            trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
-            return jsonpickle.encode(trips_and_codes)
+            # Discount Codes
+            discount_codes = []
+            # There was an error getting the trip information so just return an empty
+            # array for the trips and discount codes then end the function
+
+            for index in range(len(discount_code_loaded_data)):
+                discount_code_string = discount_code_loaded_data[index]['voucher_name']
+                discount_code = create_discount_code(service=constants.OUR_BUS_FULL, discount_code=discount_code_string)
+                discount_codes.append(discount_code)
+
+            # Basic Trip Information
+            for index in range(len(loaded_data)):
+                journey = loaded_data[index]
+
+                # skip sold out bus or non direct buses
+                if journey['trip_status'] == "STOP_SALES":
+                    continue
+                else:
+                    trip_date = journey['travel_date']
+                    price = journey['pass_amount']
+                    arr_time = journey['last_stop_eta']
+                    arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
+                    arr_time_12h = arr_time_12h.strftime("%I:%M %p")
+                    arr_location = journey['dest_landmark']
+                    departure_time = journey['start_time']
+                    dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
+                    dep_time_12h = dep_time_12h.strftime("%I:%M %p")
+                    departure_location = journey['src_landmark']
+                    bus = constants.OUR_BUS_FULL
+                    non_stop = str(journey['non_stop'])
+                    random_num = randrange(10000)
+                    route_id = journey['route_id']
+                    try:
+                        # Intermediate Stations Request and Information
+                        intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
+                        intermediate_stations_request = requests.get(intermediate_stations_link)
+                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                        intermediate_stations_info = intermediate_stations_response["stopList"]
+                        intermediate_count = len(intermediate_stations_info) 
+                    
+                        intermediate_stations_names = []
+                        for index in range(0,intermediate_count):
+                            city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
+                            intermediate_stations_names.append(city_and_location)
+                
+                    except Exception as e:
+                        print(e)
+                        intermediate_count = 0
+                        intermediate_stations_names = []
+
+                    newTrip = Trip(intermediate_stations=intermediate_stations_names, 
+                                intermediate_count=intermediate_count - 2, 
+                                ticket_link=api_and_ticket_link, 
+                                random_num=random_num,date=trip_date, 
+                                price=price, arr_time=arr_time_12h, 
+                                arr_location=arr_location, 
+                                dep_time=dep_time_12h, 
+                                dep_location=departure_location, 
+                                bus_serivce=bus, 
+                                non_stop=non_stop,
+                                arr_location_coords = create_coordinates(longitude=0.0, latitude=0.0),
+                                dep_location_coords = create_coordinates(longitude=0.0, latitude=0.0))
+                    result.append(newTrip)
+            
+            if all_or_single:
+                return trips_and_discount_response(trips=result, discount_code=discount_codes)
+            else:
+                result.sort(key=lambda x: x.price)
+                trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
+                return jsonpickle.encode(trips_and_codes)
 # MegaBus
 async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     async with aiohttp.ClientSession() as session:
