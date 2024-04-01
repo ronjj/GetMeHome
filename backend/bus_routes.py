@@ -10,6 +10,7 @@ import constants
 import threading
 import time
 import aiohttp
+import asyncio
 
 """
 Bus Routes:
@@ -121,9 +122,28 @@ def create_coordinates(longitude: float, latitude: float):
         "latitude": latitude
     }
 
+
+async def fetch_intermediate_ourbus_stops(session, route_id):
+    intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
+    try:
+        async with session.get(intermediate_stations_link) as response:
+            if response.status == 200:
+                data = await response.json()
+                intermediate_stations_info = data["stopList"]
+                intermediate_stations_names = [
+                    f"{index+1}. {stop['stop_name']} \n{stop['landmark']}" for index, stop in enumerate(intermediate_stations_info)
+                ]
+                return intermediate_stations_names, len(intermediate_stations_info)
+            else:
+                return [], 0
+    except Exception as e:
+        print(f"Error fetching intermediate stops for {route_id}: {e}")
+        return [], 0
+
 # OurBus
 async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
+    start = time.time()
 
     async with aiohttp.ClientSession() as session:
         proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
@@ -186,6 +206,20 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 # Extract discount code data using a direct approach, assuming it's always present as an array
                 discount_code_loaded_data = trip_data.get('searchedRouteList', {}).get('voucher', [])
 
+                trips_needing_stops = [trip for trip in loaded_data if trip['trip_status'] != "STOP_SALES" and 'route_id' in trip]
+
+            # Create tasks for each trip needing intermediate stops
+                stop_tasks = [fetch_intermediate_ourbus_stops(session, trip['route_id']) for trip in trips_needing_stops]
+
+            # Gather intermediate stops concurrently
+                stops_results = await asyncio.gather(*stop_tasks)
+
+                for trip, (names, count) in zip(trips_needing_stops, stops_results):
+                    trip['intermediate_stops_names'] = names
+                    trip['intermediate_count'] = count - 2
+                
+                intermediate_stations_names = trip['intermediate_stops_names']
+                intermediate_count = trip['intermediate_count']
         except Exception as e:
             raise e
         else:
@@ -221,23 +255,25 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                     non_stop = str(journey['non_stop'])
                     random_num = randrange(10000)
                     route_id = journey['route_id']
-                    try:
-                        # Intermediate Stations Request and Information
-                        intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
-                        intermediate_stations_request = requests.get(intermediate_stations_link)
-                        intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                        intermediate_stations_info = intermediate_stations_response["stopList"]
-                        intermediate_count = len(intermediate_stations_info) 
+                    # try:
+                    #     # Intermediate Stations Request and Information
+                    #     # intermediate_stations_link = f"https://www.ourbus.com/stopList/{route_id}"
+                    #     # intermediate_stations_request = requests.get(intermediate_stations_link)
+                    #     # intermediate_stations_response = json.loads(intermediate_stations_request.text)
+                    #     # intermediate_stations_info = intermediate_stations_response["stopList"]
+                    #     # intermediate_count = len(intermediate_stations_info) 
                     
-                        intermediate_stations_names = []
-                        for index in range(0,intermediate_count):
-                            city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
-                            intermediate_stations_names.append(city_and_location)
+                    #     # intermediate_stations_names = []
+                    #     # for index in range(0,intermediate_count):
+                    #     #     city_and_location = f"{index+1}. {intermediate_stations_info[index]['stop_name']} \n{intermediate_stations_info[index]['landmark']}"
+                    #     #     intermediate_stations_names.append(city_and_location)
+                        
                 
-                    except Exception as e:
-                        print(e)
-                        intermediate_count = 0
-                        intermediate_stations_names = []
+                    # except Exception as e:
+                    #     print(e)
+                    #     intermediate_count = 0
+                    #     intermediate_stations_names = []
+                
 
                     newTrip = Trip(intermediate_stations=intermediate_stations_names, 
                                 intermediate_count=intermediate_count - 2, 
@@ -253,12 +289,14 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                                 dep_location_coords = create_coordinates(longitude=0.0, latitude=0.0))
                     result.append(newTrip)
             
+            end = time.time()
+            print(f"Time to get all: {end - start}")
             if all_or_single:
                 return trips_and_discount_response(trips=result, discount_code=discount_codes)
             else:
                 result.sort(key=lambda x: x.price)
                 trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
-                return jsonpickle.encode(trips_and_codes)
+                return jsonpickle.encode(trips_and_codes, make_refs = False)
 # MegaBus
 async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
     async with aiohttp.ClientSession() as session:
@@ -346,7 +384,7 @@ async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
             else:
                 result.sort(key=lambda x: x.price)
                 trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
-                return jsonpickle.encode(trips_and_codes)
+                return jsonpickle.encode(trips_and_codes, make_refs=False)
 
 # FlixBus
 async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
@@ -509,13 +547,9 @@ async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
             else:
                 result.sort(key=lambda x: x.price)
                 trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
-                return jsonpickle.encode(trips_and_codes)
+                return jsonpickle.encode(trips_and_codes, make_refs=False)
 
 # All (OurBus, MegaBus, Flixbus)
-import asyncio
-import jsonpickle
-import time
-
 async def get_all(date, dep_loc, arr_loc):
     start = time.time()
     try:
@@ -542,5 +576,6 @@ async def get_all(date, dep_loc, arr_loc):
         trips_and_codes = trips_and_discount_response(trips=trips, discount_code=discount_codes)
         end = time.time()
         print(f"Time to get all: {end - start}")
-        return jsonpickle.encode(trips_and_codes)
+        return jsonpickle.encode(trips_and_codes, make_refs=False)
+
 
