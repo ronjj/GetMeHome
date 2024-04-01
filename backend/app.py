@@ -5,6 +5,7 @@ import json
 import exceptions
 import constants
 import stripe_funcs
+import asyncio
 
 # Initialise Flask App
 app = Flask(__name__)
@@ -70,4 +71,5 @@ def buy_ticket():
     
 # Run Server
 if __name__ == '__main__':
-    app.run(debug=True)
+    asyncio.run (app.run(debug=True))
+   
