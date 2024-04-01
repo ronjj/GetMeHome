@@ -15,10 +15,10 @@ struct SavedTripRowView: View {
     
     var body: some View {
         if savedTrip.date ?? "" < viewModel.convertDateToString(date: Date()) {
-          SavedTripRowDesign(expired: true,
-                             savedTrip: savedTrip,
-                             savedTripId: $savedTripId,
-                             showDeleteAlert: $showDeleteAlert)
+            SavedTripRowDesign(expired: true,
+                               savedTrip: savedTrip,
+                               savedTripId: $savedTripId,
+                               showDeleteAlert: $showDeleteAlert)
         } else {
             SavedTripRowDesign(expired: false,
                                savedTrip: savedTrip,
@@ -39,22 +39,22 @@ struct SavedTripRowDesign: View {
     var body: some View {
         if savedTrip.date != nil {
             VStack(alignment: .leading, spacing: 5) {
-            HStack {
-                Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
-                    .strikethrough(expired ? true  : false)
-                    .font(.title2)
-                Spacer()
-                Button {
-                    savedTripId = Int(Int16(savedTrip.id))
-                    showDeleteAlert = true
-                    AnalyticsManager.shared.logEvent(name: "SavedTripRowView_XButtonClicked")
-                } label: {
-                    Image(systemName: "x.circle")
+                HStack {
+                    Text(viewModel.convertToDate(dateString:savedTrip.date ?? ""), style: .date)
+                        .strikethrough(expired ? true  : false)
+                        .font(.title2)
+                    Spacer()
+                    Button {
+                        savedTripId = Int(Int16(savedTrip.id))
+                        showDeleteAlert = true
+                        AnalyticsManager.shared.logEvent(name: "SavedTripRowView_XButtonClicked")
+                    } label: {
+                        Image(systemName: "x.circle")
+                    }
+                    .tint(.red)
+                    .buttonStyle(.bordered)
                 }
-                .tint(.red)
-                .buttonStyle(.bordered)
-            }
-
+                
                 VStack(alignment: .leading, spacing: 5) {
                     Text("$\(savedTrip.price, specifier: "%.2f")")
                         .fontWeight(.bold)
@@ -70,14 +70,14 @@ struct SavedTripRowDesign: View {
                     }
                     if !expired {
                         VStack(alignment: .leading) {
-                            Divider()
+                            
                             Text("Departure Location")
                                 .bold()
                             Text(savedTrip.departureLocation ?? "")
                         }
                         
                         VStack(alignment: .leading) {
-                            Divider()
+                            
                             Text("Arrival Location")
                                 .bold()
                             Text(savedTrip.arrivalLocation ?? "")
