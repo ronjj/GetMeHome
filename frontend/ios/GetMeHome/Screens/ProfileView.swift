@@ -236,19 +236,20 @@ struct ProfileView: View {
 //                }
                 Section {
                     Text("Have questions? Found bugs? Have a feature suggestion? \nLet Me Know!")
-                    Button {
-                        email.send(openURL: openURL)
-                        AnalyticsManager.shared.logEvent(name: "ProfileView_SendEmailClicked")
-                    } label: {
-                        Text("Contact Via Email")
-                    }
-                    .tint(.purple)
                     
-                    Link("Google Form", destination: URL(string: "https://forms.gle/hLKQ1xjt9WGW8wBW8")!)
+                    Link("Feedback Form", destination: URL(string: "https://forms.gle/hLKQ1xjt9WGW8wBW8")!)
                         .tint(.purple)
                         .onTapGesture(perform: {
                             AnalyticsManager.shared.logEvent(name: "ProfileView_GoogleFormClicked")
                         })
+                    Button {
+                        email.send(openURL: openURL)
+                        AnalyticsManager.shared.logEvent(name: "ProfileView_SendEmailClicked")
+                    } label: {
+                        Text("Developer Email")
+                    }
+                    .tint(.purple)
+                    
                 } header: {
                     Text("Contact")
                 } footer: {
