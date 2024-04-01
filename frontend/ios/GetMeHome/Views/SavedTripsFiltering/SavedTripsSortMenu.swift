@@ -53,7 +53,7 @@ struct SavedTripsFilterMenu: View {
     @State var selectedBusService: String? = nil
     var body: some View {
         Menu(selectedBusService != nil ? "\(selectedBusService!)" : "Filter") {
-            Button("All") {
+            Button("All Bus Services") {
 //                I kept this as OurBus just in case the value gets passed into the NSPredicate
 //                There is no all service so keeping it as OurBus prevents a fatal crash
                 busService = "OurBus"

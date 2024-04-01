@@ -50,6 +50,8 @@ struct FilterScreen: View {
                 .tint(.purple)
                 Text("Earliest Departure Time")
                 
+                Spacer()
+                
                 DatePicker("Earliest Departure Time",
                            //                               Need complicated binding so I can make earliestDeparture nil
                            selection: Binding<Date>(get: {self.earliestDepartureTimeLocal ?? Date()}, set: {self.earliestDepartureTimeLocal = $0}),
@@ -74,6 +76,7 @@ struct FilterScreen: View {
                 }
                 .tint(.purple)
                 Text("Latest Arrival Time")
+                Spacer()
                 DatePicker("Latest Arrival Time",
                            selection: Binding<Date>(get: {self.latestArrivalTimeLocal ?? Date()}, set: {self.latestArrivalTimeLocal = $0}),
                            displayedComponents: .hourAndMinute)
@@ -107,6 +110,7 @@ struct FilterScreen: View {
                 .opacity(isLoading ? 0.25 : 1.0)
                 .opacity(!maxPriceToggle ? 0.25 : 1.0)
                 .labelsHidden()
+                .padding(.horizontal)
             }
             
             
@@ -121,8 +125,8 @@ struct FilterScreen: View {
                 .tint(.purple)
                 
                 VStack (alignment: .leading){
-                    Text("Choose A Bus Service")
-                    Picker("Choose A Bus Service", selection: $selectedServiceLocal) {
+                    Text("Bus Service")
+                    Picker("Bus Service", selection: $selectedServiceLocal) {
                         ForEach(viewModel.services, id: \.self) {
                             Text($0)
                         }

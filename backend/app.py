@@ -6,7 +6,6 @@ import exceptions
 import constants
 import stripe_funcs
 
-
 # Initialise Flask App
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
