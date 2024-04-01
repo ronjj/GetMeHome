@@ -1,17 +1,19 @@
 from flask import Flask, request
+from quart import Quart
 import os
 import bus_routes
 import json
 import exceptions
 import constants
 import stripe_funcs
+import asyncio
 
 # Initialise Flask App
-app = Flask(__name__)
+app = Quart(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def create_app():
-    app = Flask(__name__)
+    app = Quart(__name__)
     app.config.from_object("project.config")
     return app
 
