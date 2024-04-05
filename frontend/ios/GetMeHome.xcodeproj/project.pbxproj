@@ -60,6 +60,7 @@
 		54A2E9D92B52D39F00166062 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9D82B52D39F00166062 /* Date+Extension.swift */; };
 		54A2E9DE2B52DCC300166062 /* SupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9DD2B52DCC300166062 /* SupportEmail.swift */; };
 		54A2E9E02B52DF6800166062 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A2E9DF2B52DF6800166062 /* MailView.swift */; };
+		54A885A72BC0BFB000E97F6F /* TripDetailViewSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A885A62BC0BFB000E97F6F /* TripDetailViewSections.swift */; };
 		54B0DF562B113421006263DF /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B0DF552B113421006263DF /* ViewModel.swift */; };
 		54B5667D2B63474D00483C67 /* TrackedTripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B5667C2B63474D00483C67 /* TrackedTripsView.swift */; };
 		54B617112B4C611D00657D6F /* TripSearchFilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617102B4C611D00657D6F /* TripSearchFilterRowView.swift */; };
@@ -108,6 +109,7 @@
 		54A2E9D82B52D39F00166062 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		54A2E9DD2B52DCC300166062 /* SupportEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportEmail.swift; sourceTree = "<group>"; };
 		54A2E9DF2B52DF6800166062 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		54A885A62BC0BFB000E97F6F /* TripDetailViewSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailViewSections.swift; sourceTree = "<group>"; };
 		54B0DF552B113421006263DF /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		54B5667C2B63474D00483C67 /* TrackedTripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedTripsView.swift; sourceTree = "<group>"; };
 		54B617102B4C611D00657D6F /* TripSearchFilterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSearchFilterRowView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				548A42692B560A59001E2A77 /* SavedTripsFiltering */,
 				546F4DE62B545B4F0091F0D4 /* Search Section */,
 				543928822B10EDA400C5E609 /* TripRowView.swift */,
+				54A885A62BC0BFB000E97F6F /* TripDetailViewSections.swift */,
 				548D3CFF2B12460300E9067F /* TripListView.swift */,
 				548D3D012B124DAC00E9067F /* LoadingView.swift */,
 				540581362B3F5EF60068B6F0 /* BusLabel.swift */,
@@ -418,6 +421,7 @@
 				547AB00F2B0FE14400F7C539 /* GetMeHomeApp.swift in Sources */,
 				547DB76F2B5078E800FF2F1C /* LoginView.swift in Sources */,
 				548A426B2B560AB8001E2A77 /* SavedTripsSortMenu.swift in Sources */,
+				54A885A72BC0BFB000E97F6F /* TripDetailViewSections.swift in Sources */,
 				54B0DF562B113421006263DF /* ViewModel.swift in Sources */,
 				5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */,
 				547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */,
