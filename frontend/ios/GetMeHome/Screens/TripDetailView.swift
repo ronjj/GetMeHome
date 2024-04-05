@@ -14,6 +14,7 @@ struct TripDetailView: View {
     var discountCodes: [Discount]
     var viewModel = ViewModel()
     var paymentsViewModel = PaymentsViewModel()
+    var averageTripPrice: Float
     
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
@@ -134,6 +135,7 @@ struct TripDetailView: View {
             let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
             location = MapCameraPosition.region(coordinates)
             AnalyticsManager.shared.logEvent(name: "TripDetailView_Appear")
+            
             
         })
         .listStyle(.plain)

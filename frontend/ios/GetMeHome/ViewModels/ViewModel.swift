@@ -89,6 +89,21 @@ import SwiftUI
         return queryMap[string] ?? "all"
     }
     
+    func averagePrice(of trips: [Trip]) -> Float {
+        var total: Float = 0.00
+        var lengthOfTrips = trips.count
+        
+        if trips.count == 0 {
+            return 0.0
+        }
+        
+        for trip in trips {
+            total += (trip.price)
+        }
+        
+        return total / Float(lengthOfTrips)
+    }
+    
     func swapLocations(swap departureLocation: inout String, with arrivalLocation: inout String) {
         let prevArrival = arrivalLocation
         let prevDep = departureLocation
