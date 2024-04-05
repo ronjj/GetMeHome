@@ -19,7 +19,6 @@ struct TripDetailView: View {
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
 
-    
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
     
@@ -70,12 +69,17 @@ struct TripDetailView: View {
                 }
             
             VStack(alignment: .leading, spacing: 10) {
+                 
+                VStack(alignment: .leading) {
+                    Text("**Average Price For This Trip: $\(averageTripPrice, specifier: "%.2f")")
+                    Text("This Ticket: $\(trip.price, specifier: "%.2f")")
+                }
+                
                 CustomSection(sectionTitle: "Date", sectionText: Text(viewModel.convertToDate(dateString: trip.date),
                       style: .date))
                 
                 CustomSection(sectionTitle: "Time", sectionText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
                 
-                CustomSection(sectionTitle: "Price", sectionText: Text("$\(trip.price, specifier: "%.2f")"))
 
                 CustomSection(sectionTitle: "Departure", sectionText: Text("\(trip.departureLocation)"))
                 
