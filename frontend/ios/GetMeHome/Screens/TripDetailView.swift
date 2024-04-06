@@ -18,7 +18,6 @@ struct TripDetailView: View {
     let blankDiscount =  [Discount(id: 1, service: "FlixBus", code: "None")]
 
     @State private var date = Date()
-    @State private var discountCodesFiltered = [Discount]()
 
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
@@ -138,13 +137,9 @@ struct TripDetailView: View {
                                     longitude:  trip.departureLocationCoords.longitude), trip: trip)
         }
         .onAppear(perform: {
-            let filteredCodesForService = discountCodes.filter({$0.service == trip.busService})
-            discountCodesFiltered = filteredCodesForService
-            
             let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
             location = MapCameraPosition.region(coordinates)
             AnalyticsManager.shared.logEvent(name: "TripDetailView_Appear")
-            
             
         })
         .listStyle(.plain)

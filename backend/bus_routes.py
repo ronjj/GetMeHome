@@ -509,15 +509,18 @@ async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                             dep_coords = create_coordinates(longitude=dep_long, latitude=dep_lat)
                             
                             for item in intermediate_stations_response['itinerary']:
+                                count = 1
                                 if item['type'] == "ride":
                                     for segment in item['segments']:
-                                        city_name = f"{segment['name']}"
+                                        city_name = f"{count}. {segment['name']}"
                                         intermediate_stations_names.append(city_name)
+                                        count += 1
                                 if item['type'] == 'transfer':
                                     time = f"{item['duration']['hours']} hr {item['duration']['minutes']} m"
                                     transfer_city = item['station']['city_name']
                                     intermediate_stations_names.append(f"Transfer @ {transfer_city} for {time}")
                                     intermediate_count += 1
+                                    count = 1
                             # Subtract 2 when I create the trip so I add back to here
                             intermediate_count += 2
                         except Exception as e:
