@@ -18,6 +18,7 @@ struct TripDetailView: View {
     let blankDiscount =  [Discount(id: 1, service: "FlixBus", code: "None")]
 
     @State private var date = Date()
+    @State private var showFullDestList = false
 
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
