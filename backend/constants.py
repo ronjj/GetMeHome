@@ -111,4 +111,5 @@ FLIX_LOCATION_IDS = {
   "ddf85f3f-f4ac-45e7-b439-1c31ed733ce1": "NYC Midtown (31st St & 8th Ave)",
   "9b850136-6cc5-4982-b6aa-5b7209f432c9": "Syracuse Bus Station",
   "74b8f0dc-56a2-4d1b-b0a4-abe9df30a007": "New York (GW Bridge)",
+  "84c0077c-ed3a-48af-9f30-1aad7c8b3fa2": "NYC Chinatown (28 Allen St)"
 }
