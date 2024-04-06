@@ -516,11 +516,15 @@ async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
                                         intermediate_stations_names.append(city_name)
                                         count += 1
                                 if item['type'] == 'transfer':
-                                    time = f"{item['duration']['hours']} hr {item['duration']['minutes']} m"
+                                    hours = item['duration']['hours']
+                                    minutes = item['duration']['minutes']
+                                    if str(hours) == "0":
+                                        time = f"{minutes} m"
+                                    else:
+                                        time = f"{hours}h {minutes}m"
                                     transfer_city = item['station']['city_name']
                                     intermediate_stations_names.append(f"Transfer @ {transfer_city} for {time}")
                                     intermediate_count += 1
-                                    count = 1
                             # Subtract 2 when I create the trip so I add back to here
                             intermediate_count += 2
                         except Exception as e:
