@@ -14,11 +14,11 @@ struct TripDetailView: View {
     var discountCodes: [Discount]
     var viewModel = ViewModel()
     var paymentsViewModel = PaymentsViewModel()
+    var averageTripPrice: Float
     
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
 
-    
     @State private var location = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
     @State private var mapDetailSelected = false
     
@@ -68,50 +68,59 @@ struct TripDetailView: View {
                     }
                 }
             
-            VStack(alignment: .leading, spacing: 10) {
-                CustomSection(sectionTitle: "Date", sectionText: Text(viewModel.convertToDate(dateString: trip.date),
-                      style: .date))
-                
-                CustomSection(sectionTitle: "Time", sectionText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
-                
-                CustomSection(sectionTitle: "Price", sectionText: Text("$\(trip.price, specifier: "%.2f")"))
-
-                CustomSection(sectionTitle: "Departure", sectionText: Text("\(trip.departureLocation)"))
-                
-                CustomSection(sectionTitle: "Destination", sectionText:  Text("\(trip.arrivalLocation)"))
-                
-                CustomSection(sectionTitle: "Bus Destinations", sectionListType: .tripLocations, trip: trip)
-                
-                if !discountCodes.isEmpty {
-                    CustomSection(sectionTitle: "Discount Codes", sectionListType: .discountCodes, discountCodes: discountCodesFiltered)
+            VStack(alignment: .leading, spacing: 5) {
+                 
+                HStack {
+                    TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"), subText: Text("Average Price For Trip: $\(averageTripPrice, specifier: "%.2f")"))
+                    
+                    Spacer()
+                    
+                    TripDetailSection(title: "Bus Service", bodyText:  Text("\(trip.busService)"))
+                }
+              
+                HStack {
+                    TripDetailSection(title: "Date", bodyText:  Text(viewModel.convertToDate(dateString: trip.date),
+                                                                     style: .date))
+                    Spacer()
+                    
+                    TripDetailSection(title: "Time", bodyText: Text("\(trip.departureTime) - \(trip.arrivalTime)"))
                 }
                 
-                CustomSection(sectionTitle: "Bus Service", sectionText: Text("\(trip.busService)"))
+                TripDetailSection(title: "Departure", bodyText:  Text("\(trip.departureLocation)"))
+                
+                TripDetailSection(title: "Destination", bodyText:  Text("\(trip.arrivalLocation)"))
+               
+                TripDetailSection(title: "Bus Destinations", trip: trip)
+
+                if !discountCodes.isEmpty {
+                    TripDetailSection(title: "Discount Codes", discountCodes: discountCodesFiltered)
+                }
+                
                 
                 HStack {
-//                    Link("Buy on \(trip.busService) Website", 
-//                         destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
-//                        .buttonStyle(.bordered)
-//                        .tint(.indigo)
-//                        .frame(maxWidth: .infinity)
-                    Button {
-                        paymentsViewModel.makePayment(date: trip.date,
-                                                      price: String(trip.price),
-                                                      dep: trip.departureLocation,
-                                                      depTime: trip.departureTime,
-                                                      dest: trip.arrivalLocation,
-                                                      destTime: trip.arrivalTime,
-                                                      bus: trip.busService,
-                                                      name: "Ronald Jabouin",
-                                                      email: "ronaldjabouin2004@gmail.com",
-                                                      commission: String(trip.price * 0.05),
-                                                      ticketLink: trip.ticketLink)
-                    } label: {
-                        Text("Send Post request")
-                    }
+                    Link("Buy on \(trip.busService) Website", 
+                         destination: (URL(string: trip.ticketLink) ?? URL(string: viewModel.backupLinkMap[trip.busService]!))!)
                         .buttonStyle(.bordered)
                         .tint(.indigo)
                         .frame(maxWidth: .infinity)
+//                    Button {
+//                        paymentsViewModel.makePayment(date: trip.date,
+//                                                      price: String(trip.price),
+//                                                      dep: trip.departureLocation,
+//                                                      depTime: trip.departureTime,
+//                                                      dest: trip.arrivalLocation,
+//                                                      destTime: trip.arrivalTime,
+//                                                      bus: trip.busService,
+//                                                      name: "Ronald Jabouin",
+//                                                      email: "ronaldjabouin2004@gmail.com",
+//                                                      commission: String(trip.price * 0.05),
+//                                                      ticketLink: trip.ticketLink)
+//                    } label: {
+//                        Text("Send Post request")
+//                    }
+//                        .buttonStyle(.bordered)
+//                        .tint(.indigo)
+//                        .frame(maxWidth: .infinity)
                 }
             }
             .padding()
@@ -134,6 +143,7 @@ struct TripDetailView: View {
             let coordinates = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: trip.arrivalLocationCoords.latitude, longitude: trip.arrivalLocationCoords.longitude), span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12))
             location = MapCameraPosition.region(coordinates)
             AnalyticsManager.shared.logEvent(name: "TripDetailView_Appear")
+            
             
         })
         .listStyle(.plain)

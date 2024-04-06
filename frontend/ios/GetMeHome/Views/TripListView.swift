@@ -11,8 +11,11 @@ struct TripListView: View {
     
     var trips: [Trip]?
     var discountCodes: [Discount]?
+    var averageTripPrice = 0.0
 
     @Binding var clickedSearch: Bool
+    
+    var viewModel = ViewModel()
     
     var body: some View {
 // If Able to Unwrap trips
@@ -63,7 +66,7 @@ extension TripListView {
         }
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip, discountCodes: discountCodes ?? [])
+            TripDetailView(trip: trip, discountCodes: discountCodes ?? [], averageTripPrice: viewModel.averagePrice(of: trips ?? []))
         }
     }
     
@@ -76,7 +79,7 @@ extension TripListView {
         
         .listStyle(.plain)
         .navigationDestination(for: Trip.self) { trip in
-            TripDetailView(trip: trip, discountCodes: discountCodes ?? [])
+            TripDetailView(trip: trip, discountCodes: discountCodes ?? [], averageTripPrice: viewModel.averagePrice(of: trips ?? []))
         }
     }
     
