@@ -70,8 +70,14 @@ struct TripDetailView: View {
             
             VStack(alignment: .leading, spacing: 5) {
                  
-                TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"), subText: Text("Average Price For This Trip: $\(averageTripPrice, specifier: "%.2f")"))
-                
+                HStack {
+                    TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"), subText: Text("Average Price For Trip: $\(averageTripPrice, specifier: "%.2f")"))
+                    
+                    Spacer()
+                    
+                    TripDetailSection(title: "Bus Service", bodyText:  Text("\(trip.busService)"))
+                }
+              
                 HStack {
                     TripDetailSection(title: "Date", bodyText:  Text(viewModel.convertToDate(dateString: trip.date),
                                                                      style: .date))
@@ -83,13 +89,11 @@ struct TripDetailView: View {
                 TripDetailSection(title: "Departure", bodyText:  Text("\(trip.departureLocation)"))
                 
                 TripDetailSection(title: "Destination", bodyText:  Text("\(trip.arrivalLocation)"))
-                
-                TripDetailSection(title: "Bus Service", bodyText:  Text("\(trip.busService)"))
+               
+                TripDetailSection(title: "Bus Destinations", trip: trip)
 
-                CustomSection(sectionTitle: "Bus Destinations", sectionListType: .tripLocations, trip: trip)
-                
                 if !discountCodes.isEmpty {
-                    CustomSection(sectionTitle: "Discount Codes", sectionListType: .discountCodes, discountCodes: discountCodesFiltered)
+                    TripDetailSection(title: "Discount Codes", discountCodes: discountCodesFiltered)
                 }
                 
                 

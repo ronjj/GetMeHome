@@ -12,7 +12,8 @@ struct TripDetailSection: View {
     var title: String
     var bodyText: Text?
     var subText: Text?
-    var list: [String]?
+    var trip: Trip?
+    var discountCodes: [Discount]?
    
     var body: some View {
         VStack {
@@ -26,6 +27,23 @@ struct TripDetailSection: View {
                 subText
                     .font(.caption)
                     .foregroundStyle(.secondary)
+               
+                if (trip != nil) {
+                    ForEach(trip!.intermediateStations, id: \.self) { station in
+                        Text(station)
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                        Divider()
+                    }
+                }
+                if discountCodes != nil {
+                    ForEach(discountCodes!, id: \.self) { discountCode in
+                        Text("\(discountCode.code)")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+                        Divider()
+                    }
+                }
             }
         }
         .padding()
