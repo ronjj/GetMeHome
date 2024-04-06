@@ -1,13 +1,11 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-import urllib
 import jsonpickle 
 from datetime import datetime
 from random import randrange
 import exceptions
 import constants
-import threading
 import time
 import aiohttp
 import asyncio
@@ -143,8 +141,6 @@ async def fetch_intermediate_ourbus_stops(session, route_id):
 # OurBus
 async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
     result = []
-    start = time.time()
-
     async with aiohttp.ClientSession() as session:
         proper_date = format_date(search_date=date, bus_service=constants.OUR_BUS)
         
@@ -290,95 +286,80 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                     result.append(newTrip)
             
             end = time.time()
-            print(f"Time to get all: {end - start}")
             if all_or_single:
                 return trips_and_discount_response(trips=result, discount_code=discount_codes)
             else:
                 result.sort(key=lambda x: x.price)
                 trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
                 return jsonpickle.encode(trips_and_codes, make_refs = False)
+   
 # MegaBus
+async def fetch_intermediate_mega_stops(session, journey_id):
+    intermediate_stations_link = f"https://us.megabus.com/journey-planner/api/itinerary?journeyId={journey_id}"
+    try:
+        async with session.get(intermediate_stations_link) as response:
+            if response.status == 200:
+                data = await response.json()
+                intermediate_stations_info = data["scheduledStops"]
+                intermediate_stations_names = [
+                    f"{index+1}. {stop['cityName']} \n{stop['location']}" for index, stop in enumerate(intermediate_stations_info)
+                ]
+                return intermediate_stations_names, len(intermediate_stations_info)
+            else:
+                return [], 0
+    except Exception as e:
+        print(f"Error fetching intermediate stops for journey_id {journey_id}: {e}")
+        return [], 0
+
 async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
+   
     async with aiohttp.ClientSession() as session:
         result = []
         discount_codes = []
         proper_date = format_date(search_date=date, bus_service=constants.MEGA_BUS)
 
-        # Added for future routes where Megabus is not supported
         if dep_loc not in constants.MEGA_LOCATION_IDS.keys() or arr_loc not in constants.MEGA_LOCATION_IDS.keys():
             print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Megabus")
             return trips_and_discount_response(trips=[], discount_code=[])
-        
+
         link = f"https://us.megabus.com/journey-planner/api/journeys?originId={constants.MEGA_LOCATION_IDS[dep_loc]}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&departureDate={proper_date}&totalPassengers=1&concessionCount=0&nusCount=0&otherDisabilityCount=0&wheelchairSeated=0&pcaCount=0&days=1"
         ticket_link = f"https://us.megabus.com/journey-planner/journeys?days=1&concessionCount=0&departureDate={proper_date}&destinationId={constants.MEGA_LOCATION_IDS[arr_loc]}&inboundOtherDisabilityCount=0&inboundPcaCount=0&inboundWheelchairSeated=0&nusCount=0&originId={constants.MEGA_LOCATION_IDS[dep_loc]}&otherDisabilityCount=0&pcaCount=0&totalPassengers=1&wheelchairSeated=0"
-    
+
         try:
             async with session.get(link) as mega_request:
                 mega_response = await mega_request.text()
                 mega_info = json.loads(mega_response)['journeys']
+                
+                # Prepare tasks for fetching intermediate stops for all journeys
+                stops_tasks = [fetch_intermediate_mega_stops(session, journey["journeyId"]) for journey in mega_info if "journeyId" in journey]
+                stops_results = await asyncio.gather(*stops_tasks)
 
         except Exception as e:
             raise e
-        
         else:
-            for journey in mega_info:
+            for journey, (intermediate_stations_names, intermediate_count) in zip(mega_info, stops_results):
+                # Continue processing each journey
+                # Split the date and time, handle time formatting
                 journey_dep_date_time = journey['departureDateTime'].split("T")
                 journey_arr_date_time = journey['arrivalDateTime'].split("T")
-                
-                date = journey_dep_date_time[0]
-                price = journey['price']
-                arr_time = journey_arr_date_time[1]
-                arr_time_12h = datetime.strptime(arr_time, "%H:%M:%S")
-                arr_time_12h = arr_time_12h.strftime("%I:%M %p")
 
-                arr_location = journey['destination']['stopName']
-                departure_time = journey_dep_date_time[1]
-                dep_time_12h = datetime.strptime(departure_time, "%H:%M:%S")
-                dep_time_12h = dep_time_12h.strftime("%I:%M %p")
-                departure_location = journey['origin']['stopName']
-                bus = constants.MEGA_BUS_FULL
-                random_num = randrange(10000)
-                journey_id = journey["journeyId"]
-
-                non_stop = "N/A"
-                leg_information = journey['legs']
-                if len(leg_information) > 1:
-                    non_stop = "False"
-                else:
-                    non_stop = "True"
-
-                # Make request to get intermediate stop information
-                try:
-                    intermediate_stations_link = f"https://us.megabus.com/journey-planner/api/itinerary?journeyId={journey_id}"
-                    intermediate_stations_request = requests.get(intermediate_stations_link)
-                    intermediate_stations_response = json.loads(intermediate_stations_request.text)
-                    intermediate_stations_info = intermediate_stations_response["scheduledStops"]
-                    intermediate_count = len(intermediate_stations_info) 
-                    
-                    intermediate_stations_names = []
-                    for index in range(0,intermediate_count):
-                        city_and_location = f"{index+1}. {intermediate_stations_info[index]['cityName']} \n{intermediate_stations_info[index]['location']}"
-                        intermediate_stations_names.append(city_and_location)
-                except Exception as e:
-                    print(e)
-                    intermediate_count = 0
-                    intermediate_stations_names = []
-
-                newTrip = Trip(non_stop=non_stop,
-                            intermediate_stations=intermediate_stations_names,
-                            intermediate_count=intermediate_count - 2,
-                            ticket_link=ticket_link, 
-                            random_num=random_num, 
-                            date=date, price=price, 
-                            arr_time=arr_time_12h, 
-                            arr_location=arr_location, 
-                            dep_time=dep_time_12h, 
-                            dep_location=departure_location, 
-                            bus_serivce=bus,
-                            arr_location_coords=create_coordinates(longitude=0.0, latitude=0.0),
-                            dep_location_coords=create_coordinates(longitude=0.0, latitude=0.0))
+                # Create new Trip instances and append to result
+                newTrip = Trip(non_stop="True" if len(journey['legs']) == 1 else "False",
+                               intermediate_stations=intermediate_stations_names,
+                               intermediate_count=intermediate_count - 2,
+                               ticket_link=ticket_link, 
+                               random_num=randrange(10000), 
+                               date=journey_dep_date_time[0], price=journey['price'], 
+                               arr_time=datetime.strptime(journey_arr_date_time[1], "%H:%M:%S").strftime("%I:%M %p"), 
+                               arr_location=journey['destination']['stopName'], 
+                               dep_time=datetime.strptime(journey_dep_date_time[1], "%H:%M:%S").strftime("%I:%M %p"), 
+                               dep_location=journey['origin']['stopName'], 
+                               bus_serivce=constants.MEGA_BUS_FULL,
+                               arr_location_coords=create_coordinates(longitude=0.0, latitude=0.0),
+                               dep_location_coords=create_coordinates(longitude=0.0, latitude=0.0))
                 result.append(newTrip)
 
+            # Return results based on the all_or_single flag
             if all_or_single:
                 return trips_and_discount_response(trips=result, discount_code=discount_codes)
             else:
@@ -386,8 +367,10 @@ async def get_mega_bus(date, dep_loc, arr_loc, all_or_single):
                 trips_and_codes = trips_and_discount_response(trips=result, discount_code=discount_codes)
                 return jsonpickle.encode(trips_and_codes, make_refs=False)
 
+
 # FlixBus
 async def get_flix_bus(date, dep_loc, arr_loc, all_or_single):
+   
     async with aiohttp.ClientSession() as session:
         if dep_loc not in constants.FLIX_LOCATION_IDS.keys() or arr_loc not in constants.FLIX_LOCATION_IDS.keys():
             print(f"Dep:{dep_loc} or Arrival:{arr_loc} Not Supported by Flixbus")
