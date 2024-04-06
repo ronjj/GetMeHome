@@ -15,7 +15,8 @@ struct TripDetailView: View {
     var viewModel = ViewModel()
     var paymentsViewModel = PaymentsViewModel()
     var averageTripPrice: Float
-    
+    let blankDiscount =  [Discount(id: 1, service: "FlixBus", code: "None")]
+
     @State private var date = Date()
     @State private var discountCodesFiltered = [Discount]()
 
@@ -93,7 +94,7 @@ struct TripDetailView: View {
                 TripDetailSection(title: "Bus Destinations", trip: trip)
 
                 if !discountCodes.isEmpty {
-                    TripDetailSection(title: "Discount Codes", discountCodes: discountCodesFiltered)
+                    TripDetailSection(title: "Discount Codes", discountCodes: discountCodes)
                 }
                 
                 
