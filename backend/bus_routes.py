@@ -196,6 +196,7 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
 
                 # If both lists are empty, it indicates a failure to retrieve valid data
                 if not loaded_data:
+                    print(f"There was an error getting trips for {dep_loc} to {arr_loc} on {date}")
                     # Handle the error case where no data could be loaded
                     return trips_and_discount_response(trips=[], discount_code=[])
 

@@ -27,6 +27,7 @@ OURBUS_LOCATION_IDS = {
   "boston": "Boston%2C%20MA&",
   "albany": "Albany%2C%20NY",
   "buffalo": "Buffalo%2C%20NY",
+  "jfk": "JFK%20Airport"
 }
 
 MEGA_LOCATION_IDS = {

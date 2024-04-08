@@ -14,6 +14,7 @@ import SwiftUI
     let services = ["All", "OurBus", "MegaBus", "FlixBus"]
     let locationQueryMap = ["NYC":"new_york", 
                             "Ithaca, NY": "ithaca",
+                            "JFK Airport": "jfk",
                             "Binghamton, NY": "binghamton",
                             "Rochester, NY": "rochester",
                             "Albany, NY": "albany",
@@ -36,7 +37,7 @@ import SwiftUI
         var otherLocationStops = [String]()
         
         locationQueryMap.forEach { location, code in
-            if location.contains("NY") || location.contains("SYR") {
+            if location.contains("NY") || location.contains("SYR") || location.contains("JFK") {
                 newYorkStops.append(location)
             } else {
                 otherLocationStops.append(location)
