@@ -27,6 +27,12 @@ struct TabBarView: View {
                     Text("Saved")
             }
             
+            BoughtTicketsView()
+            .tabItem {
+                    Image(systemName: "ticket")
+                    Text("Tickets")
+            }
+            
 //            TrackedTripsView()
 //            .tabItem {
 //                Image(systemName: "bell")

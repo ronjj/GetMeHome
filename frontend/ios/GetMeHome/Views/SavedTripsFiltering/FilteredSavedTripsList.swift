@@ -120,7 +120,6 @@ struct FilteredSavedTripsList: View {
         self._busServiceBinding = busServiceBinding
         self._isFiltering = isFiltering
         
-       
     }
     private func deleteSavedTrip(offsets: IndexSet) {
         withAnimation {

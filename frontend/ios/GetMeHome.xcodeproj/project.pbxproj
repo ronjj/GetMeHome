@@ -65,6 +65,7 @@
 		54B617112B4C611D00657D6F /* TripSearchFilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617102B4C611D00657D6F /* TripSearchFilterRowView.swift */; };
 		54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617142B4C7DAA00657D6F /* SearchButton.swift */; };
 		54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B617162B4C805A00657D6F /* DateAndLocationPickerView.swift */; };
+		54BC919D2BC4B5CB00441243 /* BoughtTicketsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC919C2BC4B5CB00441243 /* BoughtTicketsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +114,7 @@
 		54B617102B4C611D00657D6F /* TripSearchFilterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripSearchFilterRowView.swift; sourceTree = "<group>"; };
 		54B617142B4C7DAA00657D6F /* SearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchButton.swift; sourceTree = "<group>"; };
 		54B617162B4C805A00657D6F /* DateAndLocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndLocationPickerView.swift; sourceTree = "<group>"; };
+		54BC919C2BC4B5CB00441243 /* BoughtTicketsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoughtTicketsView.swift; sourceTree = "<group>"; };
 		54E8EEDF2B5AB9720037A362 /* GetMeHome.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GetMeHome.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -289,6 +291,7 @@
 				547AB0102B0FE14400F7C539 /* ContentView.swift */,
 				547DB77B2B508F3700FF2F1C /* ProfileView.swift */,
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
+				54BC919C2BC4B5CB00441243 /* BoughtTicketsView.swift */,
 				547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */,
 				5410BA472B537803002C9000 /* SplashScreenView.swift */,
 				540FF2F52B55AABC000372CD /* SavedTripsView.swift */,
@@ -425,6 +428,7 @@
 				54B617152B4C7DAA00657D6F /* SearchButton.swift in Sources */,
 				540FF2F42B55A647000372CD /* DataController.swift in Sources */,
 				54A2E9DE2B52DCC300166062 /* SupportEmail.swift in Sources */,
+				54BC919D2BC4B5CB00441243 /* BoughtTicketsView.swift in Sources */,
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
 				54B5667D2B63474D00483C67 /* TrackedTripsView.swift in Sources */,
 				547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */,
