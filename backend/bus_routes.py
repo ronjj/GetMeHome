@@ -179,7 +179,6 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                                 
                 # Decode JSON just once to improve efficiency and readability
                 trip_data = json.loads(parsed_trips)
-                print(api_and_ticket_link)
 
                 # Initialize loaded_data to an empty list to handle cases where neither primary nor similar search data is available
                 loaded_data = []
@@ -192,15 +191,12 @@ async def get_our_bus(date,dep_loc,arr_loc, all_or_single):
                 # Attempt to retrieve similar search data, regardless of whether primary data was found
                 # This simplifies logic by not needing a nested try-except structure
                 similar_search = trip_data.get('searchedRouteList', {}).get('similarSearch', [])
-                print(f"similar search is {similar_search}")
                 if similar_search:
                     loaded_data.extend(similar_search)
-                    print("when into similar search")
-                    print(f"loaded data is{loaded_data}")
 
                 # If both lists are empty, it indicates a failure to retrieve valid data
                 if not loaded_data:
-                    print("error getting trips")
+                    print(f"There was an error getting trips for {dep_loc} to {arr_loc} on {date}")
                     # Handle the error case where no data could be loaded
                     return trips_and_discount_response(trips=[], discount_code=[])
 
