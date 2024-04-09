@@ -29,7 +29,7 @@ struct TripDetailSection: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                
-                if (trip != nil) && (showFullList != nil) {
+                if (trip != nil) {
                     ForEach(trip!.intermediateStations, id: \.self) { station in
                         Text(station)
                             .font(.body)
@@ -37,7 +37,7 @@ struct TripDetailSection: View {
                         Divider()
                     }
                 }
-                if discountCodes != nil && (showFullList != nil) {
+                if discountCodes != nil  {
                     ForEach(discountCodes!, id: \.self) { discountCode in
                         Text("\(discountCode.code)")
                             .font(.body)

@@ -75,8 +75,8 @@ struct TripDetailView: View {
                     TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"), subText: Text("Average Price For Trip: $\(averageTripPrice, specifier: "%.2f")"))
                     
                     Spacer()
-                    
-                    TripDetailSection(title: "Bus Service", bodyText:  Text("\(trip.busService)"))
+
+                    TripDetailSection(title: "By", bodyText:  Text("\(trip.busService)"))
                 }
               
                 HStack {

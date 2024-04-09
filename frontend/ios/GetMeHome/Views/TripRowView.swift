@@ -18,16 +18,18 @@ struct TripRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             
-            Text("$\(trip.price, specifier: "%.2f")")
-                .fontWeight(.bold)
-            
-            HStack (spacing: 5) {
-                Image(systemName: "clock")
-                Text(trip.departureTime)
-                Image(systemName: "arrow.right")
-                Text(trip.arrivalTime)
+            HStack{
+                Text("$\(trip.price, specifier: "%.2f")")
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                HStack (spacing: 5) {
+                    Text("\(trip.departureTime)")
+                    Image(systemName: "arrow.right")
+                    Text(trip.arrivalTime)
+                }
             }
-            
             HStack (spacing:  5) {
                 Image(systemName: "bus.fill")
                 Text(trip.departureLocation)
@@ -43,39 +45,42 @@ struct TripRowView: View {
                     .minimumScaleFactor(0.8)
                     .multilineTextAlignment(.trailing)
             }
-            
-            if trip.nonStop == "False" {
-                HStack {
+            HStack {
+                Button {
+                    AnalyticsManager.shared.logEvent(name: "TripRowView_FavoriteClicked")
+                    if toggleLogic(trip: trip, isFavorite: isFavorite) == .notInSavedNotFavorite {
+                        isFavorite = true
+                        DataContrller().addSavedTrip(arrivalLocation: trip.arrivalLocation, arrivalTime: trip.arrivalTime, busService: trip.busService, date: trip.date, departureLocation: trip.departureLocation, departureTime: trip.departureTime, id:trip.randomNum , nonStop: trip.nonStop, price: trip.price, ticketLink: trip.ticketLink, context: managedObjectContext)
+                    } else if toggleLogic(trip: trip, isFavorite: isFavorite) == .inSavedAndFavorite {
+    //                  NOTE: Find the savedTrips with the same ID as the trip in the row and remove it from the array
+    //                    then save the savedTrips array
+                        isFavorite = false
+                        savedTrips.filter { $0.id == trip.randomNum }.forEach(managedObjectContext.delete)
+                        DataContrller().save(context: managedObjectContext)
+                    } else if toggleLogic(trip: trip, isFavorite: isFavorite) == .notInSavedFavorite {
+                        isFavorite = false
+                    } else {
+    //                    inSavedAndNotFavorite
+                        alreadySavedAlert = true
+                    }
+                    
+                } label : {
+                    Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
+                }
+                .tint(isFavorite ? .purple : .gray)
+                .buttonStyle(.bordered)
+                if trip.nonStop == "False" {
+                    HStack {
+                        BusLabel(busService: trip.busService)
+                        BusLabel(busService: "indirect")
+                    }
+                }
+                else {
                     BusLabel(busService: trip.busService)
-                    BusLabel(busService: "indirect")
                 }
             }
-            else {
-                BusLabel(busService: trip.busService)
-            }
-            Button {
-                AnalyticsManager.shared.logEvent(name: "TripRowView_FavoriteClicked")
-                if toggleLogic(trip: trip, isFavorite: isFavorite) == .notInSavedNotFavorite {
-                    isFavorite = true
-                    DataContrller().addSavedTrip(arrivalLocation: trip.arrivalLocation, arrivalTime: trip.arrivalTime, busService: trip.busService, date: trip.date, departureLocation: trip.departureLocation, departureTime: trip.departureTime, id:trip.randomNum , nonStop: trip.nonStop, price: trip.price, ticketLink: trip.ticketLink, context: managedObjectContext)
-                } else if toggleLogic(trip: trip, isFavorite: isFavorite) == .inSavedAndFavorite {
-//                  NOTE: Find the savedTrips with the same ID as the trip in the row and remove it from the array
-//                    then save the savedTrips array
-                    isFavorite = false
-                    savedTrips.filter { $0.id == trip.randomNum }.forEach(managedObjectContext.delete)
-                    DataContrller().save(context: managedObjectContext)
-                } else if toggleLogic(trip: trip, isFavorite: isFavorite) == .notInSavedFavorite {
-                    isFavorite = false
-                } else {
-//                    inSavedAndNotFavorite
-                    alreadySavedAlert = true
-                }
-                
-            } label : {
-                Image(systemName: isFavorite ? "bookmark.fill" : "bookmark")
-            }
-            .tint(isFavorite ? .purple : .gray)
-            .buttonStyle(.bordered)
+         
+        
         }
         .alert(isPresented: $alreadySavedAlert) {
             Alert(title: Text("Trip Already Saved"),
