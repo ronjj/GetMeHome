@@ -21,7 +21,7 @@ struct DateAndLocationPickerView: View {
     var body: some View {
         VStack(spacing: 20) {
            HStack {
-                Text("Departure Location")
+                Text("From")
                 Spacer()
                 Menu(selectedDeparture) {
                     Section("New York Stops") {
@@ -55,7 +55,7 @@ struct DateAndLocationPickerView: View {
             }
                
             HStack {
-                Text("Arrival Location")
+                Text("To")
                 Spacer()
                 Menu(selectedArrival) {
                     Section("New York Stops") {
@@ -89,7 +89,7 @@ struct DateAndLocationPickerView: View {
             }
             
             HStack {
-                Text("Travel Date")
+                Text("Depart")
                 Spacer()
                 DatePicker("Trip Date", selection: $selectedDate, in:Date.now...viewModel.calculateDateRange(), displayedComponents: .date)
                     .labelsHidden()
