@@ -25,9 +25,6 @@ struct GetMeHomeApp: App {
         WindowGroup {
             SplashScreenView()
                 .environment(\.managedObjectContext, dataController.container.viewContext)
-                .environment(\.managedObjectContext, TicketContainer().persistentContainer.viewContext)
-            
-                
         }
     }
 }

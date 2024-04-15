@@ -10,6 +10,9 @@ import SwiftUI
 struct TabBarView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) var mainContext // Default context from DataController
+
+    
     var body: some View {
         TabView {
             NavigationStack {
@@ -28,6 +31,7 @@ struct TabBarView: View {
             }
             
             TicketsView()
+                .environment(\.managedObjectContext, TicketContainer().persistentContainer.viewContext)
             .tabItem {
                 Image(systemName: "ticket")
                 Text("Tickets")

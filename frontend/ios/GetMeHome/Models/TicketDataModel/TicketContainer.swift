@@ -8,11 +8,11 @@
 import Foundation
 import CoreData
 
-class TicketContainer {
+class TicketContainer: ObservableObject {
     let persistentContainer: NSPersistentContainer
     
     init() {
-        persistentContainer = NSPersistentContainer(name:"TicketContainer")
+        persistentContainer = NSPersistentContainer(name:"Ticket")
         persistentContainer.loadPersistentStores { _, error in
             if let error {
                 print(error.localizedDescription)

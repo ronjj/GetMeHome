@@ -25,6 +25,7 @@ struct SplashScreenView: View {
 //                case .authenticated:
                     TabBarView()
                         .environmentObject(viewModel)
+
 //                }
             }
         } else {

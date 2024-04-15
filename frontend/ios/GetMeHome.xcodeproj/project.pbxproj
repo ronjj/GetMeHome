@@ -256,7 +256,6 @@
 			children = (
 				547DB76E2B5078E800FF2F1C /* LoginView.swift */,
 				547DB7752B50821100FF2F1C /* AuthenticationView.swift */,
-				548447A82BCDD35E00D73765 /* TicketsView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -307,6 +306,7 @@
 			children = (
 				547DB7722B5080FD00FF2F1C /* Auth */,
 				547AB0102B0FE14400F7C539 /* ContentView.swift */,
+				548447A82BCDD35E00D73765 /* TicketsView.swift */,
 				547DB77B2B508F3700FF2F1C /* ProfileView.swift */,
 				543928862B1100B100C5E609 /* TripDetailView.swift */,
 				547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */,
