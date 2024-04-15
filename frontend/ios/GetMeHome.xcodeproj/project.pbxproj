@@ -42,6 +42,10 @@
 		547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB77B2B508F3700FF2F1C /* ProfileView.swift */; };
 		547DB77F2B50915200FF2F1C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB77E2B50915200FF2F1C /* TabBarView.swift */; };
 		547DB7812B50AE5B00FF2F1C /* MapViewDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */; };
+		548447A12BCDD1B700D73765 /* Ticket.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5484479F2BCDD1B700D73765 /* Ticket.xcdatamodeld */; };
+		548447A32BCDD1DF00D73765 /* TicketContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A22BCDD1DF00D73765 /* TicketContainer.swift */; };
+		548447A72BCDD25600D73765 /* Ticket+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A62BCDD25600D73765 /* Ticket+Extension.swift */; };
+		548447A92BCDD35E00D73765 /* TicketsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A82BCDD35E00D73765 /* TicketsView.swift */; };
 		548A42682B56005C001E2A77 /* FilteredSavedTripsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */; };
 		548A426B2B560AB8001E2A77 /* SavedTripsSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */; };
 		548D3D002B12460300E9067F /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3CFF2B12460300E9067F /* TripListView.swift */; };
@@ -98,6 +102,10 @@
 		547DB77B2B508F3700FF2F1C /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		547DB77E2B50915200FF2F1C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		547DB7802B50AE5B00FF2F1C /* MapViewDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDetailSheet.swift; sourceTree = "<group>"; };
+		548447A02BCDD1B700D73765 /* Ticket.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ticket.xcdatamodel; sourceTree = "<group>"; };
+		548447A22BCDD1DF00D73765 /* TicketContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketContainer.swift; sourceTree = "<group>"; };
+		548447A62BCDD25600D73765 /* Ticket+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ticket+Extension.swift"; sourceTree = "<group>"; };
+		548447A82BCDD35E00D73765 /* TicketsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsView.swift; sourceTree = "<group>"; };
 		548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredSavedTripsList.swift; sourceTree = "<group>"; };
 		548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTripsSortMenu.swift; sourceTree = "<group>"; };
 		548D3CFF2B12460300E9067F /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
@@ -170,6 +178,7 @@
 		543928802B10ED8600C5E609 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5484479E2BCDD19600D73765 /* TicketDataModel */,
 				540FF2EF2B55A598000372CD /* DataModel */,
 				543928842B10EDD200C5E609 /* Trip.swift */,
 				540581342B3F54E90068B6F0 /* Discount Code.swift */,
@@ -247,8 +256,19 @@
 			children = (
 				547DB76E2B5078E800FF2F1C /* LoginView.swift */,
 				547DB7752B50821100FF2F1C /* AuthenticationView.swift */,
+				548447A82BCDD35E00D73765 /* TicketsView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		5484479E2BCDD19600D73765 /* TicketDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				5484479F2BCDD1B700D73765 /* Ticket.xcdatamodeld */,
+				548447A22BCDD1DF00D73765 /* TicketContainer.swift */,
+				548447A62BCDD25600D73765 /* Ticket+Extension.swift */,
+			);
+			path = TicketDataModel;
 			sourceTree = "<group>";
 		};
 		548A42692B560A59001E2A77 /* SavedTripsFiltering */ = {
@@ -394,11 +414,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				548D3D002B12460300E9067F /* TripListView.swift in Sources */,
+				548447A72BCDD25600D73765 /* Ticket+Extension.swift in Sources */,
 				547DB7712B507A9700FF2F1C /* AuthenticationViewModel.swift in Sources */,
 				543928872B1100B100C5E609 /* TripDetailView.swift in Sources */,
 				54A2E9D52B52D34D00166062 /* UIDevice+Extension.swift in Sources */,
 				543928892B11199B00C5E609 /* MockData.swift in Sources */,
 				54A2E9D92B52D39F00166062 /* Date+Extension.swift in Sources */,
+				548447A12BCDD1B700D73765 /* Ticket.xcdatamodeld in Sources */,
+				548447A32BCDD1DF00D73765 /* TicketContainer.swift in Sources */,
 				54B617112B4C611D00657D6F /* TripSearchFilterRowView.swift in Sources */,
 				543928852B10EDD200C5E609 /* Trip.swift in Sources */,
 				543928832B10EDA400C5E609 /* TripRowView.swift in Sources */,
@@ -408,6 +431,7 @@
 				546F4DEA2B5481AE0091F0D4 /* AnalyticsManager.swift in Sources */,
 				54A2E9E02B52DF6800166062 /* MailView.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
+				548447A92BCDD35E00D73765 /* TicketsView.swift in Sources */,
 				540FF2F62B55AABC000372CD /* SavedTripsView.swift in Sources */,
 				547AB0112B0FE14400F7C539 /* ContentView.swift in Sources */,
 				5410BA4A2B537A58002C9000 /* Colors+Extension.swift in Sources */,
@@ -761,6 +785,16 @@
 			);
 			currentVersion = 540FF2F12B55A5A3000372CD /* SavedTripModel.xcdatamodel */;
 			path = SavedTripModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		5484479F2BCDD1B700D73765 /* Ticket.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				548447A02BCDD1B700D73765 /* Ticket.xcdatamodel */,
+			);
+			currentVersion = 548447A02BCDD1B700D73765 /* Ticket.xcdatamodel */;
+			path = Ticket.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

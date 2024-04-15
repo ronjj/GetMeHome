@@ -27,11 +27,11 @@ struct TabBarView: View {
                     Text("Saved")
             }
             
-//            TrackedTripsView()
-//            .tabItem {
-//                Image(systemName: "bell")
-//                Text("Tracking")
-//            }
+            TicketsView()
+            .tabItem {
+                Image(systemName: "ticket")
+                Text("Tickets")
+            }
             
             ProfileView()
             .tabItem {
