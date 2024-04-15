@@ -48,6 +48,7 @@ extension TripListView {
 //        Force unwrapping since this code is inside an if-let for trips array
         List {
             Text("**\(trips!.count)** Trips")
+            Text("Average Price **$\(viewModel.averagePrice(of: trips ?? []), specifier: "%.2f")**")
             Section("Cheapest Trip") {
                 ForEach(trips![...0] , id: \.randomNum) { trip in
                     NavigationLink(value: trip) {

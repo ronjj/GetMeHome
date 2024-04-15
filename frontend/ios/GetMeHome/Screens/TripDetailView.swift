@@ -71,13 +71,10 @@ struct TripDetailView: View {
             
             VStack(alignment: .leading, spacing: 5) {
                  
-                HStack {
-                    TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"), subText: Text("Average Price For Trip: $\(averageTripPrice, specifier: "%.2f")"))
+            
+                    TripDetailSection(title: "Price", bodyText:  Text("$\(trip.price, specifier: "%.2f")"))
                     
-                    Spacer()
 
-                    TripDetailSection(title: "By", bodyText:  Text("\(trip.busService)"))
-                }
               
                 HStack {
                     TripDetailSection(title: "Date", bodyText:  Text(viewModel.convertToDate(dateString: trip.date),
@@ -91,7 +88,7 @@ struct TripDetailView: View {
                 
                 TripDetailSection(title: "Destination", bodyText:  Text("\(trip.arrivalLocation)"))
                
-                TripDetailSection(title: "Bus Destinations", trip: trip)
+                TripDetailSection(title: "Bus Destinations", subText: Text("Operated By \(trip.busService)"), trip: trip)
 
                 if !discountCodes.isEmpty {
                     TripDetailSection(title: "Discount Codes", discountCodes: discountCodes)

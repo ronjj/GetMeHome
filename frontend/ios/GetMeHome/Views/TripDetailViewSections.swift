@@ -28,13 +28,22 @@ struct TripDetailSection: View {
                 subText
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                    .padding(.bottom)
                
                 if (trip != nil) {
                     ForEach(trip!.intermediateStations, id: \.self) { station in
-                        Text(station)
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                        Divider()
+//                      Make transfers more obvious when quickly looking at list
+                        if station.contains("Transfer @") {
+                            Text(station)
+                                .foregroundStyle(.red)
+                                .bold()
+                            Divider()
+                        } else {
+                            Text(station)
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                            Divider()
+                        }
                     }
                 }
                 if discountCodes != nil  {
