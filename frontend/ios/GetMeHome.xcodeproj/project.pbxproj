@@ -49,6 +49,8 @@
 		548447AB2BCEB40A00D73765 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447AA2BCEB40A00D73765 /* ImagePicker.swift */; };
 		548447AD2BCEB5AC00D73765 /* TicketFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447AC2BCEB5AC00D73765 /* TicketFormViewModel.swift */; };
 		548447AF2BCEB65D00D73765 /* ImageFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447AE2BCEB65D00D73765 /* ImageFormView.swift */; };
+		548447B12BCEBB8000D73765 /* TicketFormType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447B02BCEBB8000D73765 /* TicketFormType.swift */; };
+		548447B32BCEDA0E00D73765 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447B22BCEDA0E00D73765 /* FileManager+Extension.swift */; };
 		548A42682B56005C001E2A77 /* FilteredSavedTripsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */; };
 		548A426B2B560AB8001E2A77 /* SavedTripsSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */; };
 		548D3D002B12460300E9067F /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3CFF2B12460300E9067F /* TripListView.swift */; };
@@ -112,6 +114,8 @@
 		548447AA2BCEB40A00D73765 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		548447AC2BCEB5AC00D73765 /* TicketFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketFormViewModel.swift; sourceTree = "<group>"; };
 		548447AE2BCEB65D00D73765 /* ImageFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormView.swift; sourceTree = "<group>"; };
+		548447B02BCEBB8000D73765 /* TicketFormType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketFormType.swift; sourceTree = "<group>"; };
+		548447B22BCEDA0E00D73765 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredSavedTripsList.swift; sourceTree = "<group>"; };
 		548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTripsSortMenu.swift; sourceTree = "<group>"; };
 		548D3CFF2B12460300E9067F /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
@@ -275,6 +279,8 @@
 				5484479F2BCDD1B700D73765 /* Ticket.xcdatamodeld */,
 				548447A22BCDD1DF00D73765 /* TicketContainer.swift */,
 				548447A62BCDD25600D73765 /* Ticket+Extension.swift */,
+				548447B02BCEBB8000D73765 /* TicketFormType.swift */,
+				548447B22BCEDA0E00D73765 /* FileManager+Extension.swift */,
 			);
 			path = TicketDataModel;
 			sourceTree = "<group>";
@@ -438,6 +444,7 @@
 				540581352B3F54E90068B6F0 /* Discount Code.swift in Sources */,
 				543C59302B56EED700636520 /* SavedTripRowView.swift in Sources */,
 				54A2E9D72B52D37200166062 /* Bundle+Extension.swift in Sources */,
+				548447B32BCEDA0E00D73765 /* FileManager+Extension.swift in Sources */,
 				546F4DEA2B5481AE0091F0D4 /* AnalyticsManager.swift in Sources */,
 				54A2E9E02B52DF6800166062 /* MailView.swift in Sources */,
 				54B617172B4C805A00657D6F /* DateAndLocationPickerView.swift in Sources */,
@@ -461,6 +468,7 @@
 				548447AF2BCEB65D00D73765 /* ImageFormView.swift in Sources */,
 				540FF2F42B55A647000372CD /* DataController.swift in Sources */,
 				54A2E9DE2B52DCC300166062 /* SupportEmail.swift in Sources */,
+				548447B12BCEBB8000D73765 /* TicketFormType.swift in Sources */,
 				548D3D022B124DAC00E9067F /* LoadingView.swift in Sources */,
 				54B5667D2B63474D00483C67 /* TrackedTripsView.swift in Sources */,
 				547DB77C2B508F3700FF2F1C /* ProfileView.swift in Sources */,
