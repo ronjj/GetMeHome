@@ -12,6 +12,8 @@ struct TicketsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)])
     private var tickets: FetchedResults<Ticket>
     @StateObject private var imagePicker = ImagePicker()
+    @State private var formType: FormType?
+    
     var body: some View {
         VStack {
             Group {
@@ -21,9 +23,15 @@ struct TicketsView: View {
                     Text("Select an image")
                 }
             }
+            .onChange(of: imagePicker.uiImage) { newImage in
+                if let newImage {
+                    formType = .new(newImage)
+                }
+            }
+            
             PhotosPicker("New Image", selection: $imagePicker.imageSelection, matching: .images, photoLibrary: .shared())
                 .buttonStyle(.borderedProminent)
-            
+                
         }
     }
 }

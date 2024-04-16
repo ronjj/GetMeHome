@@ -62,6 +62,7 @@ struct TripRowView: View {
                     } else {
     //                    inSavedAndNotFavorite
                         alreadySavedAlert = true
+                        isFavorite = true
                     }
                     
                 } label : {
@@ -81,6 +82,11 @@ struct TripRowView: View {
             }
          
         
+        }
+        .onAppear{
+            if toggleLogic(trip: trip, isFavorite: isFavorite) == .inSavedNotFavorite {
+                isFavorite = true
+            }
         }
         .alert(isPresented: $alreadySavedAlert) {
             Alert(title: Text("Trip Already Saved"),
