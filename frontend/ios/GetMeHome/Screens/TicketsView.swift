@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct TicketsView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.name)])
     private var tickets: FetchedResults<Ticket>
+    @StateObject private var imagePicker = ImagePicker()
     var body: some View {
         VStack {
             Group {
@@ -19,6 +21,9 @@ struct TicketsView: View {
                     Text("Select an image")
                 }
             }
+            PhotosPicker("New Image", selection: $imagePicker.imageSelection, matching: .images, photoLibrary: .shared())
+                .buttonStyle(.borderedProminent)
+            
         }
     }
 }

@@ -46,6 +46,7 @@
 		548447A32BCDD1DF00D73765 /* TicketContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A22BCDD1DF00D73765 /* TicketContainer.swift */; };
 		548447A72BCDD25600D73765 /* Ticket+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A62BCDD25600D73765 /* Ticket+Extension.swift */; };
 		548447A92BCDD35E00D73765 /* TicketsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447A82BCDD35E00D73765 /* TicketsView.swift */; };
+		548447AB2BCEB40A00D73765 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548447AA2BCEB40A00D73765 /* ImagePicker.swift */; };
 		548A42682B56005C001E2A77 /* FilteredSavedTripsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */; };
 		548A426B2B560AB8001E2A77 /* SavedTripsSortMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */; };
 		548D3D002B12460300E9067F /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548D3CFF2B12460300E9067F /* TripListView.swift */; };
@@ -106,6 +107,7 @@
 		548447A22BCDD1DF00D73765 /* TicketContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketContainer.swift; sourceTree = "<group>"; };
 		548447A62BCDD25600D73765 /* Ticket+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ticket+Extension.swift"; sourceTree = "<group>"; };
 		548447A82BCDD35E00D73765 /* TicketsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsView.swift; sourceTree = "<group>"; };
+		548447AA2BCEB40A00D73765 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		548A42672B56005C001E2A77 /* FilteredSavedTripsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredSavedTripsList.swift; sourceTree = "<group>"; };
 		548A426A2B560AB8001E2A77 /* SavedTripsSortMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTripsSortMenu.swift; sourceTree = "<group>"; };
 		548D3CFF2B12460300E9067F /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				540581362B3F5EF60068B6F0 /* BusLabel.swift */,
 				547DB77E2B50915200FF2F1C /* TabBarView.swift */,
 				54A2E9DF2B52DF6800166062 /* MailView.swift */,
+				548447AA2BCEB40A00D73765 /* ImagePicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				548A426B2B560AB8001E2A77 /* SavedTripsSortMenu.swift in Sources */,
 				54A885A72BC0BFB000E97F6F /* TripDetailViewSections.swift in Sources */,
 				54B0DF562B113421006263DF /* ViewModel.swift in Sources */,
+				548447AB2BCEB40A00D73765 /* ImagePicker.swift in Sources */,
 				5410BA482B537803002C9000 /* SplashScreenView.swift in Sources */,
 				547DB7762B50821100FF2F1C /* AuthenticationView.swift in Sources */,
 				544602D52BA5F576009B7CE3 /* PaymentsViewModel.swift in Sources */,
