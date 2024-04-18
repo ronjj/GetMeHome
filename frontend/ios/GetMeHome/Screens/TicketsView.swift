@@ -26,7 +26,13 @@ struct TicketsView: View {
                                     formType = .update(ticket)
                                 } label: {
                                     VStack{
-                                        
+                                        Image(uiImage: ticket.uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 100, height: 100)
+                                            .clipped()
+                                            .shadow(radius: 5.0)
+                                        Text(ticket.nameView)
                                     }
                                 }
                             }

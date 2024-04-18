@@ -22,7 +22,7 @@ class TicketFormViewModel: ObservableObject {
     init(_ ticket: Ticket) {
         name = ticket.nameView
         id = ticket.imageID
-        uiImage = UIImage(systemName: "photo")!
+        uiImage = ticket.uiImage
     }
     
     var incomplete: Bool {
