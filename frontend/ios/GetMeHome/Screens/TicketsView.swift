@@ -13,12 +13,26 @@ struct TicketsView: View {
     private var tickets: FetchedResults<Ticket>
     @StateObject private var imagePicker = ImagePicker()
     @State private var formType: FormType?
+    let columns = [GridItem(.adaptive(minimum: 100))]
     
     var body: some View {
         VStack {
             Group {
                 if !tickets.isEmpty {
-
+                    ScrollView{
+                        LazyVGrid(columns: columns, spacing: 20) {
+                            ForEach(tickets) { ticket in
+                                Button {
+                                    formType = .update(ticket)
+                                } label: {
+                                    VStack{
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding()
                 } else {
                     Text("Select an image")
                 }
@@ -28,7 +42,7 @@ struct TicketsView: View {
                     formType = .new(newImage)
                 }
             }
-            
+            .sheet(item: $formType) { $0 }
             PhotosPicker("New Image", selection: $imagePicker.imageSelection, matching: .images, photoLibrary: .shared())
                 .buttonStyle(.borderedProminent)
                 

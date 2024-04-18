@@ -25,6 +25,9 @@ struct GetMeHomeApp: App {
         WindowGroup {
             SplashScreenView()
                 .environment(\.managedObjectContext, dataController.container.viewContext)
+                .onAppear{
+                    print(URL.documentsDirectory.path)
+                }
         }
     }
 }

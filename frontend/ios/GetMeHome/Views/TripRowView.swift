@@ -99,10 +99,11 @@ struct TripRowView: View {
         //      Check if there are any  savedTrips with this ID
         
         //        if the trip is not in the list and isFavorite == false
-        if savedTrips.filter({ $0.id == trip.randomNum }).isEmpty && isFavorite == false {
+        if savedTrips.filter({ $0.id == trip.randomNum }).isEmpty && isFavorite == false   {
             return .notInSavedNotFavorite
-            //      if the trip is IN the saved list and is favorite  == false
-        } else if !savedTrips.filter({ $0.id == trip.randomNum }).isEmpty && isFavorite == false {
+        }
+        //      if the trip is IN the saved list and is favorite  == false
+        else if !savedTrips.filter({ $0.id == trip.randomNum }).isEmpty && isFavorite == false {
             return .inSavedNotFavorite
         } else if savedTrips.filter({ $0.id == trip.randomNum }).isEmpty && isFavorite == true {
             return .notInSavedFavorite

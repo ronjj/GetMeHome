@@ -32,6 +32,7 @@ struct TabBarView: View {
             
             TicketsView()
                 .environment(\.managedObjectContext, TicketContainer().persistentContainer.viewContext)
+               
             .tabItem {
                 Image(systemName: "ticket")
                 Text("Tickets")
